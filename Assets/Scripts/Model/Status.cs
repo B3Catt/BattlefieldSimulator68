@@ -1,0 +1,8 @@
+﻿
+
+namespace BattlefieldSimulator
+{
+    class Status
+    {
+    }
+}

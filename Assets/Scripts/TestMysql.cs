@@ -5,22 +5,22 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using UnityEngine;
-public class TestMysql : MonoBehaviour
+
+public class TestMysql
 {
     //建立连接语句
     //charset=utf8这句要写，不然可能会报错                                 
-    string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=u3dtest;charset=utf8";
+    string constr = "server=127.0.0.1;User Id=root;password=Cf854122416!;Database=bs_data;charset=utf8";
     //建立连接
     public static MySqlConnection mycon;
     void Start()
     {
-        ConnectMysql();
-        SearchMysql();
-        UpadteMysql();
+        //ConnectMysql();
+        //SearchMysql();
+        //UpadteMysql();
     }
     private void ConnectMysql()
     {
-        string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=u3dtest;charset=utf8";
         //建立连接
         mycon = new MySqlConnection(constr);
         //打开连接
