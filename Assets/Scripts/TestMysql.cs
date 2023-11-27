@@ -10,11 +10,7 @@ public class TestMysql
 {
     //建立连接语句
     //charset=utf8这句要写，不然可能会报错                                 
-<<<<<<< HEAD
     string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=battlefieldsimulator;charset=utf8";
-=======
-    string constr = "server=127.0.0.1;User Id=root;password=Cf854122416!;Database=bs_data;charset=utf8";
->>>>>>> 7c81eb2f38468bda1c33e90484095c7b33a84fcc
     //建立连接
     public static MySqlConnection mycon;
     void Start()
@@ -25,10 +21,7 @@ public class TestMysql
     }
     private void ConnectMysql()
     {
-<<<<<<< HEAD
         string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=battlefieldsimulator;charset=utf8";
-=======
->>>>>>> 7c81eb2f38468bda1c33e90484095c7b33a84fcc
         //建立连接
         mycon = new MySqlConnection(constr);
         //打开连接
