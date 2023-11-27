@@ -9,7 +9,7 @@ public class TestMysql : MonoBehaviour
 {
     //建立连接语句
     //charset=utf8这句要写，不然可能会报错                                 
-    string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=u3dtest;charset=utf8";
+    string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=battlefieldsimulator;charset=utf8";
     //建立连接
     public static MySqlConnection mycon;
     void Start()
@@ -20,7 +20,7 @@ public class TestMysql : MonoBehaviour
     }
     private void ConnectMysql()
     {
-        string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=u3dtest;charset=utf8";
+        string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=battlefieldsimulator;charset=utf8";
         //建立连接
         mycon = new MySqlConnection(constr);
         //打开连接
@@ -38,7 +38,7 @@ public class TestMysql : MonoBehaviour
     private void SearchMysql()
     {
         //查询数据
-        string selstr = "select * from testtable";
+        string selstr = "select * from arm_type";
         MySqlCommand myselect = new MySqlCommand(selstr, mycon);
         DataSet ds = new DataSet();
         try
