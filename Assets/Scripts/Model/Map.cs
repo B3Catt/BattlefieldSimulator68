@@ -1,0 +1,7 @@
+﻿
+namespace BattlefieldSimulator
+{
+    class Map
+    {
+    }
+}
