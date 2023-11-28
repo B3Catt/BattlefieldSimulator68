@@ -2,7 +2,7 @@
 
 namespace BattlefieldSimulator
 {
-    class Status
+    public class Status
     {
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 namespace BattlefieldSimulator
 {
-    class Player
+    public class Player
     {
         /// <summary>
         /// 

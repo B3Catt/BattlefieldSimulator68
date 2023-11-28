@@ -4,7 +4,7 @@ namespace BattlefieldSimulator
     /// <summary>
     /// 
     /// </summary>
-    class GameController
+    public class GameController
     {
         /// <summary>
         /// 

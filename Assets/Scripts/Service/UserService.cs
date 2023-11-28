@@ -1,7 +1,7 @@
 ﻿
 namespace BattlefieldSimulator
 {
-    class UserService
+    public class UserService
     {
     }
 }

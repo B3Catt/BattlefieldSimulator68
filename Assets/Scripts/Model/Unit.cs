@@ -7,7 +7,7 @@ namespace BattlefieldSimulator
     /// Unit; the object which Users can control;
     /// TODO: 完成对 Unit 类的设计
     /// </summary>
-    class Unit : MonoBehaviour
+    public class Unit : MonoBehaviour
     {
         /// <summary>
         /// 

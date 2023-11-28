@@ -4,7 +4,7 @@ namespace BattlefieldSimulator
     /// <summary>
     /// 
     /// </summary>
-    class User
+    public class User
     {
 
     }

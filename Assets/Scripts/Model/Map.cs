@@ -1,7 +1,7 @@
 ﻿
 namespace BattlefieldSimulator
 {
-    class Map
+    public class Map
     {
     }
 }

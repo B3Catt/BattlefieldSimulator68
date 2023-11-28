@@ -4,7 +4,7 @@ namespace BattlefieldSimulator
     /// <summary>
     /// 
     /// </summary>
-    class RoundController
+    public class RoundController
     {
         /// <summary>
         /// 

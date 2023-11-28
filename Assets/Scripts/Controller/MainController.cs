@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BattlefieldSimulator
 {
-    class MainController : MonoBehaviour
+    public class MainController : MonoBehaviour
     {
         public enum Option
         {
