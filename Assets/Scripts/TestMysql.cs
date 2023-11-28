@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Windows;
 using UnityEngine;
+using BattlefieldSimulator;
 
-public class TestMysql
+public class TestMysql : MonoBehaviour
 {
-    //建立连接语句
-    //charset=utf8这句要写，不然可能会报错                                 
+    // 建立连接语句
+    // charset=utf8这句要写，不然可能会报错                                 
     string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=battlefieldsimulator;charset=utf8";
     //建立连接
     public static MySqlConnection mycon;
@@ -18,6 +19,12 @@ public class TestMysql
         //ConnectMysql();
         //SearchMysql();
         //UpadteMysql();
+        List<DataModel> dataList = DataBaseHelper.Read("SELECT * FROM arm_type");
+        foreach (DataModel data in dataList)
+        {
+            Debug.Log($"ID: {data.ID}, Name: {data.Name}");
+            // 在这里使用从数据库中获取到的数据进行处理
+        }
     }
     private void ConnectMysql()
     {
