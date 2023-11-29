@@ -12,5 +12,10 @@ namespace BattlefieldSimulator
         {
             this.Controller = baseController;
         }
+
+        public virtual void Init()
+        {
+
+        }
     }
 }
