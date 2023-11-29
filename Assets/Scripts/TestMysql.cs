@@ -19,12 +19,13 @@ public class TestMysql : MonoBehaviour
         //ConnectMysql();
         //SearchMysql();
         //UpadteMysql();
-        List<DataModel> dataList = DataBaseHelper.Read("SELECT * FROM arm_type");
-        foreach (DataModel data in dataList)
+        List<Arm_typeDateModel> dataList = DataBaseHelper.TraversalArm_type("SELECT * FROM arm_type");
+        foreach (Arm_typeDateModel data in dataList)
         {
-            Debug.Log($"ID: {data.ID}, Name: {data.Name}");
-            // 在这里使用从数据库中获取到的数据进行处理
+            Debug.Log($"ID: {data.id}, Name: {data.name},author: {data.auther},isable: {data.isable},speed: {data.speed},createtime: {data.createtime}");
         }
+        string tes=DataBaseHelper.Search(52,"arm_type","auther");
+        Debug.Log($"id=52,auther={tes}");
     }
     private void ConnectMysql()
     {

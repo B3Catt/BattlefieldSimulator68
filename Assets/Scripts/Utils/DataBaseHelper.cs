@@ -17,9 +17,23 @@ namespace BattlefieldSimulator
     /// </summary>
     public class DataModel
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string auther { get; set; }
+        public string updateby { get; set; }
+        public string information { get; set; }
+        public bool isable { get; set; }
+        public TimeSpan createtime { get; set; }
+        public TimeSpan updatetime { get; set; }
+
         //。。。
+    }
+
+    public class Arm_typeDateModel : DataModel
+    {
+        public float speed { get; set; }
+        public float value { get; set; }
+        public int attack_distance { get; set; }
     }
 
 
@@ -34,12 +48,33 @@ namespace BattlefieldSimulator
         private static string password = "20020519"; // 密码
         // string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=battlefieldsimulator;charset=utf8";
         private static string connectionString = $"Server={server};Database={database};Uid={uid};Pwd={password};charset=utf8";
-    
-        static public List<DataModel> Read(string query)
+        static public string Search(int id, string tablename, string searchname)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                List<DataModel> datalist = new List<DataModel>();
+                string data = null;
+                //List<Arm_typeDateModel> datalist = new List<Arm_typeDateModel>();
+                connection.Open();
+                string query = $"SELECT {searchname} FROM {tablename} WHERE id = {id}";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            data = reader.GetString(0);
+                        }
+                    }
+                }
+                return data;
+            }
+        }
+
+        static public List<Arm_typeDateModel> TraversalArm_type(string query)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                List<Arm_typeDateModel> datalist = new List<Arm_typeDateModel>();
                 connection.Open();
                 //string query = "SELECT * FROM arm_type";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -51,16 +86,25 @@ namespace BattlefieldSimulator
                             // int id = Convert.ToInt32(reader["id"]);
                             // string name = reader["name"].ToString();
                             // Console.WriteLine($"ID: {id}, Name: {name}");
-                            DataModel data = new DataModel();
-                            data.ID = reader.GetInt32(0);
-                            data.Name = reader.GetString(1);
+                            Arm_typeDateModel data = new Arm_typeDateModel();
+                            data.id = Convert.ToInt32(reader["id"]);
+                            data.name = Convert.ToString(reader["name"]);
+                            data.auther = Convert.ToString(reader["auther"]);
+                            data.updateby = Convert.ToString(reader["updateby"]);
+                            data.information = Convert.ToString(reader["information"]);
+                            data.attack_distance = Convert.ToInt32(reader["attack_distance"]);
+                            data.speed = Convert.ToSingle(reader["speed"]);
+                            data.value = Convert.ToSingle(reader["value"]);
+                            data.isable = Convert.ToBoolean(reader["isable"]);
+                            //data.createtime=Convert.ToDateTime(reader["createtime"]);
+                            data.createtime = ((TimeSpan)reader["createtime"]);
+                            data.updatetime = ((TimeSpan)reader["updatetime"]);
                             datalist.Add(data);
                         }
                     }
                 }
                 return datalist;
             }
-
         }
 
         /// <summary>
