@@ -4,7 +4,7 @@ namespace BattlefieldSimulator
     /// <summary>
     /// 
     /// </summary>
-    public class GameController
+    public class GameController : BaseController
     {
         /// <summary>
         /// 
@@ -21,9 +21,22 @@ namespace BattlefieldSimulator
         /// </summary>
         private RoundController roundController;
 
-        public GameController()
+        /// <summary>
+        /// 
+        /// </summary>
+        public GameController() : base()
         {
+            InitModuleEvent();
+            InitGlobalEvent();
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public override void Init()
+        {
+            // open the start view
+            ApplyControllerFunc(ControllerType.UIController, Defines.OpenStartView);
         }
 
         /// <summary>

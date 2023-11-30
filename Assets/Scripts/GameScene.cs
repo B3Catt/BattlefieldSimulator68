@@ -1,4 +1,5 @@
 ﻿
+using UnityEditor.Build;
 using UnityEngine;
 
 namespace BattlefieldSimulator
@@ -26,6 +27,24 @@ namespace BattlefieldSimulator
         private void Start()
         {
             GameApp.SoundManager.PlayBGM("login");
+
+            RegisterMoudle();
+
+            InitMoudle();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void RegisterMoudle()
+        {
+            GameApp.ControllerManager.Register(ControllerType.UIController, new UIController());
+            GameApp.ControllerManager.Register(ControllerType.GameController, new GameController());
+        }
+
+        private void InitMoudle()
+        {
+            GameApp.ControllerManager.InitAllMoudles();
         }
 
         private void Update()

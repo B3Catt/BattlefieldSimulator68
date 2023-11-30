@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace BattlefieldSimulator
 {
     /// <summary>
@@ -19,9 +14,21 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        public static ControllerManager ControllerManager;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static ViewManager ViewManager;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Init()
         {
             SoundManager = new SoundManager("game");
+            ControllerManager = new ControllerManager();
+            ViewManager = new ViewManager("Canvas", "WorldCanvas");
         }
     }
 }

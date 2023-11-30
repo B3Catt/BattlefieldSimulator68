@@ -30,6 +30,14 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
+        /// initialize the controller after getting registered
+        /// </summary>
+        public virtual void Init()
+        {
+
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="view"></param>
@@ -108,9 +116,20 @@ namespace BattlefieldSimulator
         /// <param name="controllerKey"></param>
         /// <param name="eventName"></param>
         /// <param name="args"></param>
-        public void ApplyController(int controllerKey, string eventName, params object[] args)
+        public void ApplyControllerFunc(int controllerKey, string eventName, params object[] args)
         {
+            GameApp.ControllerManager.ApplyFunc(controllerKey, eventName, args);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="controllerType"></param>
+        /// <param name="eventName"></param>
+        /// <param name="args"></param>
+        public void ApplyControllerFunc(ControllerType controllerType, string eventName, params object[] args)
+        {
+            ApplyControllerFunc((int)controllerType, eventName, args);
         }
 
         /// <summary>
@@ -145,7 +164,7 @@ namespace BattlefieldSimulator
         /// <returns></returns>
         public BaseModel GetControllerModel(int controllerKey)
         {
-            return null;
+            return GameApp.ControllerManager.GetControllerModel(controllerKey);
         }
 
         /// <summary>
@@ -153,7 +172,8 @@ namespace BattlefieldSimulator
         /// </summary>
         public virtual void Destroy()
         {
-
+            RemoveModuleEvent();
+            RemoveGlobalEvent();
         }
 
         /// <summary>

@@ -17,10 +17,20 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        private string gameObjectName;
+        public string gameObjectName
+        {
+            get
+            {
+                return gameObjectName;
+            }
+            set
+            {
+                gameObjectName = value;
+            }
+        }
 
         /// <summary>
-        /// the cash dictionary of the music
+        /// the cache dictionary of the music
         /// </summary>
         private Dictionary<string, AudioClip> clips;
 
@@ -43,7 +53,7 @@ namespace BattlefieldSimulator
             // if there's no music which's name is the 'res'
             if (clips.ContainsKey(res) == false)
             {
-                // then add the music into the cash
+                // then add the music into the cache
                 AudioClip clip = Resources.Load<AudioClip>("Sounds/" + res);
                 clips.Add(res, clip);
             }
