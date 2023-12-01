@@ -17,17 +17,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        public string gameObjectName
-        {
-            get
-            {
-                return gameObjectName;
-            }
-            set
-            {
-                gameObjectName = value;
-            }
-        }
+        public string gameObjectName { get; set; }
 
         /// <summary>
         /// the cache dictionary of the music

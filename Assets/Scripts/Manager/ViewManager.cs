@@ -244,7 +244,7 @@ namespace BattlefieldSimulator
             if (view == null)
             {
                 string type = ((ViewType)viewKey).ToString();
-                GameObject uiObject = UnityEngine.Object.Instantiate(Resources.Load($"View/{info.PrefabName}"), info.parentTf) as GameObject;
+                GameObject uiObject = UnityEngine.Object.Instantiate(Resources.Load($"Views/{info.PrefabName}"), info.parentTf) as GameObject;
                 Canvas canvas = uiObject.GetComponent<Canvas>();
                 if (canvas == null)
                 {
@@ -258,7 +258,7 @@ namespace BattlefieldSimulator
 
                 canvas.overrideSorting = true; // open override sorting
 
-                view = uiObject.AddComponent(Type.GetType(type)) as IBaseView; // add scripts
+                view = uiObject.AddComponent(Type.GetType($"BattlefieldSimulator.{type}")) as IBaseView; // add scripts
 
                 view.ViewId = viewKey;
                 view.Controller = info.controller;

@@ -1,4 +1,6 @@
-﻿namespace BattlefieldSimulator
+﻿using System;
+
+namespace BattlefieldSimulator
 {
     /// <summary>
     /// 
@@ -17,6 +19,13 @@
                 parentTf = GameApp.ViewManager.canvasTf
             });
 
+            GameApp.ViewManager.Register(ViewType.SetView, new ViewInfo()
+            {
+                PrefabName = "SetView",
+                controller = this,
+                parentTf = GameApp.ViewManager.canvasTf
+            });
+
             InitModuleEvent();
             InitGlobalEvent();
         }
@@ -27,12 +36,18 @@
         public override void InitModuleEvent()
         {
             RegisterFunc(Defines.OpenStartView, openStartView);
+            RegisterFunc(Defines.OpenSetView, openSetView);
             base.InitModuleEvent();
         }
 
         private void openStartView(System.Object[] args)
         {
             GameApp.ViewManager.Open(ViewType.StartView, args);
+        }
+
+        private void openSetView(System.Object[] args)
+        {
+            GameApp.ViewManager.Open(ViewType.SetView, args);
         }
     }
 }

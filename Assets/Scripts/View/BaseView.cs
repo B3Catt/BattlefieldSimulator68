@@ -53,7 +53,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        protected void OnAwake()
+        protected virtual void OnAwake()
         {
 
         }
@@ -61,7 +61,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        protected void OnStart()
+        protected virtual void OnStart()
         {
 
         }
@@ -108,7 +108,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        public void InitData()
+        public virtual void InitData()
         {
             _isInit = true;
 
@@ -118,9 +118,9 @@ namespace BattlefieldSimulator
         /// 
         /// </summary>
         /// <exception cref="System.NotImplementedException"></exception>
-        public void InitUI()
+        public virtual void InitUI()
         {
-            throw new System.NotImplementedException();
+
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace BattlefieldSimulator
         /// <exception cref="System.NotImplementedException"></exception>
         public virtual void Open(params object[] args)
         {
-            throw new System.NotImplementedException();
+
         }
 
         /// <summary>
