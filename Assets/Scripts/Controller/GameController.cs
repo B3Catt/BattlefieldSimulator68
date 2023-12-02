@@ -36,7 +36,7 @@ namespace BattlefieldSimulator
         public override void Init()
         {
             // open the start view
-            ApplyControllerFunc(ControllerType.UIController, Defines.OpenStartView);
+            ApplyControllerFunc(ControllerType.UIController, Defines.OpenView, (int)ViewType.StartView);
         }
 
         /// <summary>

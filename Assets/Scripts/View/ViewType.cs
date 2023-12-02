@@ -7,6 +7,8 @@ namespace BattlefieldSimulator
     public enum ViewType
     {
         StartView,
-        SetView
+        SetView,
+        MessageView,
+        LoadingView
     }
 }

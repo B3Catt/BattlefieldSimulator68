@@ -25,6 +25,11 @@ namespace BattlefieldSimulator
         /// the controller to witch the view belong
         /// </summary>
         public BaseController controller;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public int Sorting_Order;
     }
 
     /// <summary>
@@ -176,6 +181,16 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        public IBaseView GetView(ViewType viewType)
+        {
+            return GetView((int)viewType);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="viewKey"></param>
         /// <returns></returns>
@@ -187,6 +202,17 @@ namespace BattlefieldSimulator
                 return view as T;
             }
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="viewType"></param>
+        /// <returns></returns>
+        public T GetView<T>(ViewType viewType) where T : class, IBaseView
+        {
+            return GetView<T>((int)viewType);
         }
 
         /// <summary>
@@ -227,6 +253,16 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="viewType"></param>
+        /// <param name="args"></param>
+        public void Close(ViewType viewType, params System.Object[] args)
+        {
+            Close((int)viewType, args);
+        }
+
+        /// <summary>
         /// openning the view with id includes below steps
         ///     1. get the view whose id equals the key, if there's the instance of the view in the cache;
         ///     2. else, create the instance of the view;
@@ -257,6 +293,7 @@ namespace BattlefieldSimulator
                 }
 
                 canvas.overrideSorting = true; // open override sorting
+                canvas.sortingOrder = info.Sorting_Order;
 
                 view = uiObject.AddComponent(Type.GetType($"BattlefieldSimulator.{type}")) as IBaseView; // add scripts
 

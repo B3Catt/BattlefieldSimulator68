@@ -16,13 +16,13 @@ namespace BattlefieldSimulator
          */
 
         /// <summary>
-        /// open the start view
+        /// 
         /// </summary>
-        public static readonly string OpenStartView = "OpenStartView";
+        public static readonly string OpenView = "OpenView";
 
         /// <summary>
-        /// open the set view
+        /// 
         /// </summary>
-        public static readonly string OpenSetView = "OpenSetView";
+        public static readonly string LoadingScene = "LoadingScene";
     }
 }

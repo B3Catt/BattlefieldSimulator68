@@ -139,6 +139,7 @@ namespace BattlefieldSimulator
         public void SetModel(BaseModel model)
         {
             this.model = model;
+            this.model.Controller = this;
         }
 
         /// <summary>

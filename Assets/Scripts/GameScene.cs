@@ -19,9 +19,23 @@ namespace BattlefieldSimulator
         /// </summary>
         public string bgmName = "login";
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private static bool isLoaded = false;
+
         private void Awake()
         {
-            GameApp.Instance.Init();
+            if (isLoaded == true)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                isLoaded = true;
+                DontDestroyOnLoad(gameObject);
+                GameApp.Instance.Init();
+            }
         }
 
         private void Start()
@@ -40,6 +54,7 @@ namespace BattlefieldSimulator
         {
             GameApp.ControllerManager.Register(ControllerType.UIController, new UIController());
             GameApp.ControllerManager.Register(ControllerType.GameController, new GameController());
+            GameApp.ControllerManager.Register(ControllerType.LoadingController, new LoadingController());
         }
 
         private void InitMoudle()

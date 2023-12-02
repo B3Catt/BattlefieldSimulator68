@@ -1,4 +1,5 @@
 ﻿
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace BattlefieldSimulator
@@ -27,7 +28,12 @@ namespace BattlefieldSimulator
         /// </summary>
         private void onStartGameBtn()
         {
+            LoadingModel loadingModel = new LoadingModel();
+            loadingModel.SceneName = "map";
 
+            GameApp.ViewManager.Close(ViewId);
+
+            Controller.ApplyControllerFunc(ControllerType.LoadingController, Defines.LoadingScene, loadingModel);
         }
 
         /// <summary>
@@ -51,7 +57,7 @@ namespace BattlefieldSimulator
         /// </summary>
         private void onSetBtn()
         {
-            ApplyFunc(Defines.OpenSetView);
+            ApplyFunc(Defines.OpenView, (int)ViewType.SetView);
         }
 
         /// <summary>
@@ -59,7 +65,16 @@ namespace BattlefieldSimulator
         /// </summary>
         private void onQuitGameBtn()
         {
-
+            Controller.ApplyControllerFunc(ControllerType.UIController, Defines.OpenView, (int)ViewType.MessageView,
+                new MessageInfo()
+                {
+                    okCallback = delegate ()
+                    {
+                        Application.Quit();
+                    },
+                    MsgTxt = "确定要退出游戏吗？"
+                }
+            );
         }
     }
 }

@@ -27,11 +27,75 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        private bool isStop;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsStop
+        {
+            get { return isStop; }
+            set
+            {
+                isStop = value;
+                if(isStop == true)
+                {
+                    bgmSource.Pause();
+                }
+                else
+                {
+                    bgmSource.Play();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public SoundManager(string gameObjectName)
         {
             this.gameObjectName = gameObjectName;
             clips = new Dictionary<string, AudioClip>();
             bgmSource = GameObject.Find(gameObjectName).GetComponent<AudioSource>();
+
+            IsStop = false;
+            BgmVolume = 1;
+            EffectVolume = 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private float bgmVolume;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float BgmVolume
+        { 
+            get { return bgmVolume; }
+            set
+            {
+                bgmVolume = value;
+                bgmSource.volume = bgmVolume;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private float effectVolume;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public float EffectVolume
+        {
+            get { return effectVolume; }
+            set
+            {
+                effectVolume = value;
+            }
         }
 
         /// <summary>
@@ -40,6 +104,11 @@ namespace BattlefieldSimulator
         /// <param name="res"></param>
         public void PlayBGM(string res)
         {
+            if (isStop == true)
+            {
+                return;
+            }
+
             // if there's no music which's name is the 'res'
             if (clips.ContainsKey(res) == false)
             {

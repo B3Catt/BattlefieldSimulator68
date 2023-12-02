@@ -16,6 +16,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+
         public BaseController Controller { get; set; }
 
         /// <summary>
