@@ -110,25 +110,46 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        static public void Update()
+        static public void Arm_typeAdd(Arm_typeDateModel model)
         {
-
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string createtimeString = model.createtime.ToString(@"hh\:mm\:ss");
+                string updatetimeString = model.updatetime.ToString(@"hh\:mm\:ss");
+                //string query = $"INSERT INTO arm_type(auther,updateby,createtime,updatetime,isable,name,information,speed,value,attack_distance) VALUES ({model.auther},{model.updateby},{createtimeString},{updatetimeString},{model.isable},{model.name},{model.information},{model.speed},{model.value},{model.attack_distance});";
+                string query = $"INSERT INTO arm_type (auther, updateby, createtime, updatetime, isable, name, information, speed, value, attack_distance) VALUES ('{model.auther}', '{model.updateby}', '{createtimeString}', '{updatetimeString}', {model.isable}, '{model.name}', '{model.information}', {model.speed}, {model.value}, {model.attack_distance})";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                    
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        static public void Delete()
+        static public void Delete(string tablename,int id)
         {
-
+                        using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string query=$"DELETE FROM {tablename} WHERE id = {id};";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                    }
+                }
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        static public void Add()
-        {
 
-        }
     }
 }
