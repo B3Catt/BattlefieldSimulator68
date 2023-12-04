@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 //查询到的数据就存在dataList里
 //然后返回回去就返回dataList给别的脚本
@@ -12,22 +14,6 @@ using UnityEngine;
 
 namespace BattlefieldSimulator
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class DataModel
-    {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string auther { get; set; }
-        public string updateby { get; set; }
-        public string information { get; set; }
-        public bool isable { get; set; }
-        public TimeSpan createtime { get; set; }
-        public TimeSpan updatetime { get; set; }
-
-        //。。。
-    }
 
     public class Arm_typeDateModel : DataModel
     {
@@ -43,10 +29,10 @@ namespace BattlefieldSimulator
         /// 初始化连接
         /// </summary>
         private static string server = "127.0.0.1"; // MySQL 服务器地址
-        private static string database = "battlefieldsimulator"; // 数据库名称
+        private static string database = "bs_data"; // 数据库名称
         private static string uid = "root"; // 用户名
-        private static string password = "20020519"; // 密码
-        // string constr = "server=127.0.0.1;User Id=root;password=20020519;Database=battlefieldsimulator;charset=utf8";
+        private static string password = "Cf854122416!"; // 密码
+        // string constr = "server=127.0.0.1;User Id=root;password=Cf854122416!;Database=bs_data;charset=utf8";
         private static string connectionString = $"Server={server};Database={database};Uid={uid};Pwd={password};charset=utf8";
         static public string Search(int id, string tablename, string searchname)
         {
@@ -112,14 +98,79 @@ namespace BattlefieldSimulator
             }
         }
 
-        static void Traversal(BaseModel bm)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        static public List<T> Traverse<T>() where T : BaseModel
         {
+            List<T> datalist = new List<T>();
 
+            Type type = typeof(T);
+
+            List<string> ns = DataBaseHelper.SplitClassName(type.Name);
+            string name = "";
+
+            foreach(var n in ns)
+            {
+                name += n;
+                name += '_';
+            }
+
+            name = name.TrimEnd('_');
+
+            string query = $"SELECT * FROM { name.ToLower() }";
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // int id = Convert.ToInt32(reader["id"]);
+                            // string name = reader["name"].ToString();
+                            // Console.WriteLine($"ID: {id}, Name: {name}");
+
+                            T data = Activator.CreateInstance<T>();
+                            foreach (var p in type.GetProperties())
+                            {
+                                if (p.Name.StartsWith("_"))
+                                {
+                                    p.SetValue(data, reader[p.Name.TrimStart('_')]);
+                                }
+                            }
+                            datalist.Add(data);
+                        }
+                    }
+                }
+            }
+            return datalist;
         }
 
-        static void Traversal(User user)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static private List<string> SplitClassName(string name)
         {
+            List<string> ns = new List<string>();
 
+            for (int i = 0, j = -1; i < name.Length; ++i)
+            {
+                if (name[i] > 'A' && name[i] < 'Z')
+                {
+                    ++j;
+                }
+                if (j == -1) ++j;
+                if (ns.Count <= j) ns.Add("");
+                ns[j] += name[i];
+            }
+
+            return ns;
         }
 
         /// <summary>
