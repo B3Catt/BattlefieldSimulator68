@@ -27,7 +27,7 @@ public class TestMysql : MonoBehaviour
         //DataBaseHelper.Arm_typeAdd(test1);
 
         //测试Traversal
-        List<ArmType> dataList = DataBaseHelper.Traversal<ArmType>();
+        List<ArmType> dataList = DataBaseHelper.Traverse<ArmType>();
         foreach (ArmType data in dataList)
         {
             Debug.Log($"ID: {data._id}, Name: {data._name},author: {data._auther},isable: {data._isable},speed: {data._speed},createtime: {data._createtime}");

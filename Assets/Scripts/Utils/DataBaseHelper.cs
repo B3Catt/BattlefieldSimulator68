@@ -99,25 +99,26 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
-        /// 
+        /// bt this method, we can create a list of instances of the certain chart;
+        ///     by using the REFLECTION tachnique, we can do this more readablely and simply;
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="T">must inherit from BaseModel</typeparam>
         /// <returns></returns>
         static public List<T> Traverse<T>() where T : BaseModel
         {
             List<T> datalist = new List<T>();
 
-            Type type = typeof(T);
+            Type type = typeof(T);  // the reflection of the class T
 
-            List<string> ns = DataBaseHelper.SplitClassName(type.Name);
+            // we transfer the name of model class into name of the certain chart
+            //      like "ArmType" => "arm_type"
             string name = "";
-
+            List<string> ns = DataBaseHelper.SplitClassName(type.Name);
             foreach(var n in ns)
             {
                 name += n;
                 name += '_';
             }
-
             name = name.TrimEnd('_');
 
             string query = $"SELECT * FROM { name.ToLower() }";
@@ -134,8 +135,17 @@ namespace BattlefieldSimulator
                             // string name = reader["name"].ToString();
                             // Console.WriteLine($"ID: {id}, Name: {name}");
 
-                            T data = Activator.CreateInstance<T>();
-                            foreach (var p in type.GetProperties())
+                            T data = Activator.CreateInstance<T>();     // create the instance of the corresponding class
+
+                            // for every property in the class, set the value to the instance;
+                            // By property of the class, we means like
+                            /*
+                             * public int _id { get; set; }
+                             */
+                            // but here's a new problem.
+                            // To deal with the Constructor in the BaseModel, which will bring a bug in reader, we need to separate them apart;
+                            // So I add '_' before the data from the database, just for eg., to tag them;
+                                foreach (var p in type.GetProperties())
                             {
                                 if (p.Name.StartsWith("_"))
                                 {
@@ -151,7 +161,8 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
-        /// 
+        /// this is a util function to split the name in upper camel case
+        ///     eg: "ArmType" => {"Arm", "Type"}
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
