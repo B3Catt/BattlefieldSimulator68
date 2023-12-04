@@ -13,20 +13,20 @@ public class TestMysql : MonoBehaviour
     {
 
         //测试ADD
-        Arm_typeDateModel test1=new Arm_typeDateModel();
-        test1.id = 1;
-        test1.auther="1";
-        test1.information="1";
-        test1.updateby="1";
-        test1.value=1;
-        test1.isable=false;
-        test1.attack_distance=1;
-        test1.createtime=DateTime.Now.TimeOfDay;
-        test1.updatetime=DateTime.Now.TimeOfDay;
-        test1.name="1";
-        //DataBaseHelper.Arm_typeAdd(test1);
+        ArmType test1=new ArmType();
+        //test1._id = 1;
+        test1._auther="1";
+        test1._information="1";
+        test1._updateby="1";
+        test1._value=1;
+        test1._isable=false;
+        test1._attack_distance=1;
+        test1._createtime=DateTime.Now.TimeOfDay;
+        test1._updatetime=DateTime.Now.TimeOfDay;
+        test1._name="1";
+        DataBaseHelper.Add<ArmType>(test1);
 
-        //测试Traversal
+        //测试Traverse
         List<ArmType> dataList = DataBaseHelper.Traverse<ArmType>();
         foreach (ArmType data in dataList)
         {
