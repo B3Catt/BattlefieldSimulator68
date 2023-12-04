@@ -31,21 +31,34 @@ namespace BattlefieldSimulator
         /// <typeparam name="T"></typeparam>
         private void ReadData<T>() where T : DataModel
         {
-            List<T> values = DataBaseHelper.Traverse<T>();
-            Dictionary<int, DataModel> keyValuePairs = new Dictionary<int, DataModel>();
-            foreach (T value in values)
+            try
             {
-                keyValuePairs.Add(value._id, value);
-            }
+                // read the data
+                DataBaseHelper.OpenConnection();
+                List<T> values = DataBaseHelper.Traverse<T>();
+                DataBaseHelper.CloseConnection();
 
-            Type type = typeof(T);
-            if (_allData.ContainsKey(type.Name))
+                // convert it into dictionary
+                Dictionary<int, DataModel> keyValuePairs = new Dictionary<int, DataModel>();
+                foreach (T value in values)
+                {
+                    keyValuePairs.Add(value._id, value);
+                }
+
+                // add it into _allData
+                Type type = typeof(T);
+                if (_allData.ContainsKey(type.Name))
+                {
+                    _allData[type.Name] = keyValuePairs;
+                    return;
+                }
+
+                _allData.Add(type.Name, keyValuePairs);
+            }
+            catch(Exception ex)
             {
-                _allData[type.Name] = keyValuePairs;
-                return;
-            }
 
-            _allData.Add(type.Name, keyValuePairs);
+            }
         }
 
         /// <summary>
@@ -69,9 +82,25 @@ namespace BattlefieldSimulator
             return _allData[typeof(T).Name] as Dictionary<int, T>;
         }
 
-        public void WriteData<T>() where T : DataModel
+        public void UpdateData<T>() where T : DataModel
         {
+            try
+            {
+                DataBaseHelper.OpenConnection();
 
+                var dit = _allData[typeof(T).Name];
+
+                foreach (var key in dit)
+                {
+                    DataBaseHelper.Update<T>(key.Value as T);
+                }
+
+                DataBaseHelper.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

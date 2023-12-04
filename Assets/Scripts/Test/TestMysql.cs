@@ -34,7 +34,7 @@ public class TestMysql : MonoBehaviour
         }
 
         //测试search
-        string tes=DataBaseHelper.Search(52,"arm_type","auther");
+        //string tes=DataBaseHelper.Search(52,"arm_type","auther");
         //Debug.Log($"id=52,auther={tes}");
 
         //测试DELETE

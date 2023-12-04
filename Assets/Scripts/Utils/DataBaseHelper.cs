@@ -14,29 +14,77 @@ using UnityEngine.Analytics;
 
 namespace BattlefieldSimulator
 {
-
-    public class Arm_typeDateModel : DataModel
-    {
-        public float speed { get; set; }
-        public float value { get; set; }
-        public int attack_distance { get; set; }
-    }
-
-
+    /// <summary>
+    /// 
+    /// </summary>
     public class DataBaseHelper
     {
         /// <summary>
         /// 初始化连接
         /// </summary>
         private static string server = "127.0.0.1"; // MySQL 服务器地址
+
+        /// <summary>
+        /// 数据库名称
+        /// </summary>
+        private static string database = "battlefieldsimulator"; // 
         //private static string database = "bs_data"; // 数据库名称
-        private static string database = "battlefieldsimulator"; // 数据库名称
 
-        private static string uid = "root"; // 用户名
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        private static string uid = "root"; // 
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        private static string password = "20020519"; // 
         //private static string password = "Cf854122416!"; // 密码
-        private static string password = "20020519"; // 密码
 
+        /// <summary>
+        /// 
+        /// </summary>
         private static string connectionString = $"Server={server};Database={database};Uid={uid};Pwd={password};charset=utf8";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static MySqlConnection conn = new MySqlConnection(connectionString);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static bool isConnected = false;
+
+        public static void OpenConnection()
+        {
+            if (isConnected) return;
+            try
+            {
+                conn.Open();
+                isConnected = true;
+            }
+            catch
+            {
+                isConnected = false;
+            }
+            throw new Exception("Connection Fails!");
+        }
+
+        public static void CloseConnection()
+        {
+            if (!isConnected) return;
+            try
+            {
+                conn.Close();
+                isConnected = false;
+            }
+            catch
+            {
+                isConnected = true;
+            }
+            throw new Exception("Close Connection Fails!");
+        }
 
         /// <summary>
         /// bt this method, we can create a list of instances of the certain table;
@@ -52,34 +100,36 @@ namespace BattlefieldSimulator
             string name = GetTableName(type.Name);
 
             string query = $"SELECT * FROM {name.ToLower()}";
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                connection.Open();
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            T data = Activator.CreateInstance<T>();     // create the instance of the corresponding class
 
-                            // for every property in the class, set the value to the instance;
-                            // By property of the class, we means like
-                            /*
-                             * public int _id { get; set; }
-                             */
-                            // but here's a new problem.
-                            // To deal with the Constructor in the BaseModel, which will bring a bug in reader, we need to separate them apart;
-                            // So I add '_' before the data from the database, just for eg., to tag them;
-                            foreach (var p in type.GetProperties())
+            if (!isConnected)
+            {
+                throw new Exception("Connection is Closed!");
+            }
+
+            using (MySqlCommand command = new MySqlCommand(query, conn))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        T data = Activator.CreateInstance<T>();     // create the instance of the corresponding class
+
+                        // for every property in the class, set the value to the instance;
+                        // By property of the class, we means like
+                        /*
+                         * public int _id { get; set; }
+                         */
+                        // but here's a new problem.
+                        // To deal with the Constructor in the BaseModel, which will bring a bug in reader, we need to separate them apart;
+                        // So I add '_' before the data from the database, just for eg., to tag them;
+                        foreach (var p in type.GetProperties())
+                        {
+                            if (p.Name.StartsWith("_"))
                             {
-                                if (p.Name.StartsWith("_"))
-                                {
-                                    p.SetValue(data, reader[p.Name.TrimStart('_')]);
-                                }
+                                p.SetValue(data, reader[p.Name.TrimStart('_')]);
                             }
-                            datalist.Add(data);
                         }
+                        datalist.Add(data);
                     }
                 }
             }
@@ -112,22 +162,23 @@ namespace BattlefieldSimulator
 
             query += $"{columns}) VALUES ({values})";
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            if (!isConnected)
             {
-                connection.Open();
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    foreach (var prop in type.GetProperties())
-                    {
-                        if (prop.Name.StartsWith("_"))
-                        {
-                            // 向sql语句中VALUE布冯的@auther等填充数据
-                            command.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(data));
-                        }
-                    }
+                throw new Exception("Connection is Closed!");
+            }
 
-                    command.ExecuteNonQuery();
+            using (MySqlCommand command = new MySqlCommand(query, conn))
+            {
+                foreach (var prop in type.GetProperties())
+                {
+                    if (prop.Name.StartsWith("_"))
+                    {
+                        // 向sql语句中VALUE布冯的@auther等填充数据
+                        command.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(data));
+                    }
                 }
+
+                command.ExecuteNonQuery();
             }
         }
 
@@ -139,15 +190,16 @@ namespace BattlefieldSimulator
             Type type = typeof(T);  // the reflection of the class T
             string name = GetTableName(type.Name);
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            if (!isConnected)
             {
-                connection.Open();
-                string query = $"DELETE FROM {name} WHERE id = {id};";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                throw new Exception("Connection is Closed!");
+            }
+
+            string query = $"DELETE FROM {name} WHERE id = {id};";
+            using (MySqlCommand command = new MySqlCommand(query, conn))
+            {
+                using (MySqlDataReader reader = command.ExecuteReader())
                 {
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                    }
                 }
             }
         }
