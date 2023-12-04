@@ -37,50 +37,19 @@ namespace BattlefieldSimulator
         private static string password = "20020519"; // 密码
 
         private static string connectionString = $"Server={server};Database={database};Uid={uid};Pwd={password};charset=utf8";
-        static public string Search(int id, string tablename, string searchname)
-        {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                string data = null;
-                //List<Arm_typeDateModel> datalist = new List<Arm_typeDateModel>();
-                connection.Open();
-                string query = $"SELECT {searchname} FROM {tablename} WHERE id = {id}";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                {
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            data = reader.GetString(0);
-                        }
-                    }
-                }
-                return data;
-            }
-        }
 
         /// <summary>
-        /// bt this method, we can create a list of instances of the certain chart;
+        /// bt this method, we can create a list of instances of the certain table;
         ///     by using the REFLECTION tachnique, we can do this more readablely and simply;
         /// </summary>
         /// <typeparam name="T">must inherit from BaseModel</typeparam>
         /// <returns></returns>
-        static public List<T> Traverse<T>() where T : BaseModel
+        static public List<T> Traverse<T>() where T : DataModel
         {
             List<T> datalist = new List<T>();
 
             Type type = typeof(T);  // the reflection of the class T
-
-            // we transfer the name of model class into name of the certain chart
-            //      like "ArmType" => "arm_type"
-            string name = "";
-            List<string> ns = DataBaseHelper.SplitClassName(type.Name);
-            foreach (var n in ns)
-            {
-                name += n;
-                name += '_';
-            }
-            name = name.TrimEnd('_');
+            string name = GetTableName(type.Name);
 
             string query = $"SELECT * FROM {name.ToLower()}";
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -120,20 +89,10 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        static public void Add<T>(T data) where T : BaseModel
+        static public void Add<T>(T data) where T : DataModel
         {
             Type type = typeof(T);  // the reflection of the class T
-
-            // we transfer the name of model class into name of the certain chart
-            //      like "ArmType" => "arm_type"
-            string name = "";
-            List<string> ns = DataBaseHelper.SplitClassName(type.Name);
-            foreach (var n in ns)
-            {
-                name += n;
-                name += '_';
-            }
-            name = name.TrimEnd('_');
+            string name = GetTableName(type.Name);
 
             string query = $"INSERT INTO {name.ToLower()} (";
             string columns = "";
@@ -175,20 +134,10 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        static public void Delete<T>(int id) where T : BaseModel
+        static public void Delete<T>(int id) where T : DataModel
         {
             Type type = typeof(T);  // the reflection of the class T
-
-            // we transfer the name of model class into name of the certain chart
-            //      like "ArmType" => "arm_type"
-            string name = "";
-            List<string> ns = DataBaseHelper.SplitClassName(type.Name);
-            foreach (var n in ns)
-            {
-                name += n;
-                name += '_';
-            }
-            name = name.TrimEnd('_');
+            string name = GetTableName(type.Name);
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -201,6 +150,36 @@ namespace BattlefieldSimulator
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        static public void Update<T>(T data) where T : DataModel
+        {
+
+        }
+
+        /// <summary>
+        ///  we transfer the name of model class into name of the certain table
+        ///  like "ArmType" => "arm_type"
+        /// </summary>
+        /// <param name="className"></param>
+        /// <returns></returns>
+        static private string GetTableName(string className)
+        {
+            string name = "";
+            List<string> ns = DataBaseHelper.SplitClassName(className);
+            foreach (var n in ns)
+            {
+                name += n;
+                name += '_';
+            }
+            name = name.TrimEnd('_');
+
+            return name;
         }
 
         /// <summary>
