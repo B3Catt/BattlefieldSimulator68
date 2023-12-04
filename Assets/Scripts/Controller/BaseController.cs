@@ -24,9 +24,15 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        protected List<BaseModel> data;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public BaseController() 
         {
             message = new Dictionary<string, System.Action<object[]>>();
+            data = new List<BaseModel>();
         }
 
         /// <summary>

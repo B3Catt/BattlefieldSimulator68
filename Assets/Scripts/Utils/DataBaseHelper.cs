@@ -70,6 +70,11 @@ namespace BattlefieldSimulator
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         static public List<Arm_typeDateModel> TraversalArm_type(string query)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -107,6 +112,16 @@ namespace BattlefieldSimulator
             }
         }
 
+        static void Traversal(BaseModel bm)
+        {
+
+        }
+
+        static void Traversal(User user)
+        {
+
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -134,7 +149,7 @@ namespace BattlefieldSimulator
         /// </summary>
         static public void Delete(string tablename,int id)
         {
-                        using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
                 string query=$"DELETE FROM {tablename} WHERE id = {id};";
