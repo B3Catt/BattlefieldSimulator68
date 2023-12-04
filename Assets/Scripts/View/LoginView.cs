@@ -1,4 +1,6 @@
 ﻿using UnityEngine.UI;
+using TMPro;
+using UnityEngine;
 
 namespace BattlefieldSimulator
 {
@@ -7,16 +9,17 @@ namespace BattlefieldSimulator
     /// </summary>
     public class LoginView : BaseView
     {
-        /// <summary>
-        /// 
-        /// </summary>
+
+        public TMP_InputField inputFieldUsername;
+        public TMP_InputField inputFieldPassword;
         protected override void OnAwake()
         {
             base.OnAwake();
-
-            Find<Button>("loginBtn").onClick.AddListener(onLoginBtn);
-            Find<Button>("registerBtn").onClick.AddListener(onRegisterBtn);
-            Find<Button>("closeBtn").onClick.AddListener(onCloseBtn);
+            inputFieldUsername = GameObject.Find("bg/InputFieldUsername").GetComponent<TMP_InputField>();
+            inputFieldPassword = GameObject.Find("bg/InputFieldPassword").GetComponent<TMP_InputField>();
+            Find<Button>("bg/loginBtn").onClick.AddListener(onLoginBtn);
+            Find<Button>("bg/registerBtn").onClick.AddListener(onRegisterBtn);
+            Find<Button>("bg/closeBtn").onClick.AddListener(onCloseBtn);
         }
 
         /// <summary>
@@ -24,7 +27,10 @@ namespace BattlefieldSimulator
         /// </summary>
         public void onLoginBtn()
         {
-
+            if (inputFieldUsername != null)
+                Debug.Log(inputFieldUsername.text);
+            else
+                Debug.Log("null");
         }
 
         /// <summary>
@@ -40,7 +46,7 @@ namespace BattlefieldSimulator
         /// </summary>
         public void onCloseBtn()
         {
-
+            GameApp.ViewManager.Close(ViewId);
         }
     }
 }

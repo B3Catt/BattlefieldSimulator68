@@ -50,7 +50,8 @@ namespace BattlefieldSimulator
         /// </summary>
         private void onLoginBtn()
         {
-            /// TODO: open the login view
+            ApplyFunc(Defines.OpenView, (int)ViewType.LoginView);
+
         }
 
         /// <summary>
