@@ -24,11 +24,17 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        public static ModelManager ModelManager;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public override void Init()
         {
             SoundManager = new SoundManager("game");
             ControllerManager = new ControllerManager();
             ViewManager = new ViewManager("Canvas", "WorldCanvas");
+            ModelManager = new ModelManager();
         }
     }
 }

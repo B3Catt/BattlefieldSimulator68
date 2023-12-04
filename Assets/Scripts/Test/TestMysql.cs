@@ -7,7 +7,7 @@ public class TestMysql : MonoBehaviour
 {
     void Start()
     {
-
+        DataBaseHelper.OpenConnection();
         //测试ADD
         ArmType test1 = new ArmType();
         //test1._id = 1;
@@ -42,10 +42,6 @@ public class TestMysql : MonoBehaviour
             Debug.Log($"ID: {data._id}, Name: {data._name},author: {data._auther},isable: {data._isable},speed: {data._speed},createtime: {data._createtime}");
         }
 
-        //测试search
-        //Debug.Log($"id=52,auther={tes}");
-
-        //测试DELETE
-        //DataBaseHelper.Delete("arm_type",55);
+        DataBaseHelper.CloseConnection();
     }
 }

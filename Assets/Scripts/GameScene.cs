@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEditor.Build;
 using UnityEngine;
 
@@ -67,6 +68,26 @@ namespace BattlefieldSimulator
         {
             dt = Time.deltaTime;
             GameApp.Instance.Update(dt);
+        }
+
+        private void testMysql()
+        {
+            GameApp.ModelManager.AddData<ArmType>(new ArmType()
+            {
+                _id = 2,
+                _auther = "1",
+                _information = "1",
+                _updateby = "1",
+                _value = 1,
+                _isable = false,
+                _attack_distance = 1,
+                _createtime = DateTime.Now.TimeOfDay,
+                _updatetime = DateTime.Now.TimeOfDay,
+                _name = "1"
+            });
+            GameApp.ModelManager.ReadData<ArmType>();
+            GameApp.ModelManager.DeleteData<ArmType>(1);
+            GameApp.ModelManager.ReadData<ArmType>();
         }
     }
 }

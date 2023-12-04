@@ -21,8 +21,8 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 数据库名称
         /// </summary>
-        private static string database = "battlefieldsimulator"; // 
-        //private static string database = "bs_data"; // 数据库名称
+        //private static string database = "battlefieldsimulator"; // 
+        private static string database = "bs_data"; // 数据库名称
 
         /// <summary>
         /// 用户名
@@ -32,8 +32,8 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 密码
         /// </summary>
-        private static string password = "20020519"; // 
-        //private static string password = "Cf854122416!"; // 密码
+        //private static string password = "20020519"; // 
+        private static string password = "Cf854122416!"; // 密码
 
         /// <summary>
         /// 
@@ -52,6 +52,10 @@ namespace BattlefieldSimulator
         /// </summary>
         private static bool isConnected = false;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public static void OpenConnection()
         {
             if (isConnected) return;
@@ -63,10 +67,14 @@ namespace BattlefieldSimulator
             catch
             {
                 isConnected = false;
+                throw new Exception("Connection Fails!");
             }
-            throw new Exception("Connection Fails!");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         public static void CloseConnection()
         {
             if (!isConnected) return;
@@ -78,8 +86,8 @@ namespace BattlefieldSimulator
             catch
             {
                 isConnected = true;
+                throw new Exception("Close Connection Fails!");
             }
-            throw new Exception("Close Connection Fails!");
         }
 
         /// <summary>
