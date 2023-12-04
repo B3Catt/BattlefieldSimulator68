@@ -8,7 +8,7 @@ public class TestMysql : MonoBehaviour
     void Start()
     {
 
-        //²âÊÔADD
+        //æµ‹è¯•ADD
         ArmType test1 = new ArmType();
         //test1._id = 1;
         test1._auther = "1";
@@ -35,17 +35,17 @@ public class TestMysql : MonoBehaviour
         test1._name = "1";
         DataBaseHelper.Update<ArmType>(test1);
 
-        //²âÊÔTraverse
+        //æµ‹è¯•Traverse
         List<ArmType> dataList = DataBaseHelper.Traverse<ArmType>();
         foreach (ArmType data in dataList)
         {
             Debug.Log($"ID: {data._id}, Name: {data._name},author: {data._auther},isable: {data._isable},speed: {data._speed},createtime: {data._createtime}");
         }
 
-        //²âÊÔsearch
+        //æµ‹è¯•search
         //Debug.Log($"id=52,auther={tes}");
 
-        //²âÊÔDELETE
+        //æµ‹è¯•DELETE
         //DataBaseHelper.Delete("arm_type",55);
     }
 }

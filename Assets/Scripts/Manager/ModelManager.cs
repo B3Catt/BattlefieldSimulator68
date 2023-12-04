@@ -102,5 +102,27 @@ namespace BattlefieldSimulator
 
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id"></param>
+        public void DeleteData<T>(int id) where T : DataModel
+        {
+
+            try
+            {
+                DataBaseHelper.OpenConnection();
+                DataBaseHelper.Delete<T>(id);
+                DataBaseHelper.CloseConnection();
+
+                _allData[typeof(T).Name].Remove(id);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }
