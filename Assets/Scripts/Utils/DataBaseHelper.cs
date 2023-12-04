@@ -8,20 +8,9 @@ using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.Analytics;
 
-//查询到的数据就存在dataList里
-//然后返回回去就返回dataList给别的脚本
-
 
 namespace BattlefieldSimulator
 {
-
-    public class Arm_typeDateModel : DataModel
-    {
-        public float speed { get; set; }
-        public float value { get; set; }
-        public int attack_distance { get; set; }
-    }
-
 
     public class DataBaseHelper
     {
@@ -37,6 +26,8 @@ namespace BattlefieldSimulator
         private static string password = "20020519"; // 密码
 
         private static string connectionString = $"Server={server};Database={database};Uid={uid};Pwd={password};charset=utf8";
+
+
 
         /// <summary>
         /// bt this method, we can create a list of instances of the certain table;
@@ -159,7 +150,37 @@ namespace BattlefieldSimulator
         /// <param name="data"></param>
         static public void Update<T>(T data) where T : DataModel
         {
+            Type type = typeof(T);  // the reflection of the class T
+            string name = GetTableName(type.Name);
+            string query = $"UPDATE {name.ToLower()} SET ";
 
+            string primaryKey = "_id";
+
+            foreach (var prop in type.GetProperties())
+            {
+                if (prop.Name.StartsWith("_") && prop.Name != primaryKey)
+                {
+                    query += $"{prop.Name.TrimStart('_')} = @{prop.Name},";
+                }
+            }
+            query = query.TrimEnd(',');
+            query += $" WHERE {primaryKey.TrimStart('_')} = @{primaryKey}";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    foreach (var prop in type.GetProperties())
+                    {
+                        if (prop.Name.StartsWith("_"))
+                        {
+                            command.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(data));
+                        }
+                    }
+                    command.ExecuteNonQuery();
+                }
+            }
         }
 
         /// <summary>
@@ -207,47 +228,5 @@ namespace BattlefieldSimulator
         }
 
     }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        // static public List<Arm_typeDateModel> TraversalArm_type(string query)
-        // {
-        //     using (MySqlConnection connection = new MySqlConnection(connectionString))
-        //     {
-        //         List<Arm_typeDateModel> datalist = new List<Arm_typeDateModel>();
-        //         connection.Open();
-        //         //string query = "SELECT * FROM arm_type";
-        //         using (MySqlCommand command = new MySqlCommand(query, connection))
-        //         {
-        //             using (MySqlDataReader reader = command.ExecuteReader())
-        //             {
-        //                 while (reader.Read())
-        //                 {
-        //                     // int id = Convert.ToInt32(reader["id"]);
-        //                     // string name = reader["name"].ToString();
-        //                     // Console.WriteLine($"ID: {id}, Name: {name}");
-        //                     Arm_typeDateModel data = new Arm_typeDateModel();
-        //                     data.id = Convert.ToInt32(reader["id"]);
-        //                     data.name = Convert.ToString(reader["name"]);
-        //                     data.auther = Convert.ToString(reader["auther"]);
-        //                     data.updateby = Convert.ToString(reader["updateby"]);
-        //                     data.information = Convert.ToString(reader["information"]);
-        //                     data.attack_distance = Convert.ToInt32(reader["attack_distance"]);
-        //                     data.speed = Convert.ToSingle(reader["speed"]);
-        //                     data.value = Convert.ToSingle(reader["value"]);
-        //                     data.isable = Convert.ToBoolean(reader["isable"]);
-        //                     //data.createtime=Convert.ToDateTime(reader["createtime"]);
-        //                     data.createtime = ((TimeSpan)reader["createtime"]);
-        //                     data.updatetime = ((TimeSpan)reader["updatetime"]);
-        //                     datalist.Add(data);
-        //                 }
-        //             }
-        //         }
-        //         return datalist;
-        //     }
-        // }
 
 }

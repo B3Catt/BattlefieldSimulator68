@@ -26,6 +26,19 @@ public class TestMysql : MonoBehaviour
         test1._name="1";
         DataBaseHelper.Add<ArmType>(test1);
 
+        //测试updata
+        test1._id = 1;
+        test1._auther="1wancong11111";
+        test1._information="123123131";
+        test1._updateby="1";
+        test1._value=1;
+        test1._isable=false;
+        test1._attack_distance=1;
+        test1._createtime=DateTime.Now.TimeOfDay;
+        test1._updatetime=DateTime.Now.TimeOfDay;
+        test1._name="1";
+        DataBaseHelper.Update<ArmType>(test1);
+
         //测试Traverse
         List<ArmType> dataList = DataBaseHelper.Traverse<ArmType>();
         foreach (ArmType data in dataList)
@@ -34,7 +47,6 @@ public class TestMysql : MonoBehaviour
         }
 
         //测试search
-        string tes=DataBaseHelper.Search(52,"arm_type","auther");
         //Debug.Log($"id=52,auther={tes}");
 
         //测试DELETE
