@@ -17,8 +17,8 @@ namespace BattlefieldSimulator
             base.OnAwake();
 
             Find<Button>("startBtn").onClick.AddListener(onStartGameBtn);
-            //Find<Button>("mapBtn").onClick.AddListener(onMapCustomBtn);
-            //Find<Button>("registerBtn").onClick.AddListener(onRegisterBtn);
+            Find<Button>("mapBtn").onClick.AddListener(onMapCustomBtn);
+            Find<Button>("loginBtn").onClick.AddListener(onLoginBtn);
             Find<Button>("setBtn").onClick.AddListener(onSetBtn);
             Find<Button>("quitBtn").onClick.AddListener(onQuitGameBtn);
         }
@@ -33,6 +33,7 @@ namespace BattlefieldSimulator
 
             GameApp.ViewManager.Close(ViewId);
 
+            // 
             Controller.ApplyControllerFunc(ControllerType.LoadingController, Defines.LoadingScene, loadingModel);
         }
 
@@ -47,9 +48,9 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        private void onRegisterBtn()
+        private void onLoginBtn()
         {
-
+            /// TODO: open the login view
         }
 
         /// <summary>

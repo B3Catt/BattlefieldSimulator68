@@ -46,13 +46,7 @@ namespace BattlefieldSimulator
         /// </summary>
         public override void InitModuleEvent()
         {
-            RegisterFunc(Defines.OpenView, openView);
             base.InitModuleEvent();
-        }
-
-        private void openView(System.Object[] args)
-        {
-            GameApp.ViewManager.Open(int.Parse(args[0].ToString()), args.Skip(1).ToArray());
         }
     }
 }

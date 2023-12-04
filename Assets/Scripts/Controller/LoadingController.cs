@@ -49,6 +49,7 @@ namespace BattlefieldSimulator
 
             GameApp.ViewManager.Open(ViewType.LoadingView);
 
+            // load next scene
             asyncOperation =  SceneManager.LoadSceneAsync(loadingModel.SceneName);
 
             asyncOperation.completed += onLoadedEndCallBack;
@@ -62,14 +63,15 @@ namespace BattlefieldSimulator
         {
             asyncOperation.completed -= onLoadedEndCallBack;
 
+            // callback func called
             GetModel<LoadingModel>().callback?.Invoke();
 
+            // close the loading view
             GameApp.ViewManager.Close(ViewType.LoadingView);
 
+            // change the cam
             var go = GameObject.Find("Main Camera");
-
             var cam = go.GetComponent<Camera>();
-
             cam.enabled = false;
         }
     }

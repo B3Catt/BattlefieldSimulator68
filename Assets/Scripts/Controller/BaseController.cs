@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using UnityEngine.UIElements;
 
 namespace BattlefieldSimulator
@@ -183,7 +184,7 @@ namespace BattlefieldSimulator
         /// </summary>
         public virtual void InitModuleEvent()
         {
-
+            RegisterFunc(Defines.OpenView, openView);
         }
 
         /// <summary>
@@ -208,6 +209,15 @@ namespace BattlefieldSimulator
         public virtual void RemoveGlobalEvent() 
         {
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        private void openView(System.Object[] args)
+        {
+            GameApp.ViewManager.Open(int.Parse(args[0].ToString()), args.Skip(1).ToArray());
         }
     }
 }

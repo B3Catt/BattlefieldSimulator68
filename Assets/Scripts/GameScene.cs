@@ -55,6 +55,7 @@ namespace BattlefieldSimulator
             GameApp.ControllerManager.Register(ControllerType.UIController, new UIController());
             GameApp.ControllerManager.Register(ControllerType.GameController, new GameController());
             GameApp.ControllerManager.Register(ControllerType.LoadingController, new LoadingController());
+            GameApp.ControllerManager.Register(ControllerType.UserController, new UserController());
         }
 
         private void InitMoudle()

@@ -5,6 +5,7 @@ namespace BattlefieldSimulator
     {
         UIController,
         GameController,
-        LoadingController
+        LoadingController,
+        UserController
     }
 }
