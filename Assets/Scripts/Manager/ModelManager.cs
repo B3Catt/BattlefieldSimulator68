@@ -76,7 +76,7 @@ namespace BattlefieldSimulator
             }
             catch(Exception ex)
             {
-
+                throw ex;
             }
         }
 
@@ -106,7 +106,15 @@ namespace BattlefieldSimulator
             {
                 return null;
             }
-            return _allData[typeof(T).Name] as Dictionary<int, T>;
+
+            Dictionary<int, T> _tempDic = new Dictionary<int, T>();
+
+            foreach (var pair in _allData[typeof(T).Name])
+            {
+                _tempDic.Add(pair.Key, pair.Value as T);
+            }
+
+            return _tempDic;
         }
 
         /// <summary>
@@ -171,6 +179,7 @@ namespace BattlefieldSimulator
             catch (Exception ex)
             {
                 return false;
+                throw ex;
             }
         }
 

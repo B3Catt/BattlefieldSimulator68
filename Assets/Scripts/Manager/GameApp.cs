@@ -29,6 +29,16 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        public static CameraManager CameraManager;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static MessageCenter MessageCenter;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static bool isLogin;
 
         /// <summary>
@@ -40,6 +50,8 @@ namespace BattlefieldSimulator
             ControllerManager = new ControllerManager();
             ViewManager = new ViewManager("Canvas", "WorldCanvas");
             ModelManager = new ModelManager();
+            CameraManager = new CameraManager();
+            MessageCenter = new MessageCenter();
             isLogin = false;
         }
     }
