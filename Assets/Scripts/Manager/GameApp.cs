@@ -39,6 +39,11 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        public static TimerManager TimerManager;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static bool isLogin;
         public static string Username;
         public static string Nickname;
@@ -49,6 +54,7 @@ namespace BattlefieldSimulator
         /// </summary>
         public override void Init()
         {
+            TimerManager = new TimerManager();
             SoundManager = new SoundManager("game");
             ControllerManager = new ControllerManager();
             ViewManager = new ViewManager("Canvas", "WorldCanvas");
@@ -58,7 +64,12 @@ namespace BattlefieldSimulator
             isLogin = false;
             Username = "";
             Nickname = "";
-            uid=0;
+            uid = 0;
+        }
+
+        public override void Update(float dt)
+        {
+            TimerManager.OnUpdate(dt);
         }
     }
 }

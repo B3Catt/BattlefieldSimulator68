@@ -63,11 +63,15 @@ namespace BattlefieldSimulator
         {
             asyncOperation.completed -= onLoadedEndCallBack;
 
-            // callback func called
-            GetModel<LoadingModel>().callback?.Invoke();
+            // delay the time
+            GameApp.TimerManager.Register(0.25f, delegate ()
+            {
+                // callback func called
+                GetModel<LoadingModel>().callback?.Invoke();
 
-            // close the loading view
-            GameApp.ViewManager.Close(ViewType.LoadingView);
+                // close the loading view
+                GameApp.ViewManager.Close(ViewType.LoadingView);
+            });
 
             // change the cam
             //var go = GameObject.Find("Main Camera");

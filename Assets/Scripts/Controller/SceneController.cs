@@ -19,7 +19,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        private ActController actController;
+        private BattleController actController;
 
         /// <summary>
         /// 
