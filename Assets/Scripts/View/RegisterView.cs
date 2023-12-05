@@ -16,10 +16,10 @@ namespace BattlefieldSimulator
         protected override void OnAwake()
         {
             base.OnAwake();
-            inputFieldUsername = GameObject.Find("bg/InputFieldUsername").GetComponent<TMP_InputField>();
-            inputFieldPassword = GameObject.Find("bg/InputFieldPassword").GetComponent<TMP_InputField>();
-            inputFieldMail = GameObject.Find("bg/InputFieldMail").GetComponent<TMP_InputField>();
-            inputFieldNickname = GameObject.Find("bg/InputFieldNickname").GetComponent<TMP_InputField>();
+            inputFieldUsername = GameObject.Find("bg/RegisterUsername").GetComponent<TMP_InputField>();
+            inputFieldPassword = GameObject.Find("bg/RegisterPassword").GetComponent<TMP_InputField>();
+            inputFieldMail = GameObject.Find("bg/RegisterMail").GetComponent<TMP_InputField>();
+            inputFieldNickname = GameObject.Find("bg/RegisterNickname").GetComponent<TMP_InputField>();
             Find<Button>("bg/registerBtn").onClick.AddListener(onRegisterBtn);
             Find<Button>("bg/closeBtn").onClick.AddListener(onCloseBtn);
         }
@@ -60,6 +60,7 @@ namespace BattlefieldSimulator
                     _username = inputFieldUsername.text
                 };
                 GameApp.ModelManager.AddData<User>(newuser);
+                GameApp.ModelManager.Flush<User>();
                 //弹出注册成功
                 Debug.Log("注册成功");
             }
