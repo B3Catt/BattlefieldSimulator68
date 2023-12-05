@@ -30,6 +30,7 @@ namespace BattlefieldSimulator
         {
             if(GameApp.isLogin)
             {
+                //message
                 Debug.Log($"无法再次登录，以成功登录用户id={GameApp.uid},username={GameApp.Username}");
                 return;
             }
@@ -52,10 +53,13 @@ namespace BattlefieldSimulator
             }
             if (GameApp.isLogin)
             {
+                //messgqe
                 Debug.Log($"登录成功，欢迎{GameApp.Nickname}");
+                GameApp.ViewManager.GetView<StartView>(ViewType.StartView).onAwakefuc();
             }
             else
             {
+                //messgae
                 Debug.Log("用户名或密码错误");
             }
         }

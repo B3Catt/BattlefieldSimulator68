@@ -3,7 +3,11 @@ guid: f47bcf2e36e46c3458a2f0f82178471a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - loginBtn: {fileID: 1979279560641738153, guid: 7f56b0e6a858ddc48be21bee546cf6e2,
+      type: 3}
+  - nicknameText: {instanceID: 0}
+  - logoutBtn: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
