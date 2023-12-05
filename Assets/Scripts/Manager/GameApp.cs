@@ -40,6 +40,9 @@ namespace BattlefieldSimulator
         /// 
         /// </summary>
         public static bool isLogin;
+        public static string Username;
+        public static string Nickname;
+        public static int uid;
 
         /// <summary>
         /// 
@@ -53,6 +56,9 @@ namespace BattlefieldSimulator
             CameraManager = new CameraManager();
             MessageCenter = new MessageCenter();
             isLogin = false;
+            Username = "";
+            Nickname = "";
+            uid=0;
         }
     }
 }

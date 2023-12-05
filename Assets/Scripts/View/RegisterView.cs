@@ -57,7 +57,7 @@ namespace BattlefieldSimulator
                     _mail = inputFieldMail.text,
                     _nickname = inputFieldNickname.text,
                     _password = inputFieldPassword.text,
-                    _username = inputFieldUsername.text
+                    _username = inputFieldUsername.text,
                 };
                 GameApp.ModelManager.AddData<User>(newuser);
                 GameApp.ModelManager.Flush<User>();
