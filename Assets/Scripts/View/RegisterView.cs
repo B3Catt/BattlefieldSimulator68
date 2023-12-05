@@ -8,8 +8,8 @@ namespace BattlefieldSimulator
         {
             base.OnAwake();
 
-            Find<Button>("registerBtn").onClick.AddListener(onRegisterBtn);
-            Find<Button>("closeBtn").onClick.AddListener(onCloseBtn);
+            Find<Button>("bg/registerBtn").onClick.AddListener(onRegisterBtn);
+            Find<Button>("bg/closeBtn").onClick.AddListener(onCloseBtn);
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace BattlefieldSimulator
         /// </summary>
         public void onCloseBtn()
         {
-
+            GameApp.ViewManager.Close(ViewId);
         }
     }
 }

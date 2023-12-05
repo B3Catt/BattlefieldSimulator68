@@ -37,6 +37,14 @@ namespace BattlefieldSimulator
                 parentTf = GameApp.ViewManager.canvasTf
             });
 
+            GameApp.ViewManager.Register(ViewType.RegisterView, new ViewInfo()
+            {
+                PrefabName = "RegisterView",
+                controller = this,
+                Sorting_Order = 3,
+                parentTf = GameApp.ViewManager.canvasTf
+            });
+
             GameApp.ViewManager.Register(ViewType.MessageView, new ViewInfo()
             {
                 PrefabName = "MessageView",

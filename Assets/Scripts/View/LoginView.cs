@@ -38,7 +38,8 @@ namespace BattlefieldSimulator
         /// </summary>
         public void onRegisterBtn()
         {
-            /// TODO: open the register view
+            ApplyFunc(Defines.OpenView, (int)ViewType.RegisterView);
+
         }
 
         /// <summary>
