@@ -15,8 +15,8 @@ namespace BattlefieldSimulator
         protected override void OnAwake()
         {
             base.OnAwake();
-            inputFieldUsername = GameObject.Find("bg/InputFieldUsername").GetComponent<TMP_InputField>();
-            inputFieldPassword = GameObject.Find("bg/InputFieldPassword").GetComponent<TMP_InputField>();
+            inputFieldUsername = GameObject.Find("bg/LoginUsername").GetComponent<TMP_InputField>();
+            inputFieldPassword = GameObject.Find("bg/LoginPassword").GetComponent<TMP_InputField>();
             Find<Button>("bg/loginBtn").onClick.AddListener(onLoginBtn);
             Find<Button>("bg/registerBtn").onClick.AddListener(onRegisterBtn);
             Find<Button>("bg/closeBtn").onClick.AddListener(onCloseBtn);

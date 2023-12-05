@@ -39,6 +39,7 @@ namespace BattlefieldSimulator
             _dataToAdd = new Dictionary<string, Dictionary<int, DataModel>>();
 
             ReadData<ArmType>();
+            //ReadData<User>();
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace BattlefieldSimulator
 
                 _allData.Add(type.Name, keyValuePairs);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -100,6 +101,20 @@ namespace BattlefieldSimulator
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        // public Dictionary<int, T> GetData<T>() where T : DataModel
+        // {
+        //     if (!_allData.ContainsKey(typeof(T).Name))
+        //     {
+        //         return null;
+        //     }
+        //     return _allData[typeof(T).Name] as Dictionary<int, T>;
+        //     var data = _allData[typeof(T).Name];
+        //     // if (data is Dictionary<int, T> typedData)
+        //     // {
+        //     //     return typedData;
+        //     // }
+        //     // return null;
+        // }
         public Dictionary<int, T> GetData<T>() where T : DataModel
         {
             if (!_allData.ContainsKey(typeof(T).Name))
