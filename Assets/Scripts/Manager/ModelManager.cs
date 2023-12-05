@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace BattlefieldSimulator
 {
     /// <summary>
-    /// 
+    /// by this manager, controller can get the data from database
     /// </summary>
     public class ModelManager
     {
         /// <summary>
-        /// 
+        /// all data of all models
         /// </summary>
         private Dictionary<string, Dictionary<int, DataModel>> _allData;
 
         /// <summary>
-        /// 
+        /// the cache data that
+        ///     1. was already delete from _allData
+        ///     2. but not delete from database yet;
         /// </summary>
         private Dictionary<string, List<int>> _dataToDelete;
 
         /// <summary>
-        /// 
+        /// the cache data that
+        ///     1. was already add into _allData
+        ///     2. but not add into database yet;
         /// </summary>
         private Dictionary<string, Dictionary<int, DataModel>> _dataToAdd;
 
@@ -39,7 +42,9 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
-        /// 
+        /// by this method, we load the data from the database;
+        ///     before reading, Flush the cache data into the database,
+        ///     to ensure that we get the right data up to date;
         /// </summary>
         /// <typeparam name="T"></typeparam>
         public void ReadData<T>() where T : DataModel
@@ -76,28 +81,36 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
-        /// 
+        /// get an instance by id
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
         /// <returns></returns>
         public T GetDataById<T>(int id) where T : DataModel
         {
+            if (!_allData.ContainsKey(typeof(T).Name))
+            {
+                return null;
+            }
             return _allData[typeof(T).Name][id] as T;
         }
 
         /// <summary>
-        /// 
+        /// get all instances
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public Dictionary<int, T> GetData<T>() where T : DataModel
         {
+            if (!_allData.ContainsKey(typeof(T).Name))
+            {
+                return null;
+            }
             return _allData[typeof(T).Name] as Dictionary<int, T>;
         }
 
         /// <summary>
-        /// 
+        /// delete data by id
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="id"></param>
@@ -107,11 +120,14 @@ namespace BattlefieldSimulator
 
             if (_allData.ContainsKey(name) && _allData[name].ContainsKey(id))
             {
+                // if there's add_cache in certain model,
+                //      delete after flushing the cache into database;
                 if (_dataToAdd.ContainsKey(name))
                 {
                     AddAllData<T>();
                 }
 
+                // delete the data from _allData, and add it to the delete cache
                 if (!_dataToDelete.ContainsKey(name))
                 {
                     _dataToDelete.Add(name, new List<int>());
@@ -124,7 +140,8 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
-        /// 
+        /// delete all data in the delete cache from database,
+        ///     by this, we can decrease the times we connect to the database;
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -158,7 +175,7 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
-        /// 
+        /// Add data
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
@@ -167,6 +184,8 @@ namespace BattlefieldSimulator
         {
             string name = typeof(T).Name;
 
+            // Initialy, we check if there has the data with _id already,
+            //      we check the _dataToAdd first as an optimizing
             if (_dataToAdd.ContainsKey(name) && _dataToAdd[name].ContainsKey(data._id))
             {
                 return false;
@@ -177,11 +196,14 @@ namespace BattlefieldSimulator
                 return false;
             }
 
+            // if there's delete_cache in certain model,
+            //      add after flushing the cache into database;
             if (_dataToDelete.ContainsKey(name))
             {
                 DeleteAllData<T>();
             }
 
+            // add the data into _dataToAdd and _allData
             if (!_dataToAdd.ContainsKey(name))
             {
                 _dataToAdd.Add(name, new Dictionary<int, DataModel>());
@@ -198,7 +220,8 @@ namespace BattlefieldSimulator
         }
 
         /// <summary>
-        /// 
+        /// add all data in the add cache from database,
+        ///     by this, we can decrease the times we connect to the database;
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -219,7 +242,7 @@ namespace BattlefieldSimulator
 
                 foreach (var pair in dit)
                 {
-                    DataBaseHelper.Add<T>(pair.Value as T);
+                    DataBaseHelper.Add(pair.Value as T);
                 }
 
                 DataBaseHelper.CloseConnection();
@@ -229,34 +252,6 @@ namespace BattlefieldSimulator
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public bool UpdateData<T>(T data) where T : DataModel
-        {
-            string name = typeof(T).Name;
-
-            if (_allData.ContainsKey(name) && _allData[name].ContainsKey(data._id))
-            {
-                if (_dataToDelete.ContainsKey(name))
-                {
-                    DeleteAllData<T>();
-                }
-
-                if (_dataToAdd.ContainsKey(name))
-                {
-                    AddAllData<T>();
-                }
-
-                _allData[name][data._id] = data;
-                return true;
-            }
-            return false;
         }
 
         /// <summary>
@@ -273,6 +268,11 @@ namespace BattlefieldSimulator
 
             try
             {
+                // before we update the data, we need to clear the cache;
+                //      as the result of AddData and DeleteData,
+                //      we has sth. like mutex in _dataToAdd and _dataToDelete;
+                //      So only on of the two flushes below we will do,
+                //      which means you should not worry about the sequences;
                 if (_dataToDelete.ContainsKey(name))
                 {
                     DeleteAllData<T>();
@@ -289,7 +289,7 @@ namespace BattlefieldSimulator
 
                 foreach (var pair in dit)
                 {
-                    DataBaseHelper.Update<T>(pair.Value as T);
+                    DataBaseHelper.Update(pair.Value as T);
                 }
 
                 DataBaseHelper.CloseConnection();
@@ -309,11 +309,16 @@ namespace BattlefieldSimulator
             foreach (var pair in _allData)
             {
                 Type type = Type.GetType(pair.Key);
-                MethodInfo method = typeof(ModelManager).GetMethod("UpdateAllData").MakeGenericMethod(type);
+                MethodInfo method = typeof(ModelManager).GetMethod("Flush").MakeGenericMethod(type);
                 method.Invoke(this, null);
+                // this just work as "Flush<type>()", which you can't use
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         public void Flush<T>() where T : DataModel
         {
             UpdateAllData<T>();
