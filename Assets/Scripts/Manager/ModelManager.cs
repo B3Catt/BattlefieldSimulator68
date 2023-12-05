@@ -39,6 +39,7 @@ namespace BattlefieldSimulator
             _dataToAdd = new Dictionary<string, Dictionary<int, DataModel>>();
 
             ReadData<ArmType>();
+            //ReadData<User>();
         }
 
         /// <summary>
@@ -107,6 +108,12 @@ namespace BattlefieldSimulator
                 return null;
             }
             return _allData[typeof(T).Name] as Dictionary<int, T>;
+            var data = _allData[typeof(T).Name];
+            // if (data is Dictionary<int, T> typedData)
+            // {
+            //     return typedData;
+            // }
+            // return null;
         }
 
         /// <summary>
