@@ -4,7 +4,7 @@ namespace BattlefieldSimulator
     /// <summary>
     /// 
     /// </summary>
-    public class RoundController
+    public class SceneController : BaseController
     {
         /// <summary>
         /// 
@@ -24,9 +24,9 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        public RoundController() { }
+        public SceneController() { }
 
-        public RoundController(GameController gameController)
+        public SceneController(GameController gameController)
         {
             this.gameController = gameController;
         }

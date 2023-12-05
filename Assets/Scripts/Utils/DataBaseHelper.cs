@@ -1,12 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Windows;
-using UnityEditor.MemoryProfiler;
-using UnityEngine;
-using UnityEngine.Analytics;
 
 
 namespace BattlefieldSimulator
@@ -39,8 +33,6 @@ namespace BattlefieldSimulator
         /// 
         /// </summary>
         private static string connectionString = $"Server={server};Database={database};Uid={uid};Pwd={password};charset=utf8";
-
-
 
         /// <summary>
         /// 

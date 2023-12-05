@@ -3,9 +3,10 @@ namespace BattlefieldSimulator
 {
     public enum ControllerType
     {
-        UIController,
-        GameController,
-        LoadingController,
-        UserController
+        UI,
+        Game,
+        Loading,
+        Scene,
+        User
     }
 }

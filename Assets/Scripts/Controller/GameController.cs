@@ -19,7 +19,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        private RoundController roundController;
+        private SceneController roundController;
 
         /// <summary>
         /// 
@@ -36,7 +36,7 @@ namespace BattlefieldSimulator
         public override void Init()
         {
             // open the start view
-            ApplyControllerFunc(ControllerType.UIController, Defines.OpenView, (int)ViewType.StartView);
+            ApplyControllerFunc(ControllerType.UI, Defines.OpenView, (int)ViewType.StartView);
         }
 
         /// <summary>

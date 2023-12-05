@@ -70,9 +70,9 @@ namespace BattlefieldSimulator
             GameApp.ViewManager.Close(ViewType.LoadingView);
 
             // change the cam
-            var go = GameObject.Find("Main Camera");
-            var cam = go.GetComponent<Camera>();
-            cam.enabled = false;
+            //var go = GameObject.Find("Main Camera");
+            //var cam = go.GetComponent<Camera>();
+            //cam.enabled = false;
         }
     }
 }

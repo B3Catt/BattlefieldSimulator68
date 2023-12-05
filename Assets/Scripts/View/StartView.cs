@@ -30,11 +30,15 @@ namespace BattlefieldSimulator
         {
             LoadingModel loadingModel = new LoadingModel();
             loadingModel.SceneName = "map";
+            loadingModel.callback = delegate ()
+            {
+
+            };
 
             GameApp.ViewManager.Close(ViewId);
 
             // 
-            Controller.ApplyControllerFunc(ControllerType.LoadingController, Defines.LoadingScene, loadingModel);
+            Controller.ApplyControllerFunc(ControllerType.Loading, Defines.LoadingScene, loadingModel);
         }
 
         /// <summary>
@@ -67,7 +71,7 @@ namespace BattlefieldSimulator
         /// </summary>
         private void onQuitGameBtn()
         {
-            Controller.ApplyControllerFunc(ControllerType.UIController, Defines.OpenView, (int)ViewType.MessageView,
+            Controller.ApplyControllerFunc(ControllerType.UI, Defines.OpenView, (int)ViewType.MessageView,
                 new MessageInfo()
                 {
                     okCallback = delegate ()

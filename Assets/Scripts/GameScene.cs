@@ -41,7 +41,7 @@ namespace BattlefieldSimulator
 
         private void Start()
         {
-            GameApp.SoundManager.PlayBGM("login");
+            GameApp.SoundManager.PlayBGM(bgmName);
 
             RegisterMoudle();
 
@@ -53,10 +53,11 @@ namespace BattlefieldSimulator
         /// </summary>
         private void RegisterMoudle()
         {
-            GameApp.ControllerManager.Register(ControllerType.UIController, new UIController());
-            GameApp.ControllerManager.Register(ControllerType.GameController, new GameController());
-            GameApp.ControllerManager.Register(ControllerType.LoadingController, new LoadingController());
-            GameApp.ControllerManager.Register(ControllerType.UserController, new UserController());
+            GameApp.ControllerManager.Register(ControllerType.UI, new UIController());
+            GameApp.ControllerManager.Register(ControllerType.Game, new GameController());
+            GameApp.ControllerManager.Register(ControllerType.Loading, new LoadingController());
+            GameApp.ControllerManager.Register(ControllerType.Scene, new SceneController());
+            GameApp.ControllerManager.Register(ControllerType.User, new UserController());
         }
 
         private void InitMoudle()
