@@ -51,7 +51,7 @@ namespace BattlefieldSimulator
                 /// TODO: waiting the selection
                 Unit unit = GetUnitByClick();
 
-                actController.Act(unit);
+                //actController.Act(unit);
             }
 
             /**
