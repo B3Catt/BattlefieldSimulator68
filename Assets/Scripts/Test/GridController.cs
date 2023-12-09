@@ -1,35 +1,31 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
 
 namespace BattlefieldSimulator
 {
-    public class HexGridLayout : MonoBehaviour
+    public class GridController : BaseController
     {
-        [Header("Grid Setting")]
-        public Vector2Int gridSize;
+        public Vector2Int gridSize { get; set; }
 
-        [Header("Tile Settings")]
-        public float outerSize = 1f;
-        public float innerSize = 0f;
-        public float height = 1f;
-        public bool isFlatTopped;
-        public Material material;
+        public float radius { get; set; }
+        public Transform parentTransform { get; set; }
+        public bool isFlatTopped { get; set; }
 
-        private Dictionary<Vector2Int, GameObject> grids = new Dictionary<Vector2Int, GameObject>();
-
-        private void OnEnable()
+        private Dictionary<Vector2Int, GameObject> grids;
+        public GridController(Vector2Int gridSize, float radius, bool isFlatTopped, Transform parentTransform)
         {
+            this.gridSize = gridSize;
+            this.radius = radius;
+            this.parentTransform = parentTransform;
+            this.isFlatTopped = isFlatTopped;
+            grids = new Dictionary<Vector2Int, GameObject>();
+
             LayoutGrid();
         }
 
-        private void OnValidate()
+        public void OnUpdate()
         {
-            if (Application.isPlaying)
-            {
-                LayoutGrid();
-            }
+            LayoutGrid();
         }
 
         private void LayoutGrid()
@@ -47,7 +43,7 @@ namespace BattlefieldSimulator
                     }
                     else
                     {
-                        tile = new GameObject($"Hex {x}, {y}", typeof(HexRenderer));
+                        tile = new GameObject($"Hex {x}, {y}", typeof(MeshCollider), typeof(HexRenderer));
                         grids.Add(point, tile);
                     }
 
@@ -55,13 +51,31 @@ namespace BattlefieldSimulator
 
                     HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
                     hexRenderer.isFlatTopped = isFlatTopped;
-                    hexRenderer.outerSize = outerSize;
-                    hexRenderer.innerSize = innerSize;
-                    hexRenderer.height = height;
+                    hexRenderer.outerSize = radius;
+                    hexRenderer.innerSize = 0;
+
+                    int id = Random.Range(0, 3) + 1;
+                    Terrain terrian = GameApp.ModelManager.GetDataById<Terrain>(id);
+                    hexRenderer.height = terrian._height;
+
+
+                    var tms = GameApp.ModelManager.GetData<TerrainModel>();
+                    Material material = null;
+                    foreach (var pair in tms)
+                    {
+                        if (pair.Value._terrain_id == id)
+                        {
+                            material = Resources.Load<Material>($"Materials/{pair.Value._model_id}");
+                            break;
+                        }
+                    }
+
+                    hexRenderer.terrian = terrian;
+
                     hexRenderer.SetMaterial(material);
                     hexRenderer.DrawMesh();
 
-                    tile.transform.SetParent(transform, true);
+                    tile.transform.SetParent(parentTransform, true);
                 }
             }
         }
@@ -78,7 +92,7 @@ namespace BattlefieldSimulator
             float horizontalDistance;
             float verticalDistance;
             float offset;
-            float size = outerSize;
+            float size = radius;
 
             if (!isFlatTopped)
             {
@@ -113,3 +127,5 @@ namespace BattlefieldSimulator
         }
     }
 }
+
+

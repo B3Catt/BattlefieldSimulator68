@@ -8,8 +8,6 @@ namespace BattlefieldSimulator
     {
         public UserController() : base()
         {
-            /// TODO: Register the views: LoginView and RegisterView
-
             InitModuleEvent();
             InitGlobalEvent();
         }

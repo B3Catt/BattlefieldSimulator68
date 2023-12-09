@@ -180,7 +180,6 @@ namespace BattlefieldSimulator
         /// </summary>
         public virtual void InitModuleEvent()
         {
-            RegisterFunc(Defines.OpenView, openView);
         }
 
         /// <summary>
@@ -207,13 +206,5 @@ namespace BattlefieldSimulator
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="args"></param>
-        private void openView(System.Object[] args)
-        {
-            GameApp.ViewManager.Open(int.Parse(args[0].ToString()), args.Skip(1).ToArray());
-        }
     }
 }

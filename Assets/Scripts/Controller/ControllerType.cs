@@ -8,6 +8,7 @@ namespace BattlefieldSimulator
         Loading,
         Scene,
         User,
-        Battle
+        Battle,
+        Grid
     }
 }

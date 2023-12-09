@@ -13,44 +13,44 @@ namespace BattlefieldSimulator
         /// </summary>
         public UIController() : base()
         {
-            GameApp.ViewManager.Register(ViewType.StartView, new ViewInfo()
+            GameApp.UIViewManager.Register(ViewType.StartView, new ViewInfo()
             {
                 PrefabName = "StartView",
                 controller = this,
                 Sorting_Order = 0,
-                parentTf = GameApp.ViewManager.canvasTf
+                parentTf = GameApp.UIViewManager.canvasTf
             });
 
-            GameApp.ViewManager.Register(ViewType.SetView, new ViewInfo()
+            GameApp.UIViewManager.Register(ViewType.SetView, new ViewInfo()
             {
                 PrefabName = "SetView",
                 controller = this,
                 Sorting_Order = 1,
-                parentTf = GameApp.ViewManager.canvasTf
+                parentTf = GameApp.UIViewManager.canvasTf
             });
 
-            GameApp.ViewManager.Register(ViewType.LoginView, new ViewInfo()
+            GameApp.UIViewManager.Register(ViewType.LoginView, new ViewInfo()
             {
                 PrefabName = "LoginView",
                 controller = this,
                 Sorting_Order = 2,
-                parentTf = GameApp.ViewManager.canvasTf
+                parentTf = GameApp.UIViewManager.canvasTf
             });
 
-            GameApp.ViewManager.Register(ViewType.RegisterView, new ViewInfo()
+            GameApp.UIViewManager.Register(ViewType.RegisterView, new ViewInfo()
             {
                 PrefabName = "RegisterView",
                 controller = this,
                 Sorting_Order = 3,
-                parentTf = GameApp.ViewManager.canvasTf
+                parentTf = GameApp.UIViewManager.canvasTf
             });
 
-            GameApp.ViewManager.Register(ViewType.MessageView, new ViewInfo()
+            GameApp.UIViewManager.Register(ViewType.MessageView, new ViewInfo()
             {
                 PrefabName = "MessageView",
                 controller = this,
                 Sorting_Order = 999,
-                parentTf = GameApp.ViewManager.canvasTf
+                parentTf = GameApp.UIViewManager.canvasTf
             });
 
             InitModuleEvent();
@@ -63,6 +63,17 @@ namespace BattlefieldSimulator
         public override void InitModuleEvent()
         {
             base.InitModuleEvent();
+            RegisterFunc(Defines.OpenUIView, openUIView);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="args"></param>
+        private void openUIView(System.Object[] args)
+        {
+            GameApp.UIViewManager.Open(int.Parse(args[0].ToString()), args.Skip(1).ToArray());
         }
     }
 }

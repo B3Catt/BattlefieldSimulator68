@@ -19,11 +19,11 @@ namespace BattlefieldSimulator
         /// </summary>
         public LoadingController() : base()
         {
-            GameApp.ViewManager.Register(ViewType.LoadingView, new ViewInfo()
+            GameApp.UIViewManager.Register(ViewType.LoadingView, new ViewInfo()
             { 
                 PrefabName = "LoadingView",
                 controller = this,
-                parentTf = GameApp.ViewManager.canvasTf
+                parentTf = GameApp.UIViewManager.canvasTf
             });
 
             InitModuleEvent();
@@ -47,7 +47,7 @@ namespace BattlefieldSimulator
 
             SetModel(loadingModel);
 
-            GameApp.ViewManager.Open(ViewType.LoadingView);
+            GameApp.UIViewManager.Open(ViewType.LoadingView);
 
             // load next scene
             asyncOperation =  SceneManager.LoadSceneAsync(loadingModel.SceneName);
@@ -70,7 +70,7 @@ namespace BattlefieldSimulator
                 GetModel<LoadingModel>().callback?.Invoke();
 
                 // close the loading view
-                GameApp.ViewManager.Close(ViewType.LoadingView);
+                GameApp.UIViewManager.Close(ViewType.LoadingView);
             });
 
             // change the cam

@@ -18,7 +18,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string OpenView = "OpenView";
+        public static readonly string OpenUIView = "OpenUIView";
 
         /// <summary>
         /// 

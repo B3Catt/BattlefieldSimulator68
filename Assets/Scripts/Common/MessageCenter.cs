@@ -3,7 +3,8 @@
 namespace BattlefieldSimulator
 {
     /// <summary>
-    /// the message here is different from messageView
+    /// the message here is different from messageView;
+    ///     this is a global Action-Listener Register and Invoke center
     /// </summary>
     public class MessageCenter
     {
@@ -20,7 +21,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// storage of special message, in case of certain object
         /// </summary>
-        private Dictionary<System.Object, Dictionary<string, System.Action<object>>> objMsgDic;
+        private Dictionary<object, Dictionary<string, System.Action<object>>> objMsgDic;
 
         /// <summary>
         /// 

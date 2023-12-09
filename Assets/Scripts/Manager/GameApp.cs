@@ -19,7 +19,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        public static ViewManager ViewManager;
+        public static UIViewManager UIViewManager;
 
         /// <summary>
         /// 
@@ -57,7 +57,7 @@ namespace BattlefieldSimulator
             TimerManager = new TimerManager();
             SoundManager = new SoundManager("game");
             ControllerManager = new ControllerManager();
-            ViewManager = new ViewManager("Canvas", "WorldCanvas");
+            UIViewManager = new UIViewManager("Canvas", "WorldCanvas");
             ModelManager = new ModelManager();
             CameraManager = new CameraManager();
             MessageCenter = new MessageCenter();

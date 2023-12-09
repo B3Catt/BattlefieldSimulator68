@@ -23,6 +23,8 @@ namespace BattlefieldSimulator
             _allData = new Dictionary<string, Dictionary<int, DataModel>>();
 
             ReadData<ArmType>();
+            ReadData<Terrain>();
+            ReadData<TerrainModel>();
             //ReadData<User>();
         }
 
