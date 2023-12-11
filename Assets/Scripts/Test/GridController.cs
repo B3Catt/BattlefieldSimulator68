@@ -43,7 +43,7 @@ namespace BattlefieldSimulator
                     }
                     else
                     {
-                        tile = new GameObject($"Hex {x}, {y}", typeof(MeshCollider), typeof(HexRenderer));
+                        tile = new GameObject($"Hex {x}, {y}", typeof(HexRenderer));
                         grids.Add(point, tile);
                     }
 
@@ -54,7 +54,7 @@ namespace BattlefieldSimulator
                     hexRenderer.outerSize = radius;
                     hexRenderer.innerSize = 0;
 
-                    int id = Random.Range(0, 3) + 1;
+                    int id = Random.Range(1, 4);
                     Terrain terrian = GameApp.ModelManager.GetDataById<Terrain>(id);
                     hexRenderer.height = terrian._height;
 

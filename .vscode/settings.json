@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "BattlefieldSimulator.sln"
+    "dotnet.defaultSolution": "BattlefieldSimulator.sln",
+    "dotnet.preferCSharpExtension": true
 }

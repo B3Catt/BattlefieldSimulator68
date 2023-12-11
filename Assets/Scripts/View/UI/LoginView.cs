@@ -56,6 +56,7 @@ namespace BattlefieldSimulator
                 //messgqe
                 Debug.Log($"登录成功，欢迎{GameApp.Nickname}");
                 GameApp.UIViewManager.GetView<StartView>(ViewType.StartView).onAwakefuc();
+                GameApp.UIViewManager.Close(ViewId);
             }
             else
             {

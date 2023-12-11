@@ -63,6 +63,7 @@ namespace BattlefieldSimulator
                 GameApp.ModelManager.Flush<User>();
                 //弹出注册成功
                 Debug.Log("注册成功");
+                GameApp.UIViewManager.Close(ViewId);
             }
 
         }

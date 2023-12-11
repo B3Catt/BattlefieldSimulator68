@@ -15,8 +15,8 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 数据库名称
         /// </summary>
-        //private static string database = "battlefieldsimulator"; // 
-        private static string database = "bs_data"; // 数据库名称
+        private static string database = "battlefieldsimulator"; // 
+        //private static string database = "bs_data"; // 数据库名称
 
         /// <summary>
         /// 用户名
@@ -26,8 +26,8 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 密码
         /// </summary>
-        //private static string password = "20020519"; // 
-        private static string password = "Cf854122416!"; // 密码
+        private static string password = "20020519"; // 
+        //private static string password = "Cf854122416!"; // 密码
 
         /// <summary>
         /// 
