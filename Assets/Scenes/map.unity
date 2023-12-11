@@ -354,7 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: {x: 15, y: 15}
-  outerSize: 1
+  outerSize: 15
   innerSize: 0
   height: 1
   isFlatTopped: 0

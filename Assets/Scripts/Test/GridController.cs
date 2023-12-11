@@ -1,35 +1,33 @@
 ﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace BattlefieldSimulator
 {
     public class GridController : BaseController
     {
-        public Vector2Int gridSize { get; set; }
+        public Vector2Int oldGridSize { get; set; }
 
         public float radius { get; set; }
         public Transform parentTransform { get; set; }
         public bool isFlatTopped { get; set; }
 
         private Dictionary<Vector2Int, GameObject> grids;
-        public GridController(Vector2Int gridSize, float radius, bool isFlatTopped, Transform parentTransform)
+        public GridController()
         {
-            this.gridSize = gridSize;
-            this.radius = radius;
-            this.parentTransform = parentTransform;
-            this.isFlatTopped = isFlatTopped;
             grids = new Dictionary<Vector2Int, GameObject>();
-
-            LayoutGrid();
         }
 
         public void OnUpdate()
         {
-            LayoutGrid();
         }
 
-        private void LayoutGrid()
+        public void LayoutGrid(Vector2Int gridSize, float radius, bool isFlatTopped, Transform parentTransform)
         {
+            this.radius = radius;
+            this.isFlatTopped = isFlatTopped;
+            this.parentTransform = parentTransform;
+
             for (int y = 0; y < gridSize.y; y++)
             {
                 for (int x = 0; x < gridSize.x; x++)
@@ -53,6 +51,7 @@ namespace BattlefieldSimulator
                     hexRenderer.isFlatTopped = isFlatTopped;
                     hexRenderer.outerSize = radius;
                     hexRenderer.innerSize = 0;
+                    hexRenderer.pos = point;
 
                     int id = Random.Range(0, 3) + 1;
                     Terrain terrian = GameApp.ModelManager.GetDataById<Terrain>(id);
@@ -78,6 +77,40 @@ namespace BattlefieldSimulator
                     tile.transform.SetParent(parentTransform, true);
                 }
             }
+
+            if (oldGridSize.x > gridSize.x)
+            {
+                for (int y = 0; y < oldGridSize.y; ++y)
+                {
+                    for (int x = gridSize.x; x < oldGridSize.x; ++x)
+                    {
+                        var pos = new Vector2Int(x, y);
+                        var tile = grids[pos];
+                        HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
+                        hexRenderer.DestroyGameObject();
+                        grids.Remove(pos);
+                    }
+                }
+            }
+
+            oldGridSize.Set(gridSize.x, oldGridSize.y);
+
+            if (oldGridSize.y > gridSize.y)
+            {
+                for (int y = gridSize.y; y < oldGridSize.y; ++y)
+                {
+                    for (int x = 0; x < oldGridSize.x; ++x)
+                    {
+                        var pos = new Vector2Int(x, y);
+                        var tile = grids[pos];
+                        HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
+                        hexRenderer.DestroyGameObject();
+                        grids.Remove(pos);
+                    }
+                }
+            }
+
+            oldGridSize = gridSize;
         }
 
         private Vector3 GetPositionForHexFromCoordinate(Vector2Int vector2Int)

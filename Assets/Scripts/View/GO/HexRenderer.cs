@@ -82,25 +82,25 @@ namespace BattlefieldSimulator
             // Top faces
             for (int point = 0; point < 6; point++)
             {
-                m_faces.Add(CreateFace(innerSize, outerSize, height / 2f, height / 2f, point));
+                m_faces.Add(CreateFace(innerSize, outerSize, height, height, point));
             }
 
             // Bottom faces
             for (int point = 0; point < 6; point++)
             {
-                m_faces.Add(CreateFace(innerSize, outerSize, -height / 2f, -height / 2f, point, true));
+                m_faces.Add(CreateFace(innerSize, outerSize, 0, 0, point, true));
             }
 
             // Outer faces
             for (int point = 0; point < 6; point++)
             {
-                m_faces.Add(CreateFace(outerSize, outerSize, height / 2f, -height / 2f, point, true));
+                m_faces.Add(CreateFace(outerSize, outerSize, height, 0, point, true));
             }
 
             // Inner faces
             for (int point = 0; point < 6; point++)
             {
-                m_faces.Add(CreateFace(innerSize, innerSize, height / 2f, -height / 2f, point));
+                m_faces.Add(CreateFace(innerSize, innerSize, height, 0, point));
             }
         }
         private void CombineFaces()
@@ -162,7 +162,17 @@ namespace BattlefieldSimulator
 
         void OnMouseDown()
         {
-            Debug.Log($"Hex {pos.x}, {pos.y}");
+            Debug.Log($"Hex {pos.x}, {pos.y} : {terrian._name}");
+        }
+
+        public void DestroyGameObject()
+        {
+            Destroy(gameObject);
+        }
+
+        public void DestroyScriptInstance()
+        {
+            Destroy(this);
         }
     }
 }
