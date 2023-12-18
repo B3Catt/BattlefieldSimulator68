@@ -31,7 +31,7 @@ namespace BattlefieldSimulator
 
         public Material material;
 
-        public Vector2 pos;
+        public Vector2Int pos;
 
         public float innerSize;
         public float outerSize;
@@ -40,6 +40,8 @@ namespace BattlefieldSimulator
         public bool isFlatTopped;
 
         public Terrain terrian;
+
+        public List<Vector2Int> neighbors;
 
         private void Awake()
         {
@@ -160,9 +162,13 @@ namespace BattlefieldSimulator
             m_meshRenderer.material = material;
         }
 
+        /// <summary>
+        /// on click
+        /// </summary>
         void OnMouseDown()
         {
             Debug.Log($"Hex {pos.x}, {pos.y} : {terrian._name}");
+            GameApp.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.ClickOnGrid, pos);
         }
 
         public void DestroyGameObject()

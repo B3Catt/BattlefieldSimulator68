@@ -11,6 +11,7 @@ namespace BattlefieldSimulator
         MessageView,
         LoadingView,
         RegisterView,
-        LoginView
+        LoginView,
+        AssertionView
     }
 }

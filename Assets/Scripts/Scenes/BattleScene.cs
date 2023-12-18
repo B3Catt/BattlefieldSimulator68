@@ -18,18 +18,16 @@ namespace BattlefieldSimulator
 
         private void OnEnable()
         {
-            gridController = new GridController();
-            gridController.LayoutGrid(gridSize, outerSize, isFlatTopped, transform);
+            GameApp.ControllerManager.Register(ControllerType.Grid, new GridController());
+            GameApp.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
         }
 
         private void OnValidate()
         {
             if (Application.isPlaying)
             {
-                gridController.LayoutGrid(gridSize, outerSize, isFlatTopped, transform);
+                GameApp.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
             }
         }
-
-        
     }
 }

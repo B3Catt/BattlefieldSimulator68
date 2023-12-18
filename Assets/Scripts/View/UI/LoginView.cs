@@ -28,12 +28,6 @@ namespace BattlefieldSimulator
         /// </summary>
         public void onLoginBtn()
         {
-            if(GameApp.isLogin)
-            {
-                //message
-                Debug.Log($"无法再次登录，以成功登录用户id={GameApp.uid},username={GameApp.Username}");
-                return;
-            }
             string newUsername = Username.text;
             string newPassword = Password.text;
             GameApp.ModelManager.ReadData<User>();
@@ -54,14 +48,26 @@ namespace BattlefieldSimulator
             if (GameApp.isLogin)
             {
                 //messgqe
-                Debug.Log($"登录成功，欢迎{GameApp.Nickname}");
+                Controller.ApplyControllerFunc(ControllerType.UI, Defines.OpenUIView, (int)ViewType.AssertionView,
+                    new AssertionInfo()
+                    {
+                        AssertionTextType = "登录成功",
+                        AssertionTextContent = $"登录成功，欢迎{GameApp.Nickname}"
+                    }
+                );
+                //刷新startview
                 GameApp.UIViewManager.GetView<StartView>(ViewType.StartView).onAwakefuc();
                 GameApp.UIViewManager.Close(ViewId);
             }
             else
             {
-                //messgae
-                Debug.Log("用户名或密码错误");
+                Controller.ApplyControllerFunc(ControllerType.UI, Defines.OpenUIView, (int)ViewType.AssertionView,
+                    new AssertionInfo()
+                    {
+                        AssertionTextType = "登录错误",
+                        AssertionTextContent = "用户名或密码错误"
+                    }
+                );
             }
         }
 

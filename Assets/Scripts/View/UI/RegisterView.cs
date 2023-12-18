@@ -46,8 +46,14 @@ namespace BattlefieldSimulator
 
             if (isUsernameTaken)
             {
-                // 用户名已被使用，弹入MessgaeView
-                Debug.Log("用户名重复");
+                // 用户名已被使用，弹入AssertionView
+                Controller.ApplyControllerFunc(ControllerType.UI, Defines.OpenUIView, (int)ViewType.AssertionView,
+                    new AssertionInfo()
+                    {
+                        AssertionTextType = "注册错误",
+                        AssertionTextContent = "用户名重复"
+                    }
+                );
             }
             else
             {
@@ -62,7 +68,13 @@ namespace BattlefieldSimulator
                 GameApp.ModelManager.AddData<User>(newuser);
                 GameApp.ModelManager.Flush<User>();
                 //弹出注册成功
-                Debug.Log("注册成功");
+                Controller.ApplyControllerFunc(ControllerType.UI, Defines.OpenUIView, (int)ViewType.AssertionView,
+                    new AssertionInfo()
+                    {
+                        AssertionTextType = "注册成功",
+                        AssertionTextContent = "注册成功"
+                    }
+                );
                 GameApp.UIViewManager.Close(ViewId);
             }
 

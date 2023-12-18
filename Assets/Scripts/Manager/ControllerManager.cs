@@ -100,6 +100,11 @@ namespace BattlefieldSimulator
             }
         }
 
+        public void ApplyFunc(ControllerType type, string eventName, params Object[] args)
+        {
+            ApplyFunc((int)type, eventName, args);
+        }
+
         /// <summary>
         /// 
         /// </summary>
