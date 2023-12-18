@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!28 &2800000
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Generator_5_texture
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 2
+  m_Width: 50
+  m_Height: 1
+  m_CompleteImageSize: 388
+  m_MipsStripped: 0
+  m_TextureFormat: 4
+  m_MipCount: 6
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 0
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 0
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_LightmapFormat: 0
+  m_ColorSpace: 1
+  m_PlatformBlob: 
+  image data: 388
+  _typelessdata: ffffffffffe8e8ffffd0d0ffffb9b9ffffa1a1ffff8a8affff7272ffff5b5bffff4444ffff2c2cffff1515ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000fff30000ffdc0000ffc40000ffad0000ff960000ff7e0000ff670000ff4f0000ff380000ff210000ff090000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ff000000fffff3f3ffffc4c4ffff9595ffff6666ffff3838ffff0a0affff0000ffff0000ffff0000ffff0000ffff0000ffff0000fff90000ffd00000ffa10000ff720000ff430000ff150000ff000000ff000000ff000000ff000000ff000000ff000000ff000000ffffd9d9ffff7777ffff1717ffff0000ffff0000ffff0000ffce0000ff6c0000ff100000ff000000ff000000ff000000ffffa8a8ffff0b0bffff0000ff9d0000ff080000ff000000ffff5959ffce0000ff040000ffce0000ff
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
