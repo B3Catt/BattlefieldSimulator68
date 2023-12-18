@@ -1,11 +1,12 @@
-using System;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 
 namespace BattlefieldSimulator
 {
-    public class HexGridLayout : MonoBehaviour
+    [ExecuteInEditMode]
+    public class HexGrid : MonoBehaviour
     {
         [Header("Grid Setting")]
         public Vector2Int gridSize;
@@ -16,6 +17,7 @@ namespace BattlefieldSimulator
         public float height = 1f;
         public bool isFlatTopped;
         public Material material;
+        public HexTileGenerationSetting settings;
 
         private Dictionary<Vector2Int, GameObject> grids = new Dictionary<Vector2Int, GameObject>();
 
@@ -32,34 +34,29 @@ namespace BattlefieldSimulator
             }
         }
 
+        [EditorButton]
         private void LayoutGrid()
         {
+            Clear();
             for (int y = 0; y < gridSize.y; y++)
             {
                 for (int x = 0; x < gridSize.x; x++)
                 {
 
-                    GameObject tile;
-                    Vector2Int point = new Vector2Int(x, y);
-                    if (grids.ContainsKey(point))
-                    {
-                        tile = grids[point];
-                    }
-                    else
-                    {
-                        tile = new GameObject($"Hex {x}, {y}", typeof(HexRenderer));
-                        grids.Add(point, tile);
-                    }
+                    GameObject tile = new GameObject($"Hex C{x},R{y}");
+                    
+                    HexTile hexTile = tile.AddComponent<HexTile>();
 
-                    tile.transform.position = GetPositionForHexFromCoordinate(point);
+                    hexTile.settings = settings;
 
-                    HexRenderer hexRenderer = tile.GetComponent<HexRenderer>();
-                    hexRenderer.isFlatTopped = isFlatTopped;
-                    hexRenderer.outerSize = outerSize;
-                    hexRenderer.innerSize = innerSize;
-                    hexRenderer.height = height;
-                    hexRenderer.SetMaterial(material);
-                    hexRenderer.DrawMesh();
+                    hexTile.RollTileType();
+                    hexTile.AddTile();
+
+                    hexTile.offsetCoordinate = new Vector2Int(x, y);
+
+                    hexTile.cubeCoordinate = UtilsClass.offsetToCube(hexTile.offsetCoordinate);
+
+                    tile.transform.position = GetPositionForHexFromCoordinate(hexTile.offsetCoordinate);
 
                     tile.transform.SetParent(transform, true);
                 }
@@ -110,6 +107,14 @@ namespace BattlefieldSimulator
             }
 
             return new Vector3(xPosition, 0, -yPosition);
+        }
+
+        void Clear()
+        {
+            for (int i = transform.childCount - 1; i >= 0; --i)
+            {
+                (transform.GetChild(i).gameObject.GetComponent<HexTile>()).Destroy();
+            }
         }
     }
 }

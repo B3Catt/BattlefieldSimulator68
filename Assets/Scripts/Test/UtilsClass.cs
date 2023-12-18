@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public static class UtilsClass
@@ -6,5 +7,12 @@ public static class UtilsClass
     {
         Quaternion q = Quaternion.AngleAxis(angle, axis);
         return q * source;
+    }
+
+    static public Vector3Int offsetToCube(Vector2Int offset)
+    {
+        var q = offset.x - (offset.y + (offset.y % 2)) / 2;
+        var r = offset.y;
+        return new Vector3Int(q, r, -q - r);
     }
 }

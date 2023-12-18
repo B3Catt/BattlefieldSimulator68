@@ -60,6 +60,8 @@ namespace BattlefieldSimulator
         private bool choseFirst = false;
 
         private Vector2Int FistGridPos;
+
+        public HexTileGenerationSetting settings;
         public GridController()
         {
             grids = new Dictionary<Vector2Int, GameObject>();

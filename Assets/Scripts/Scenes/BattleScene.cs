@@ -29,7 +29,5 @@ namespace BattlefieldSimulator
                 GameApp.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
             }
         }
-
-        
     }
 }
