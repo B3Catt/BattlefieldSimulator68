@@ -24,5 +24,15 @@ namespace BattlefieldSimulator
         /// 
         /// </summary>
         public static readonly string LoadingScene = "LoadingScene";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly string LayoutMapGrid = "LayoutMapGrid";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly string ClickOnGrid = "ClickOnGrid";
     }
 }
