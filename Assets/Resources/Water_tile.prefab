@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1063284970272381882}
   - component: {fileID: 2654184226347288746}
   - component: {fileID: 7962909747581846818}
-  - component: {fileID: 1909138100700107894}
+  - component: {fileID: 8503098341479989633}
   m_Layer: 0
   m_Name: Water_tile
   m_TagString: Untagged
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 5f8997055b123f948ba0aef3fdbcc346, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1909138100700107894
+--- !u!114 &8503098341479989633
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

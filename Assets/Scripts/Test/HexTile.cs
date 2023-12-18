@@ -60,12 +60,12 @@ namespace BattlefieldSimulator
         public void AddTile()
         {
             tile = GameObject.Instantiate(settings.GetTile(tileType));
+            tile.transform.SetParent(transform, false);
             if (gameObject.GetComponent<MeshCollider>() == null)
             {
-                //MeshCollider collider = gameObject.AddComponent<MeshCollider>();
-                //collider.sharedMesh = GetComponentInChildren<MeshFilter>().mesh;
+                MeshCollider collider = gameObject.AddComponent<MeshCollider>();
+                collider.sharedMesh = GetComponentInChildren<MeshFilter>().mesh;
             }
-            tile.transform.SetParent(transform, false);
         }
 
         public void Destroy()
@@ -82,5 +82,20 @@ namespace BattlefieldSimulator
             }
         }
 
+        public void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(transform.position, 0.1f);
+            foreach (HexTile neighbour in neighbours)
+            {
+                Gizmos.color = Color.white;
+                Gizmos.DrawLine(transform.position, neighbour.transform.position);
+            }
+        }
+
+        internal void OnHighlightTile()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

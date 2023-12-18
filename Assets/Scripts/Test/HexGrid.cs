@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
-
+using UnityEngine.Tilemaps;
 
 namespace BattlefieldSimulator
 {
@@ -19,7 +19,7 @@ namespace BattlefieldSimulator
         public Material material;
         public HexTileGenerationSetting settings;
 
-        private Dictionary<Vector2Int, GameObject> grids = new Dictionary<Vector2Int, GameObject>();
+        private Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
 
         private void OnEnable()
         {
@@ -54,15 +54,34 @@ namespace BattlefieldSimulator
 
                     hexTile.offsetCoordinate = new Vector2Int(x, y);
 
-                    hexTile.cubeCoordinate = UtilsClass.offsetToCube(hexTile.offsetCoordinate);
+                    hexTile.cubeCoordinate = UtilsClass.offsetToCubePointTop(hexTile.offsetCoordinate);
 
                     tile.transform.position = GetPositionForHexFromCoordinate(hexTile.offsetCoordinate);
 
                     tile.transform.SetParent(transform, true);
+
+                    if (tiles.ContainsKey(hexTile.cubeCoordinate))
+                    {
+                        tiles[hexTile.cubeCoordinate] = hexTile;
+                    }
+                    else
+                    {
+                        tiles.Add(hexTile.cubeCoordinate, hexTile);
+                    }
                 }
+            }
+
+            foreach (var pair in tiles)
+            {
+                pair.Value.neighbours = GetNeighbours(pair.Value);
             }
         }
 
+        /// <summary>
+        /// even-r horizontal & odd-q vertical layout
+        /// </summary>
+        /// <param name="vector2Int"></param>
+        /// <returns></returns>
         private Vector3 GetPositionForHexFromCoordinate(Vector2Int vector2Int)
         {
             int column = vector2Int.x;
@@ -109,11 +128,39 @@ namespace BattlefieldSimulator
             return new Vector3(xPosition, 0, -yPosition);
         }
 
-        void Clear()
+        private List<HexTile> GetNeighbours(HexTile tile)
+        {
+            List<HexTile> neighbours = new List<HexTile>();
+
+            Vector3Int[] neighbourCoords = new Vector3Int[]
+            {
+                new Vector3Int(1, -1, 0),
+                new Vector3Int(1, 0, -1),
+                new Vector3Int(0, 1, -1),
+                new Vector3Int(-1, 1, 0),
+                new Vector3Int(-1, 0, 1),
+                new Vector3Int(0, -1, 1)
+            };
+
+            foreach(Vector3Int neighbourCoord in neighbourCoords)
+            {
+                Vector3Int tileCorrd = tile.cubeCoordinate;
+
+                if (tiles.TryGetValue(tileCorrd + neighbourCoord, out HexTile neighbour))
+                {
+                    neighbours.Add(neighbour);
+                }
+            }
+
+            return neighbours;
+        }
+
+        private void Clear()
         {
             for (int i = transform.childCount - 1; i >= 0; --i)
             {
                 (transform.GetChild(i).gameObject.GetComponent<HexTile>()).Destroy();
+                tiles.Clear();
             }
         }
     }
