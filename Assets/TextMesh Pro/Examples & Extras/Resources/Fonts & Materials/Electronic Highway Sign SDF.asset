@@ -152,6 +152,7 @@ MonoBehaviour:
     m_StrikethroughThickness: 2.0571427
     m_TabWidth: 88
   m_GlyphTable:
+<<<<<<< HEAD
   - m_Index: 3
     m_Metrics:
       m_Width: 0
@@ -167,6 +168,8 @@ MonoBehaviour:
     m_Scale: 1
     m_AtlasIndex: 0
     m_ClassDefinitionType: 0
+=======
+>>>>>>> 18b1827e4bef1d6081777604e6693516ae16098e
   - m_Index: 36
     m_Metrics:
       m_Width: 76.53125
@@ -199,10 +202,13 @@ MonoBehaviour:
     m_ClassDefinitionType: 0
   m_CharacterTable:
   - m_ElementType: 1
+<<<<<<< HEAD
     m_Unicode: 32
     m_GlyphIndex: 3
     m_Scale: 1
   - m_ElementType: 1
+=======
+>>>>>>> 18b1827e4bef1d6081777604e6693516ae16098e
     m_Unicode: 65
     m_GlyphIndex: 36
     m_Scale: 1
