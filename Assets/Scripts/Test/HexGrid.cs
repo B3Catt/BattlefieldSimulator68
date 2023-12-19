@@ -49,12 +49,16 @@ namespace BattlefieldSimulator
 
                     hexTile.settings = settings;
 
+                    hexTile.radius = outerSize;
+                    hexTile.height = height;
+
                     hexTile.RollTileType();
                     hexTile.AddTile();
 
                     hexTile.offsetCoordinate = new Vector2Int(x, y);
 
                     hexTile.cubeCoordinate = UtilsClass.offsetToCubePointTop(hexTile.offsetCoordinate);
+
 
                     tile.transform.position = GetPositionForHexFromCoordinate(hexTile.offsetCoordinate);
 

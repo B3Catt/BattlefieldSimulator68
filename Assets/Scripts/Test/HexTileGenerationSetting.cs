@@ -3,7 +3,7 @@
 namespace BattlefieldSimulator
 {
     [CreateAssetMenu(menuName = "TileGen/GenerationSettings")]
-    public class HexTileGenerationSetting : ScriptableObject
+    public class HexTileGenerationSetting : ScriptableObject                                                                                                                                                                                                                                                                                
     {
         public enum TileType
         {
@@ -12,11 +12,13 @@ namespace BattlefieldSimulator
             Cliff
         }
 
-        public GameObject Standard;
-        public GameObject Water;
-        public GameObject Cliff;
+        public Material Standard;
+        public Material Water;
+        public Material Cliff;
 
-        public GameObject GetTile(TileType tileType)
+        public GameObject Mesh;
+
+        public Material GetTileMaterial(TileType tileType)
         {
             switch (tileType)
             {

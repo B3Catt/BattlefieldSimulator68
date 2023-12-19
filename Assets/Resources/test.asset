@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5bac4f0e722c148aca51b30c05897c, type: 3}
   m_Name: test
   m_EditorClassIdentifier: 
-  Standard: {fileID: 4029347570673090978, guid: e8cee11bcc1ffe64aacada7736ee3798,
-    type: 3}
-  Water: {fileID: 2580249804101707468, guid: e7413feab135cb8489ebcfd462d130e2, type: 3}
-  Cliff: {fileID: 5773291931786424357, guid: 4c8b24fb5623e4046a4eae447915ad34, type: 3}
+  Standard: {fileID: 2100000, guid: ce5ddf5fd3149c54787bc1b5a1a765cc, type: 2}
+  Water: {fileID: 2100000, guid: 5f8997055b123f948ba0aef3fdbcc346, type: 2}
+  Cliff: {fileID: 2100000, guid: 9af84d5d45965a044b7dfeb8906aee6d, type: 2}
+  Mesh: {fileID: 8745956233511357362, guid: 8d89d8395697c4747bb4493711141a35, type: 3}

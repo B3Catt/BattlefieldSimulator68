@@ -22,6 +22,10 @@ namespace BattlefieldSimulator
 
         public List<HexTile> neighbours;
 
+        public float radius;
+
+        public float height;
+
         private bool isDirty = false;
 
         private void OnValidate()
@@ -59,13 +63,22 @@ namespace BattlefieldSimulator
 
         public void AddTile()
         {
-            tile = GameObject.Instantiate(settings.GetTile(tileType));
+            tile = GameObject.Instantiate(settings.Mesh);
+            Material mat = settings.GetTileMaterial(tileType);
             tile.transform.SetParent(transform, false);
+            tile.GetComponent<MeshRenderer>().material = mat;
             if (gameObject.GetComponent<MeshCollider>() == null)
             {
                 MeshCollider collider = gameObject.AddComponent<MeshCollider>();
+#if UNITY_EDITOR
+                collider.sharedMesh = GetComponentInChildren<MeshFilter>().sharedMesh;
+#else
                 collider.sharedMesh = GetComponentInChildren<MeshFilter>().mesh;
+#endif
             }
+
+            transform.localScale = (Vector3.forward + Vector3.right) * radius + Vector3.up * height;
+            transform.position = transform.position + Vector3.up * height;
         }
 
         public void Destroy()
@@ -84,18 +97,18 @@ namespace BattlefieldSimulator
 
         public void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.blue;
+            Gizmos.color = Color.black;
             Gizmos.DrawSphere(transform.position, 0.1f);
             foreach (HexTile neighbour in neighbours)
             {
-                Gizmos.color = Color.white;
+                Gizmos.color = Color.black;
                 Gizmos.DrawLine(transform.position, neighbour.transform.position);
             }
         }
 
-        internal void OnHighlightTile()
+        public void OnHighlightTile()
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"HEX {offsetCoordinate.x}, {offsetCoordinate.y}");
         }
     }
 }
