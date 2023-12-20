@@ -15,4 +15,4 @@ MonoBehaviour:
   Standard: {fileID: 2100000, guid: ce5ddf5fd3149c54787bc1b5a1a765cc, type: 2}
   Water: {fileID: 2100000, guid: 5f8997055b123f948ba0aef3fdbcc346, type: 2}
   Cliff: {fileID: 2100000, guid: 9af84d5d45965a044b7dfeb8906aee6d, type: 2}
-  Mesh: {fileID: 8745956233511357362, guid: 8d89d8395697c4747bb4493711141a35, type: 3}
+  Mesh: {fileID: 4224264554743631738, guid: bdce21f0c489f3b4485ff000a8c6b90c, type: 3}

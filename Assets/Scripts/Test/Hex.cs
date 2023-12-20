@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace BattlefieldSimulator
@@ -109,6 +111,10 @@ namespace BattlefieldSimulator
             m_mesh.uv = uvs.ToArray();
             m_mesh.RecalculateNormals();
             m_mesh.RecalculateBounds();
+
+            string path = EditorUtility.SaveFilePanel("Meshes", "Assets/Resources", "HexMesh", "asset");
+            path = FileUtil.GetProjectRelativePath(path);
+            AssetDatabase.CreateAsset(m_mesh, path);
         }
 
         private Face CreateFace(float innerRad, float outerRad, float heightA, float heightB, int point, bool reverse = false)
