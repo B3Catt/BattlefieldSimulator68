@@ -19,7 +19,8 @@ namespace BattlefieldSimulator
         public Material material;
         public HexTileGenerationSetting settings;
 
-        private Dictionary<Vector3Int, HexTile> tiles = new Dictionary<Vector3Int, HexTile>();
+        private Dictionary<Vector3Int, HexTile> tilesCubeCoordDictionary = new Dictionary<Vector3Int, HexTile>();
+        private Dictionary<Vector2Int, HexTile> tilesOffsetCoordDictionary = new Dictionary<Vector2Int, HexTile>();
 
         private void OnEnable()
         {
@@ -64,18 +65,27 @@ namespace BattlefieldSimulator
 
                     tile.transform.SetParent(transform, true);
 
-                    if (tiles.ContainsKey(hexTile.cubeCoordinate))
+                    if (tilesCubeCoordDictionary.ContainsKey(hexTile.cubeCoordinate))
                     {
-                        tiles[hexTile.cubeCoordinate] = hexTile;
+                        tilesCubeCoordDictionary[hexTile.cubeCoordinate] = hexTile;
                     }
                     else
                     {
-                        tiles.Add(hexTile.cubeCoordinate, hexTile);
+                        tilesCubeCoordDictionary.Add(hexTile.cubeCoordinate, hexTile);
+                    }
+
+                    if (tilesOffsetCoordDictionary.ContainsKey(hexTile.offsetCoordinate))
+                    {
+                        tilesOffsetCoordDictionary[hexTile.offsetCoordinate] = hexTile;
+                    }
+                    else
+                    {
+                        tilesOffsetCoordDictionary.Add(hexTile.offsetCoordinate, hexTile);
                     }
                 }
             }
 
-            foreach (var pair in tiles)
+            foreach (var pair in tilesCubeCoordDictionary)
             {
                 pair.Value.neighbours = GetNeighbours(pair.Value);
             }
@@ -150,7 +160,7 @@ namespace BattlefieldSimulator
             {
                 Vector3Int tileCorrd = tile.cubeCoordinate;
 
-                if (tiles.TryGetValue(tileCorrd + neighbourCoord, out HexTile neighbour))
+                if (tilesCubeCoordDictionary.TryGetValue(tileCorrd + neighbourCoord, out HexTile neighbour))
                 {
                     neighbours.Add(neighbour);
                 }
@@ -164,7 +174,8 @@ namespace BattlefieldSimulator
             for (int i = transform.childCount - 1; i >= 0; --i)
             {
                 (transform.GetChild(i).gameObject.GetComponent<HexTile>()).Destroy();
-                tiles.Clear();
+                tilesCubeCoordDictionary.Clear();
+                tilesOffsetCoordDictionary.Clear();
             }
         }
     }

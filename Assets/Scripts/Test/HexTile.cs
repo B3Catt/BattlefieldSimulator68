@@ -78,7 +78,6 @@ namespace BattlefieldSimulator
             }
 
             transform.localScale = (Vector3.forward + Vector3.right) * radius + Vector3.up * height;
-            transform.position = transform.position + Vector3.up * height;
         }
 
         public void Destroy()
