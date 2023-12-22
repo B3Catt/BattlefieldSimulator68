@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace BattlefieldSimulator
@@ -8,11 +9,15 @@ namespace BattlefieldSimulator
         public GameObject gameObject;
         public GameObject highlight;
         public GameObject selector;
-
+        public PlayerCharacter player;
         public TileManager instance;
         public Dictionary<Vector3Int, HexTile> tiles;
+        public List<HexTile> path;
+        public bool ifselected;
+        public HexTile Selected;
         public void Awake()
         {
+            ifselected = false;
             instance = this;
             tiles = new Dictionary<Vector3Int, HexTile>();
 
@@ -27,7 +32,11 @@ namespace BattlefieldSimulator
                 List<HexTile> neighbours = GetNeighbours(hexTile);
                 hexTile.neighbours = neighbours;
             }
-
+            int i = Random.Range(0, 6);
+            HexTile tile = hexTiles[i];
+            player.playerPos = tile.cubeCoordinate;
+            player.transform.position = tile.transform.position + new Vector3(0, 2f, 0);
+            player.currenttile = tile;
         }
         private List<HexTile> GetNeighbours(HexTile tile)
         {
@@ -57,7 +66,18 @@ namespace BattlefieldSimulator
         }
         public void RegisterTile(HexTile tile)
         {
-            tiles.Add(tile.cubeCoordinate, tile);
+            Vector3Int cubeCoordinate = tile.cubeCoordinate;
+
+            if (tiles.ContainsKey(cubeCoordinate))
+            {
+                // 存在相同的 cubeCoordinate，可以更新或者忽略这个项
+                tiles[cubeCoordinate] = tile;
+                // 或者选择忽略这个 tile 的添加
+            }
+            else
+            {
+                tiles.Add(cubeCoordinate, tile);
+            }
         }
 
         public void OnHighlightTile(HexTile tile)
@@ -66,7 +86,38 @@ namespace BattlefieldSimulator
         }
         public void OnSelectTile(HexTile tile)
         {
-            selector.transform.position = tile.transform.position;
+            Debug.Log($"select  {tile.offsetCoordinate}");
+            if (!ifselected)
+            {
+                selector.transform.position = tile.transform.position;
+                Selected = tile;
+                ifselected = true;
+            }
+            else
+            {
+                path = Pathfinder.FindPath(Selected, tile);
+                if(path == null)
+                {
+                    Debug.Log("unable");
+                    selector.transform.position=new Vector3(-20f,0f,5f);
+                }
+                else
+                {
+                    OnDrawPath();
+                }
+                ifselected = false;
+            }
+        }
+        public void OnDrawPath()
+        {
+            if (path != null)
+            {
+                Debug.Log("drawing Path");
+                foreach (HexTile tile in path)
+                {
+                    Debug.Log($"{tile.offsetCoordinate}");
+                }
+            }
         }
     }
 }

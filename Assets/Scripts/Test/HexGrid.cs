@@ -86,12 +86,13 @@ namespace BattlefieldSimulator
 
                 }
             }
-
             foreach (var pair in tilesCubeCoordDictionary)
             {
-                //pair.Value.neighbours = GetNeighbours(pair.Value);
+                pair.Value.neighbours = GetNeighbours(pair.Value);
                 pair.Value.InitializeTile(tileManager);
+                //pair.Value.tileManager.Awake();
             }
+            //i=false;
             // HexTile[] hexTiles = GameObject.FindObjectsOfType<HexTile>();
             // foreach (HexTile hexTile in hexTiles)
             // {
