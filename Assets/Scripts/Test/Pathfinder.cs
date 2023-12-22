@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor.ShaderKeywordFilter;
 
 namespace BattlefieldSimulator
 {
@@ -42,6 +43,11 @@ namespace BattlefieldSimulator
                 while (currentNode.target != origin)
                 {
                     Path.Add(currentNode.parent.target);
+                    if(currentNode.Getcost()>10000) 
+                    {
+                        Path=null;
+                        return true;
+                    }
                     currentNode = currentNode.parent;
                 }
                 return true;

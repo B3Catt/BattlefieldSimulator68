@@ -103,6 +103,7 @@ namespace BattlefieldSimulator
                 }
                 else
                 {
+                    selector.transform.position=new Vector3(-20f,0f,5f);
                     OnDrawPath();
                 }
                 ifselected = false;
