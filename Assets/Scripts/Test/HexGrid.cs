@@ -18,6 +18,7 @@ namespace BattlefieldSimulator
         public bool isFlatTopped;
         public Material material;
         public HexTileGenerationSetting settings;
+        public TileManager tileManager;
 
         private Dictionary<Vector3Int, HexTile> tilesCubeCoordDictionary = new Dictionary<Vector3Int, HexTile>();
         private Dictionary<Vector2Int, HexTile> tilesOffsetCoordDictionary = new Dictionary<Vector2Int, HexTile>();
@@ -45,7 +46,7 @@ namespace BattlefieldSimulator
                 {
 
                     GameObject tile = new GameObject($"Hex C{x},R{y}");
-                    
+
                     HexTile hexTile = tile.AddComponent<HexTile>();
 
                     hexTile.settings = settings;
@@ -82,13 +83,20 @@ namespace BattlefieldSimulator
                     {
                         tilesOffsetCoordDictionary.Add(hexTile.offsetCoordinate, hexTile);
                     }
+
                 }
             }
 
             foreach (var pair in tilesCubeCoordDictionary)
             {
-                pair.Value.neighbours = GetNeighbours(pair.Value);
+                //pair.Value.neighbours = GetNeighbours(pair.Value);
+                pair.Value.InitializeTile(tileManager);
             }
+            // HexTile[] hexTiles = GameObject.FindObjectsOfType<HexTile>();
+            // foreach (HexTile hexTile in hexTiles)
+            // {
+            //     hexTile.Init();
+            // }
         }
 
         /// <summary>
@@ -156,7 +164,7 @@ namespace BattlefieldSimulator
                 new Vector3Int(0, -1, 1)
             };
 
-            foreach(Vector3Int neighbourCoord in neighbourCoords)
+            foreach (Vector3Int neighbourCoord in neighbourCoords)
             {
                 Vector3Int tileCorrd = tile.cubeCoordinate;
 

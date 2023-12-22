@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace BattlefieldSimulator
@@ -16,6 +17,8 @@ namespace BattlefieldSimulator
 
         public GameObject fow;
 
+        public TileManager tileManager;
+
         public Vector2Int offsetCoordinate;
 
         public Vector3Int cubeCoordinate;
@@ -27,13 +30,17 @@ namespace BattlefieldSimulator
         public float height;
 
         private bool isDirty = false;
-
         private void OnValidate()
         {
             if (tile == null) { return; }
             isDirty = true;
         }
 
+        public void InitializeTile(TileManager manager)
+        {
+            tileManager = manager;
+            //tileManager.Awake(); 
+        }
         private void Update()
         {
             if (!isActiveAndEnabled)
@@ -107,7 +114,11 @@ namespace BattlefieldSimulator
 
         public void OnHighlightTile()
         {
-            Debug.Log($"HEX {offsetCoordinate.x}, {offsetCoordinate.y}");
+            tileManager.OnHighlightTile(this);
+        }
+        public void OnSelcetTile()
+        {
+            tileManager.OnSelectTile(this);
         }
     }
 }
