@@ -100,11 +100,11 @@ namespace BattlefieldSimulator
                 if(path == null)
                 {
                     Debug.Log("unable");
-                    selector.transform.position=new Vector3(-20f,0f,5f);
+                    selector.transform.position=new Vector3(-200f,0f,5f);
                 }
                 else
                 {
-                    selector.transform.position=new Vector3(-20f,0f,5f);
+                    selector.transform.position=new Vector3(-200f,0f,5f);
                     OnDrawPath();
                 }
                 ifselected = false;
