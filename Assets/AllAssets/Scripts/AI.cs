@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 public class AI
 {
-	private List<Unit> units;
+	private List<UnitTest> units;
 	private int player;
-	private Unit target;
-	private Unit unit;
+	private UnitTest target;
+	private UnitTest unit;
 
 	private enum Phase
 	{
@@ -16,17 +16,17 @@ public class AI
 
 	private Phase phase = Phase.Move;
 
-	public AI (List<Unit> units, int player)
+	public AI (List<UnitTest> units, int player)
 	{
 		this.units = units;
 		this.player = player;
 	}
 
-	private Unit getPreferredEnemy ()
+	private UnitTest getPreferredEnemy ()
 	{
-		Unit current = null;
+		UnitTest current = null;
 		double score = 0;
-		foreach (Unit unit in units) {
+		foreach (UnitTest unit in units) {
 			if (unit.Player == player) {
 				continue;
 			}
@@ -39,12 +39,12 @@ public class AI
 		return current;
 	}
 
-	private Unit getNextUnit ()
+	private UnitTest getNextUnit ()
 	{
-		Unit current = null;
+		UnitTest current = null;
 		double score = 0;
-		foreach (Unit unit in units) {
-			if (unit.Player != player || unit.Status != Unit.State.Move) {
+		foreach (UnitTest unit in units) {
+			if (unit.Player != player || unit.Status != UnitTest.State.Move) {
 				continue;
 			}
 			double new_score = unit.Strength;
@@ -56,7 +56,7 @@ public class AI
 		return current;
 	}
 
-	private HexPosition[] getPath (Unit unit, Unit enemy)
+	private HexPosition[] getPath (UnitTest unit, UnitTest enemy)
 	{
 		HexPosition[] path = AStar.search (unit, unit.Coordinates, enemy.Coordinates, 64, unit.Range);
 		if (path == null) {
@@ -104,7 +104,7 @@ public class AI
 			} else {
 				target = null;
 				double score = 0;
-				foreach (Unit other_unit in units) {
+				foreach (UnitTest other_unit in units) {
 					if (other_unit.Player == player || unit.Coordinates.dist (other_unit.Coordinates) > unit.Range) {
 						continue;
 					}

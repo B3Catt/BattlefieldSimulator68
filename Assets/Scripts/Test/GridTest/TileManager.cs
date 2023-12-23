@@ -78,6 +78,7 @@ namespace BattlefieldSimulator
             {
                 tiles.Add(cubeCoordinate, tile);
             }
+            tile.tileManager = this;
         }
 
         public void OnHighlightTile(HexTile tile)

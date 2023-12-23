@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class HexGrid : MonoBehaviour, IPlayerInterface
 {
 	public GameObject marker;
-	private List<Unit> units;
+	private List<UnitTest> units;
 	private bool waiting = false;
 
 	private enum Turn
@@ -41,13 +41,13 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 		//Since it currently doesn't wait for an attack, this is empty.
 	}
 
-	public void addUnit (Unit unit)
+	public void addUnit (UnitTest unit)
 	{
 		units.Add (unit);
 		unit.Coordinates = new HexPosition (unit.transform.position);
 	}
 
-	public void removeUnit (Unit unit)
+	public void removeUnit (UnitTest unit)
 	{
 		units.Remove (unit);
 	}
@@ -56,8 +56,8 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 	private bool selectSelectable ()
 	{
 		bool nonempty = false;
-		foreach (Unit unit in units) {
-			if (unit.Player == player && unit.Status != Unit.State.Wait) {
+		foreach (UnitTest unit in units) {
+			if (unit.Player == player && unit.Status != UnitTest.State.Wait) {
 				unit.Coordinates.select ("Selectable");
 				nonempty = true;
 			}
@@ -66,21 +66,21 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 	}
 
 	//TODO: Move to Unit.cs
-	private bool isAttackable (Unit attacker, Unit attacked, HexPosition coordinates)
+	private bool isAttackable (UnitTest attacker, UnitTest attacked, HexPosition coordinates)
 	{
 		return attacked.Player != player && coordinates.dist (attacked.Coordinates) <= attacker.Range;
 	}
 
-	private bool isAttackable (Unit attacker, Unit attacked)
+	private bool isAttackable (UnitTest attacker, UnitTest attacked)
 	{
 		return isAttackable (attacker, attacked, attacker.Coordinates);
 	}
 
 	//Returns true if there's at least one attackable unit.
-	private bool selectAttackable (Unit attacker, HexPosition coordinates)
+	private bool selectAttackable (UnitTest attacker, HexPosition coordinates)
 	{
 		bool nonempty = false;
-		foreach (Unit unit in units) {
+		foreach (UnitTest unit in units) {
 			if (isAttackable (attacker, unit, coordinates)) {
 				unit.Coordinates.select ("Attack");
 				nonempty = true;
@@ -90,7 +90,7 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 	}
 
 	//Returns true if there's at least one attackable unit.
-	private bool selectAttackable (Unit attacker)
+	private bool selectAttackable (UnitTest attacker)
 	{
 		return selectAttackable (attacker, attacker.Coordinates);
 	}
@@ -103,8 +103,8 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 		HexPosition.setColor ("Attack", Color.red, 4);
 		HexPosition.setColor ("Cursor", Color.blue, 5);
 		HexPosition.Marker = marker;
-		units = new List<Unit> (Object.FindObjectsOfType<Unit> ());
-		foreach (Unit unit in units) {
+		units = new List<UnitTest> (Object.FindObjectsOfType<UnitTest> ());
+		foreach (UnitTest unit in units) {
 			unit.setPlayerInterface (this, true);
 		}
 	}
@@ -115,13 +115,13 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 			HexPosition.clearSelection ("Selectable");
 			selection = mouse;
 			mouse.select ("Selection");
-			Unit unit = mouse.getUnit ();
+			UnitTest unit = mouse.getUnit ();
 			selectAttackable (unit);
 			switch (unit.Status) {
-			case Unit.State.Move:
+			case UnitTest.State.Move:
 				turn = Turn.Move;
 				break;
-			case Unit.State.Attack:
+			case UnitTest.State.Attack:
 				turn = Turn.Attack;
 				break;
 			default:
@@ -134,7 +134,7 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 	public void endTurn ()
 	{
 		HexPosition.clearSelection ();
-		foreach (Unit unit in units) {	//I only need to do this with units on that team, but checking won't speed things up. I could also only do it when player overflows.
+		foreach (UnitTest unit in units) {	//I only need to do this with units on that team, but checking won't speed things up. I could also only do it when player overflows.
 			unit.newTurn ();
 		}
 		player = (player + 1) % PLAYERS;
@@ -157,7 +157,7 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 	private void checkGameOver ()
 	{
 		gameOver = true;
-		foreach (Unit unit in units) {
+		foreach (UnitTest unit in units) {
 			if (unit.Player != player) {
 				gameOver = false;
 				break;
@@ -167,7 +167,7 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 
 	private void actuallyAttack ()
 	{
-		Unit unit = selection.getUnit ();
+		UnitTest unit = selection.getUnit ();
 		unit.attack (mouse, unit.getDamage ());
 		checkGameOver ();
 		unselect ();
@@ -179,7 +179,7 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 			unselect ();
 		} else if (!mouse.containsKey ("Unit")) {
 			if (path.Length > 0) {
-				Unit myUnit = selection.getUnit ();
+				UnitTest myUnit = selection.getUnit ();
 				myUnit.move (path);
 				HexPosition.clearSelection ();
 				selection = mouse;
@@ -192,9 +192,9 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 				}
 			}
 		} else {
-			Unit enemy = mouse.getUnit ();
+			UnitTest enemy = mouse.getUnit ();
 			if (enemy != null) {
-				Unit myUnit = selection.getUnit ();
+				UnitTest myUnit = selection.getUnit ();
 				if (isAttackable (myUnit, enemy)) {
 					actuallyAttack ();
 				}
@@ -265,7 +265,7 @@ public class HexGrid : MonoBehaviour, IPlayerInterface
 					mouse = newMouse;
 					mouse.select ("Cursor");
 					if (turn == Turn.Move) {
-						Unit unit = selection.getUnit ();
+						UnitTest unit = selection.getUnit ();
 						HexPosition.clearSelection ("Path");
 						HexPosition.clearSelection ("Attack");
 						path = AStar.search (unit, selection, mouse, unit.Speed);

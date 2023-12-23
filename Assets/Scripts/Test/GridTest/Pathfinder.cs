@@ -60,6 +60,7 @@ namespace BattlefieldSimulator
 
                 if (tile.tileType != HexTileGenerationSetting.TileType.Standard)
                 {
+                    // should change it to height distance
                     node.baseCost = 9999999;
                 }
                 neighbours.Add(node);

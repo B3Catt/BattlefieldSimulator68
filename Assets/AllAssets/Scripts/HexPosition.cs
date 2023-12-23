@@ -630,9 +630,9 @@ public class HexPosition : System.IEquatable<HexPosition>
 	/// </summary>
 	/// <returns>The unit at the specified position.</returns>
 	/// <param name="position">Position to return the unit on.</param>
-	public Unit getUnit ()
+	public UnitTest getUnit ()
 	{
-		return (Unit)getValue ("Unit");
+		return (UnitTest)getValue ("Unit");
 	}
 
 	public override string ToString ()

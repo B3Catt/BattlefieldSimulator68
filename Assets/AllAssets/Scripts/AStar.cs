@@ -39,7 +39,7 @@ public class AStar {
 	}
 
 	//Start from start, move to within distance of goal within max steps.
-	public static HexPosition[] search (Unit unit, HexPosition start, HexPosition goal, int max, int distance=0) {
+	public static HexPosition[] search (UnitTest unit, HexPosition start, HexPosition goal, int max, int distance=0) {
 		max += distance; //Now it's the maximum distance to the goal, instead of just the maximum number of steps.
 		//HashSet<HexPosition> closedSet = new HashSet<HexPosition>();	// The set of nodes already evaluated.
 		//HashSet<HexPosition> openSet = new HashSet<HexPosition>(start);	// The set of tentative nodes to be evaluated, initially containing the start node
