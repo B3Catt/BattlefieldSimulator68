@@ -17,6 +17,11 @@ namespace BattlefieldSimulator
         public HexTile Selected;
         public void Awake()
         {
+            InitTiles();
+        }
+
+        private void InitTiles()
+        {
             ifselected = false;
             instance = this;
             tiles = new Dictionary<Vector3Int, HexTile>();
@@ -78,7 +83,6 @@ namespace BattlefieldSimulator
             {
                 tiles.Add(cubeCoordinate, tile);
             }
-            tile.tileManager = this;
         }
 
         public void OnHighlightTile(HexTile tile)

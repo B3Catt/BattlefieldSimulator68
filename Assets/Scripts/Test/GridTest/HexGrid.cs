@@ -30,7 +30,7 @@ namespace BattlefieldSimulator
 
         private void OnValidate()
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying && enabled)
             {
                 LayoutGrid();
             }

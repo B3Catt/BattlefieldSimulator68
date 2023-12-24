@@ -18,12 +18,10 @@ namespace BattlefieldSimulator
         private Vector2 lastMousePosition;
         private float targetFieldOfView = 50;
         private Vector3 followOffset;
-        public Camera _camera;
 
 
-        private void Start() {
+        private void Awake() {
             followOffset = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>().m_FollowOffset;
-            _camera = Camera.main;
         }
 
         private void Update() {
@@ -42,9 +40,12 @@ namespace BattlefieldSimulator
             //HandleCameraZoom_FieldOfView();
             //HandleCameraZoom_MoveForward();
             HandleCameraZoom_LowerY();
-            //åˆ¤æ–­ç‚¹å‡»é€‰æ‹©å’Œé«˜äº®
+
+            ///TODO:
+            ///     move below part into a new class like GridActionSystem
+            //ÅĞ¶Ïµã»÷Ñ¡ÔñºÍ¸ßÁÁ
             RaycastHit hit;
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit))
             {
@@ -56,24 +57,26 @@ namespace BattlefieldSimulator
                     target.OnHighlightTile();
                 }
             }
-            // æ£€æµ‹é¼ æ ‡å·¦é”®ç‚¹å‡»
+            // ¼ì²âÊó±ê×ó¼üµã»÷
             if (Input.GetMouseButtonDown(0))
             {
-                // æ£€æµ‹æ˜¯å¦ç‚¹å‡»åˆ°äº†ç‰©ä½“
+                // ¼ì²âÊÇ·ñµã»÷µ½ÁËÎïÌå
                 if (Physics.Raycast(ray, out hit))
                 {
-                    // è·å–ç‚¹å‡»åˆ°çš„ç‰©ä½“çš„ HexTile ç»„ä»¶
+                    // »ñÈ¡µã»÷µ½µÄÎïÌåµÄ HexTile ×é¼ş
                     HexTile hexTile = hit.collider.GetComponent<HexTile>();
 
-                    // æ£€æŸ¥æ˜¯å¦æˆåŠŸè·å–åˆ° HexTile ç»„ä»¶
+                    // ¼ì²éÊÇ·ñ³É¹¦»ñÈ¡µ½ HexTile ×é¼ş
                     if (hexTile != null)
                     {
-                        // è°ƒç”¨ OnSelectTile æ–¹æ³•
+                        // µ÷ÓÃ OnSelectTile ·½·¨
                         hexTile.OnSelcetTile();
                     }
                 }
             }
         }
+
+
 
         private void HandleCameraMovement() {
             Vector3 inputDir = new Vector3(0, 0, 0);
