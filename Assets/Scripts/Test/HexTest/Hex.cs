@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.XR;
 
 namespace BattlefieldSimulator
 {
@@ -28,6 +29,11 @@ namespace BattlefieldSimulator
         public bool isFlatTopped;
 
         private void Awake()
+        {
+            InitMeshRender();
+        }
+
+        private void InitMeshRender()
         {
             m_meshFilter = GetComponent<MeshFilter>();
             m_meshRenderer = GetComponent<MeshRenderer>();
@@ -58,6 +64,7 @@ namespace BattlefieldSimulator
             CombineFaces();
         }
 
+        [EditorButton]
         private void DrawFaces()
         {
             m_faces = new List<Face>();
@@ -111,8 +118,12 @@ namespace BattlefieldSimulator
             m_mesh.uv = uvs.ToArray();
             m_mesh.RecalculateNormals();
             m_mesh.RecalculateBounds();
+        }
 
-            string path = EditorUtility.SaveFilePanel("Meshes", "Assets/Resources", "HexMesh", "asset");
+        [EditorButton]
+        private void SaveMesh(string title = "Meshes", string directory = "Assets/Resources", string defaultName = "HexMesh", string extension = "asset")
+        {
+            string path = EditorUtility.SaveFilePanel(title, directory, defaultName, extension);
             path = FileUtil.GetProjectRelativePath(path);
             AssetDatabase.CreateAsset(m_mesh, path);
         }
