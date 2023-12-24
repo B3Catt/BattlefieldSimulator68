@@ -87,28 +87,28 @@ namespace BattlefieldSimulator
 
         public void OnHighlightTile(HexTile tile)
         {
-            highlight.transform.position = tile.transform.position;
+            highlight.transform.position = tile.transform.position + new Vector3(0f, 1.5f, 0f);
         }
         public void OnSelectTile(HexTile tile)
         {
             Debug.Log($"select  {tile.offsetCoordinate}");
             if (!ifselected)
             {
-                selector.transform.position = tile.transform.position;
+                selector.transform.position = tile.transform.position + new Vector3(0f, 1.5f, 0f);
                 Selected = tile;
                 ifselected = true;
             }
             else
             {
                 path = Pathfinder.FindPath(Selected, tile);
-                if(path == null)
+                if (path == null)
                 {
                     Debug.Log("unable");
-                    selector.transform.position=new Vector3(-200f,0f,5f);
+                    selector.transform.position = new Vector3(-200f, 0f, 5f);
                 }
                 else
                 {
-                    selector.transform.position=new Vector3(-200f,0f,5f);
+                    selector.transform.position = new Vector3(-200f, 0f, 5f);
                     OnDrawPath();
                 }
                 ifselected = false;
