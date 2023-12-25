@@ -34,6 +34,20 @@ namespace BattlefieldSimulator
             var r = offset.y - offset.x / 2;
             return new Vector3Int(q, r, -q - r);
         }
+
+        static public Vector2Int CubeToOffsetPointTop(Vector3Int cube)
+        {
+            var x = cube.x + (cube.y + (cube.y % 2)) / 2;
+            var y = cube.y;
+            return new Vector2Int(x, y);
+        }
+
+        static public Vector2Int CubeToOffsetFlatTop(Vector3Int cube)
+        {
+            var x = cube.x;
+            var y = cube.y + cube.x / 2;
+            return new Vector2Int(x, y);
+        }
     }
 
 }

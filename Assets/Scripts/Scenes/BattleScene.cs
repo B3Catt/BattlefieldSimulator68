@@ -14,19 +14,19 @@ namespace BattlefieldSimulator
         public bool isFlatTopped;
         public Material material;
 
-        private GridController gridController;
+        private GridManager gridController;
 
         private void OnEnable()
         {
-            GameApp.ControllerManager.Register(ControllerType.Grid, new GridController());
-            GameApp.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
+            InstanceManager.ControllerManager.Register(ControllerType.Grid, new GridManager());
+            InstanceManager.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
         }
 
         private void OnValidate()
         {
             if (Application.isPlaying)
             {
-                GameApp.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
+                InstanceManager.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
             }
         }
     }
