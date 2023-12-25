@@ -30,7 +30,7 @@ namespace BattlefieldSimulator
             }
             else
             {
-                GameApp.Instance.Init();
+                InstanceManager.Instance.Init();
                 DontDestroyOnLoad(gameObject);
                 isLoaded = true;
             }
@@ -38,7 +38,7 @@ namespace BattlefieldSimulator
 
         private void Start()
         {
-            GameApp.SoundManager.PlayBGM(bgmName);
+            InstanceManager.SoundManager.PlayBGM(bgmName);
 
             testMysql();
 
@@ -52,22 +52,21 @@ namespace BattlefieldSimulator
         /// </summary>
         private void RegisterMoudle()
         {
-            GameApp.ControllerManager.Register(ControllerType.UI, new UIController());
-            GameApp.ControllerManager.Register(ControllerType.Game, new GameController());
-            GameApp.ControllerManager.Register(ControllerType.Loading, new LoadingController());
-            GameApp.ControllerManager.Register(ControllerType.Scene, new SceneController());
-            GameApp.ControllerManager.Register(ControllerType.User, new UserController());
+            InstanceManager.ControllerManager.Register(ControllerType.UI, new UIController());
+            InstanceManager.ControllerManager.Register(ControllerType.Game, new GameController());
+            InstanceManager.ControllerManager.Register(ControllerType.Loading, new LoadingController());
+            InstanceManager.ControllerManager.Register(ControllerType.User, new UserController());
         }
 
         private void InitMoudle()
         {
-            GameApp.ControllerManager.InitAllMoudles();
+            InstanceManager.ControllerManager.InitAllMoudles();
         }
 
         private void Update()
         {
             dt = Time.deltaTime;
-            GameApp.Instance.Update(dt);
+            InstanceManager.Instance.Update(dt);
         }
 
         private void testMysql()

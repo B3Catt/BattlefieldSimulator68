@@ -20,8 +20,9 @@ namespace BattlefieldSimulator
         public TileManager tileManager;
 
         public Vector2Int offsetCoordinate;
-
         public Vector3Int cubeCoordinate;
+
+        public GridPosition gridPosition;
 
         public List<HexTile> neighbours;
 
