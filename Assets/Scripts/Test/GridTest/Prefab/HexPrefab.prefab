@@ -170,6 +170,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HexHighlightSelected
       objectReference: {fileID: 0}
+    - target: {fileID: 6940920214779160713, guid: 54cba82eff0d20f42a12f0d4db4b0826,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8862015992618792994, guid: 54cba82eff0d20f42a12f0d4db4b0826,
         type: 3}
       propertyPath: m_LocalScale.y

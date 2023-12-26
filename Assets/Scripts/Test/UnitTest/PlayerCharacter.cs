@@ -6,7 +6,7 @@ namespace BattlefieldSimulator
     public class PlayerCharacter : MonoBehaviour
     {
         public GameObject player;
-        public HexTile currenttile;
+        public HexTileTest currenttile;
         public Vector3Int playerPos;
     }
 }

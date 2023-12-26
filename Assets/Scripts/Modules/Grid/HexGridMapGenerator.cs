@@ -36,7 +36,7 @@ namespace BattlefieldSimulator
 
                     GameObject tile = new GameObject($"Hex C{x},R{z}");
 
-                    HexTile hexTile = tile.AddComponent<HexTile>();
+                    HexTileTest hexTile = tile.AddComponent<HexTileTest>();
 
                     hexTile.settings = tileSettings;
 

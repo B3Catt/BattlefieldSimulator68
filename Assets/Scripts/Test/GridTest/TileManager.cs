@@ -13,10 +13,10 @@ namespace BattlefieldSimulator
         public PlayerCharacter player2;
 
         public TileManager instance;
-        public Dictionary<Vector2Int, HexTile> tiles;
-        public List<HexTile> path;
+        public Dictionary<Vector2Int, HexTileTest> tiles;
+        public List<HexTileTest> path;
         public bool ifselected;
-        public HexTile Selected;
+        public HexTileTest Selected;
         public void Awake()
         {
             InitTiles();
@@ -26,10 +26,10 @@ namespace BattlefieldSimulator
         {
             ifselected = false;
             instance = this;
-            tiles = new Dictionary<Vector2Int, HexTile>();
+            tiles = new Dictionary<Vector2Int, HexTileTest>();
 
-            HexTile[] hexTiles = gameObject.GetComponentsInChildren<HexTile>();
-            foreach (HexTile hexTile in hexTiles)
+            HexTileTest[] hexTiles = gameObject.GetComponentsInChildren<HexTileTest>();
+            foreach (HexTileTest hexTile in hexTiles)
             {
                 RegisterTile(hexTile);
 
@@ -43,7 +43,7 @@ namespace BattlefieldSimulator
             // player2.transform.position = tile.transform.position + new Vector3(0, 2f, 0);
             // player2.currenttile = tile;
         }
-        public void RegisterTile(HexTile tile)
+        public void RegisterTile(HexTileTest tile)
         {
             Vector2Int offsetCoordinate = tile.offsetCoordinate;
 
@@ -59,11 +59,11 @@ namespace BattlefieldSimulator
             }
         }
 
-        public void OnHighlightTile(HexTile tile)
+        public void OnHighlightTile(HexTileTest tile)
         {
             highlight.transform.position = tile.transform.position + new Vector3(0f, 1.5f, 0f);
         }
-        public void OnSelectTile(HexTile tile)
+        public void OnSelectTile(HexTileTest tile)
         {
             Debug.Log($"select  {tile.offsetCoordinate}");
             if (!ifselected)
@@ -93,7 +93,7 @@ namespace BattlefieldSimulator
             if (path != null)
             {
                 Debug.Log("drawing Path");
-                foreach (HexTile tile in path)
+                foreach (HexTileTest tile in path)
                 {
                     Debug.Log($"{tile.offsetCoordinate}");
                 }
