@@ -5,7 +5,6 @@ namespace BattlefieldSimulator
     public class HexGridSystem
     {
         private HexGridMapSetting mapSettings;
-        private HexTileGenerationSetting tileSettings;
 
         private HexGridMapGenerator generator;
         private HexGridMapData data;
@@ -13,7 +12,6 @@ namespace BattlefieldSimulator
         public HexGridSystem(HexGridMapSetting mapSettings, HexTileGenerationSetting tileSettings)
         {
             this.mapSettings = mapSettings;
-            this.tileSettings = tileSettings;
             generator = new HexGridMapGenerator(mapSettings, tileSettings, this);
             dirtyFlag = false;
             generator.Generate(data);
