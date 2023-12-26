@@ -27,12 +27,16 @@ public class MoveAction : MonoBehaviour
         {
             unitAnimator.SetBool("IsMoving", true);
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
-
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-
-            float moveSpeed = 4f;
-            transform.position += moveDirection * Time.deltaTime * moveSpeed;
+            if (Vector3.Distance(transform.forward, moveDirection) > stoppingDistance)
+            {
+                float rotateSpeed = 10f;
+                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+            }
+            else
+            {
+                float moveSpeed = 4f;
+                transform.position += moveDirection * Time.deltaTime * moveSpeed;
+            }
         }
         else
         {
