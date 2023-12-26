@@ -46,7 +46,7 @@ namespace BattlefieldSimulator
                     hexTile.RollTileType();
                     hexTile.AddTile();
 
-                    hexTile.gridPosition = new GridPosition(x, z);
+                    hexTile.gridPosition = new GridPosition(new Vector2Int(x, z));
 
                     tile.transform.position = gridSystem.GetPositionForHexFromCoordinate(hexTile.gridPosition);
 

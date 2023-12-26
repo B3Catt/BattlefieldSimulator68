@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace BattlefieldSimulator
 {
@@ -14,7 +15,55 @@ namespace BattlefieldSimulator
             this.mapSettings = mapSettings;
             generator = new HexGridMapGenerator(mapSettings, tileSettings, this);
             dirtyFlag = false;
-            generator.Generate(data);
+        }
+
+        public void Generate() => generator.Generate(data);
+
+        public void InitTiles()
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            foreach (var hexTile in data.GetAllTiles())
+            {
+                hexTile.neighbours = GetNeighbours(hexTile);
+            }
+        }
+
+        public void LoadMap(HexGridMapData data)
+        {
+            this.data = data;
+            mapSettings.width = data.width;
+            mapSettings.height = data.height;
+        }
+
+        private List<HexTile> GetNeighbours(HexTile tile)
+        {
+            List<HexTile> neighbours = new List<HexTile>();
+            Vector3Int[] neighbourCoordinary = new Vector3Int[]
+                {
+                    new Vector3Int(1, -1, 0),
+                    new Vector3Int(1, 0, -1),
+                    new Vector3Int(0, 1, -1),
+                    new Vector3Int(-1, 1, 0),
+                    new Vector3Int(-1, 0, 1),
+                    new Vector3Int(0, -1, 1)
+                };
+
+
+            foreach (Vector3Int coord in neighbourCoordinary)
+            {
+                GridPosition gridPosition = tile.gridPosition;
+
+                if (data.TryGetTileByGridPosition(gridPosition + coord, out HexTile neighbour))
+                {
+                    neighbours.Add(neighbour);
+                }
+            }
+
+            return neighbours;
         }
 
         /// <summary>
@@ -29,12 +78,22 @@ namespace BattlefieldSimulator
             float width;
             float height;
             float xPosition;
+            float zPosition;
             float yPosition;
             bool shouldOffset;
             float horizontalDistance;
             float verticalDistance;
             float offset;
             float size = mapSettings.radius;
+
+            if ((data?.TryGetTileByGridPosition(gridPosition, out HexTile hexTile))??false)
+            {
+                yPosition = hexTile.height;
+            }
+            else
+            {
+                yPosition = 0;
+            }
 
             if (!mapSettings.isFlatTopped)
             {
@@ -48,7 +107,7 @@ namespace BattlefieldSimulator
                 offset = shouldOffset ? width / 2 : 0;
 
                 xPosition = (column * horizontalDistance) + offset;
-                yPosition = (row * verticalDistance);
+                zPosition = (row * verticalDistance);
             }
             else
             {
@@ -62,12 +121,17 @@ namespace BattlefieldSimulator
                 offset = shouldOffset ? height / 2 : 0;
 
                 xPosition = (column * horizontalDistance);
-                yPosition = (row * verticalDistance) - offset;
+                zPosition = (row * verticalDistance) - offset;
             }
 
-            return new Vector3(xPosition, 0, -yPosition);
+            return new Vector3(xPosition, yPosition, -zPosition);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hexTile"></param>
+        /// <returns></returns>
         public bool TryGetHexTileByMousePosition(out HexTile hexTile)
         {
             RaycastHit hit;

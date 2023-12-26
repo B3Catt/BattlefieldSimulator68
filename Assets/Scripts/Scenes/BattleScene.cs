@@ -18,7 +18,6 @@ namespace BattlefieldSimulator
 
         private void OnEnable()
         {
-            InstanceManager.ControllerManager.Register(ControllerType.Grid, new GridManager());
             InstanceManager.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
         }
 

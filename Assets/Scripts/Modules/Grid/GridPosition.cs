@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using Org.BouncyCastle.Asn1.Esf;
+using System;
+using UnityEngine;
 
 namespace BattlefieldSimulator
 {
-    public struct GridPosition
+    public struct GridPosition : IEquatable<GridPosition>
     {
         public int x { get; private set; }
         public int z { get; private set; }
@@ -12,11 +14,10 @@ namespace BattlefieldSimulator
         public int s { get; private set; }
 
         private bool isFlatTopped;
-
-        public GridPosition(int x, int z, bool isFlatTopped = false)
+        public GridPosition(Vector2Int vector, bool isFlatTopped = false)
         {
-            this.x = x;
-            this.z = z;
+            x = vector.x;
+            z = vector.y;
             this.isFlatTopped = isFlatTopped;
             q = 0;
             r = 0;
@@ -25,11 +26,11 @@ namespace BattlefieldSimulator
             OffsetToCube();
         }
 
-        public GridPosition(int q, int r, int s, bool isFlatTopped = false)
+        public GridPosition(Vector3Int vector, bool isFlatTopped = false)
         {
-            this.q = q;
-            this.r = r;
-            this.s = s;
+            q = vector.x;
+            r = vector.y;
+            s = vector.z;
             this.isFlatTopped = isFlatTopped;
             x = 0;
             z = 0;
@@ -93,6 +94,41 @@ namespace BattlefieldSimulator
         public override string ToString()
         {
             return $"offset coordinary: (x: {x}, z: {z})\ncube Coordinary: (q: {q}, r: {r}, s: {s})\nIsFlatTopped: {isFlatTopped}";
+        }
+
+        public static GridPosition operator +(GridPosition left, Vector3Int right)
+        {
+            return new GridPosition(new Vector3Int(left.q, left.r, left.s) + right, left.isFlatTopped);
+        }
+
+        public static GridPosition operator +(GridPosition left, Vector2Int right)
+        {
+            return new GridPosition(new Vector2Int(left.x, left.z) + right, left.isFlatTopped);
+        }
+
+        public static bool operator ==(GridPosition left, GridPosition right) => (left.x == right.x && left.z == right.z);
+
+        public static bool operator !=(GridPosition left, GridPosition right) => !(left == right);
+
+        public override bool Equals(object obj)
+        {
+            return obj is GridPosition position &&
+                   x == position.x &&
+                   z == position.z &&
+                   q == position.q &&
+                   r == position.r &&
+                   s == position.s &&
+                   isFlatTopped == position.isFlatTopped;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(x, z, q, r, s, isFlatTopped);
+        }
+
+        public bool Equals(GridPosition other)
+        {
+            return this == other;
         }
     }
 }

@@ -28,6 +28,8 @@ namespace BattlefieldSimulator
             tilesDictionary = new Dictionary<GridPosition, HexTile>();
         }
 
+        public Dictionary<GridPosition, HexTile>.ValueCollection GetAllTiles() => tilesDictionary.Values;
+
         /// <summary>
         /// 
         /// </summary>
@@ -98,7 +100,7 @@ namespace BattlefieldSimulator
             {
                 for (int x = 0; x < width; x++)
                 {
-                    GridPosition gridPosition = new GridPosition(x, z);
+                    GridPosition gridPosition = new GridPosition(new Vector2Int(x, z));
                     if (tilesDictionary.ContainsKey(gridPosition))
                     {
                         temp.Add(gridPosition, tilesDictionary[gridPosition]);

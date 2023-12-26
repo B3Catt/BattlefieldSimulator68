@@ -8,9 +8,19 @@ namespace BattlefieldSimulator
         public enum TileType
         {
             Standard,
-            Water,
+            Sea,
             Cliff
         }
+
+        /**
+         * plane
+         * marsh
+         * mountain
+         * sea
+         * desert
+         * forest
+         * city
+         */
 
         public Material Standard;
         public Material Water;
@@ -24,7 +34,7 @@ namespace BattlefieldSimulator
             {
                 case TileType.Standard: 
                     return Standard;
-                case TileType.Water:
+                case TileType.Sea:
                     return Water;
                 case TileType.Cliff:
                     return Cliff;
