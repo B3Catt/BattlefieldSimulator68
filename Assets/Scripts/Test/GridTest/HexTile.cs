@@ -31,6 +31,7 @@ namespace BattlefieldSimulator
         public float height;
 
         private bool isDirty = false;
+
         private void OnValidate()
         {
             if (tile == null) { return; }
@@ -120,6 +121,21 @@ namespace BattlefieldSimulator
         public void OnSelcetTile()
         {
             tileManager.OnSelectTile(this);
+        }
+        public Vector3 GetWorldPostion()
+        {
+            HexTile hexTile;
+            //Vector2Int key = new Vector2Int(x, z);
+            Vector2Int key = offsetCoordinate;
+            if (tileManager.tiles.TryGetValue(key, out hexTile))
+            {
+                return hexTile.transform.position;
+            }
+            else
+            {
+                return new Vector3(0,0,0);
+            }
+
         }
     }
 }

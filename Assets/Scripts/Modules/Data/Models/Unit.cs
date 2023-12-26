@@ -12,7 +12,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        private HexPosition position;
+        //private HexPosition position;
 
         /// <summary>
         /// 
@@ -102,7 +102,7 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
-        private IPlayerInterface player = null;
+        //private IPlayerInterface player = null;
 
         /// <summary>
         /// 

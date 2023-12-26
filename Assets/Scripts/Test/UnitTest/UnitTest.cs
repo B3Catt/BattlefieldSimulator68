@@ -4,38 +4,52 @@ namespace BattlefieldSimulator
 {
     public class UnitTest : MonoBehaviour
     {
-        private Vector3 targetPosition;
-
-        [SerializeField] private Animator unitAnimator;
-
+        private HexTile currentHexTile;
+        private MoveAction moveAction;
         private void Awake()
         {
-            targetPosition = transform.position;
+            moveAction = GetComponent<MoveAction>();
         }
-
-        private void Update()
+        private void Start()
         {
-            float stoppingDistance = .1f;
-            if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
+            GameObject gridObject = GameObject.Find("grid");
+
+            if (gridObject != null)
             {
-                unitAnimator.SetBool("IsMoving", true);
-                Vector3 moveDirection = (targetPosition - transform.position).normalized;
+                // 在 Grid 对象下找到名为 "Hex C0,R0" 的子对象
+                Transform hexTileTransform = gridObject.transform.Find("Hex C0,R0");
 
-                float rotateSpeed = 10f;
-                transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-
-                float moveSpeed = 4f;
-                transform.position += moveDirection * Time.deltaTime * moveSpeed;
+                if (hexTileTransform != null)
+                {
+                    // 获取 HexTile 组件
+                    currentHexTile = hexTileTransform.GetComponent<HexTile>();
+                }
+                else
+                {
+                    // 没有找到名为 "Hex C0,R0" 的子对象
+                }
             }
             else
             {
-                unitAnimator.SetBool("IsMoving", false);
+                // 没有找到名为 "Grid" 的对象
             }
         }
-
-        public void Move(Vector3 targetPosition)
+        private void Update()
         {
-            this.targetPosition = targetPosition;
+        }
+
+        public MoveAction GetMoveAction()
+        {
+            return moveAction;
+        }
+        public HexTile GetCurrentHexTile()
+        {
+            return currentHexTile;
+        }
+
+        public void SetCurrentHexTile(HexTile tile)
+        {
+            currentHexTile=tile;
         }
     }
 }

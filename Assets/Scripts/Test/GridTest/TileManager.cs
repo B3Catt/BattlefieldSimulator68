@@ -10,8 +10,10 @@ namespace BattlefieldSimulator
         public GameObject highlight;
         public GameObject selector;
         public PlayerCharacter player;
+        public PlayerCharacter player2;
+
         public TileManager instance;
-        public Dictionary<Vector3Int, HexTile> tiles;
+        public Dictionary<Vector2Int, HexTile> tiles;
         public List<HexTile> path;
         public bool ifselected;
         public HexTile Selected;
@@ -24,7 +26,7 @@ namespace BattlefieldSimulator
         {
             ifselected = false;
             instance = this;
-            tiles = new Dictionary<Vector3Int, HexTile>();
+            tiles = new Dictionary<Vector2Int, HexTile>();
 
             HexTile[] hexTiles = gameObject.GetComponentsInChildren<HexTile>();
             foreach (HexTile hexTile in hexTiles)
@@ -32,56 +34,28 @@ namespace BattlefieldSimulator
                 RegisterTile(hexTile);
 
             }
-            foreach (HexTile hexTile in hexTiles)
-            {
-                List<HexTile> neighbours = GetNeighbours(hexTile);
-                hexTile.neighbours = neighbours;
-            }
-            int i = Random.Range(0, 6);
-            HexTile tile = hexTiles[i];
-            player.playerPos = tile.cubeCoordinate;
-            player.transform.position = tile.transform.position + new Vector3(0, 2f, 0);
-            player.currenttile = tile;
-        }
-        private List<HexTile> GetNeighbours(HexTile tile)
-        {
-            List<HexTile> neighbours = new List<HexTile>();
-
-            Vector3Int[] neighbourCoords = new Vector3Int[]
-            {
-                new Vector3Int(1, -1, 0),
-                new Vector3Int(1, 0, -1),
-                new Vector3Int(0, 1, -1),
-                new Vector3Int(-1, 1, 0),
-                new Vector3Int(-1, 0, 1),
-                new Vector3Int(0, -1, 1)
-            };
-
-            foreach (Vector3Int neighbourCoord in neighbourCoords)
-            {
-                Vector3Int tileCorrd = tile.cubeCoordinate;
-
-                if (tiles.TryGetValue(tileCorrd + neighbourCoord, out HexTile neighbour))
-                {
-                    neighbours.Add(neighbour);
-                }
-            }
-
-            return neighbours;
+            // int i = Random.Range(0, 8);
+            // HexTile tile = hexTiles[i];
+            // player.transform.position = tile.transform.position + new Vector3(0, 2f, 0);
+            // player.currenttile = tile;
+            // i = Random.Range(0, 8);
+            // tile = hexTiles[i];
+            // player2.transform.position = tile.transform.position + new Vector3(0, 2f, 0);
+            // player2.currenttile = tile;
         }
         public void RegisterTile(HexTile tile)
         {
-            Vector3Int cubeCoordinate = tile.cubeCoordinate;
+            Vector2Int offsetCoordinate = tile.offsetCoordinate;
 
-            if (tiles.ContainsKey(cubeCoordinate))
+            if (tiles.ContainsKey(offsetCoordinate))
             {
                 // 存在相同的 cubeCoordinate，可以更新或者忽略这个项
-                tiles[cubeCoordinate] = tile;
+                tiles[offsetCoordinate] = tile;
                 // 或者选择忽略这个 tile 的添加
             }
             else
             {
-                tiles.Add(cubeCoordinate, tile);
+                tiles.Add(offsetCoordinate, tile);
             }
         }
 
