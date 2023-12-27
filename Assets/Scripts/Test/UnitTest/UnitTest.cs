@@ -37,7 +37,7 @@ namespace BattlefieldSimulator
                 {
                     Vector2Int key = pair.Key;
                     HexTile tile = pair.Value;
-                    if (currentHexTile == tile) continue;
+                    if (currentHexTile == tile || Vector2Int.Distance(tile.offsetCoordinate, currentHexTile.offsetCoordinate) > movedistance) continue;
                     List<HexTile> Path = Pathfinder.FindPath(currentHexTile, tile);
                     if (Path != null && Path.Count <= movedistance + 1)
                     {
@@ -72,6 +72,7 @@ namespace BattlefieldSimulator
         public void SetCurrentHexTile(HexTile tile)
         {
             currentHexTile = tile;
+            gridSystemVisual.HideAllSingle();
         }
     }
 }
