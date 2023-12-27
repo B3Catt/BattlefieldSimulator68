@@ -7,6 +7,9 @@ namespace BattlefieldSimulator
     {
         private HexTile currentHexTile;
         private MoveAction moveAction;
+        private BaseAction[] baseActionArray;
+
+
         public HexGrid hexGrid;
         public int movedistance = 4;
         public bool ifselected = false;
@@ -14,6 +17,7 @@ namespace BattlefieldSimulator
         private void Awake()
         {
             moveAction = GetComponent<MoveAction>();
+            baseActionArray = GetComponents<BaseAction>();
         }
         private void Start()
         {
@@ -68,11 +72,14 @@ namespace BattlefieldSimulator
         {
             return currentHexTile;
         }
-
         public void SetCurrentHexTile(HexTile tile)
         {
             currentHexTile = tile;
             gridSystemVisual.HideAllSingle();
+        }
+        public BaseAction[] GetBaseActionArray()
+        {
+            return baseActionArray;
         }
     }
 }

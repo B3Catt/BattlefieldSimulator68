@@ -24,6 +24,11 @@ namespace BattlefieldSimulator
             Instance = this;
         }
 
+        private void Start()
+        {
+            SetSelectedUnit(selectedUnit);
+        }
+
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))

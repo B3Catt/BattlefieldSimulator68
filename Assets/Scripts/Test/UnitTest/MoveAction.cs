@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using BattlefieldSimulator;
+using UnityEditor.Build;
 using UnityEngine;
 
-public class MoveAction : MonoBehaviour
+public class MoveAction : BaseAction
 {
-    private UnitTest unitTest;
     private Vector3 targetPosition;
     private float stoppingDistance = .1f;
     // Start is called before the first frame update
     [SerializeField] private Animator unitAnimator;
     public bool IfMoving;
-    private void Awake()
+    protected override void Awake()
     {
         targetPosition = transform.position;
         unitTest = GetComponent<UnitTest>();
@@ -84,5 +84,11 @@ public class MoveAction : MonoBehaviour
             // 等待当前位置接近目标位置
             yield return null;
         }
+    }
+
+    public override string GetActionName()
+    {
+        
+        return "Move";
     }
 }
