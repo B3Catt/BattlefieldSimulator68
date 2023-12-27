@@ -11,7 +11,8 @@ namespace BattlefieldSimulator
     {
         [Header("Grid Setting")]
         public Vector2Int gridSize;
-
+        public int x;
+        public int z;
         [Header("Tile Settings")]
         public float outerSize = 1f;
         public float innerSize = 0f;
@@ -20,10 +21,17 @@ namespace BattlefieldSimulator
         public Material material;
         public HexTileGenerationSetting settings;
         public TileManager tileManager;
+        public Dictionary<Vector2Int, HexTile> tiles;
 
         private Dictionary<Vector3Int, HexTile> tilesCubeCoordDictionary = new Dictionary<Vector3Int, HexTile>();
         private Dictionary<Vector2Int, HexTile> tilesOffsetCoordDictionary = new Dictionary<Vector2Int, HexTile>();
 
+        private void Awake()
+        {
+            x = gridSize.x;
+            z = gridSize.y;
+            tiles = tileManager.tiles;
+        }
         private void OnEnable()
         {
             LayoutGrid();
@@ -31,10 +39,10 @@ namespace BattlefieldSimulator
 
         private void OnValidate()
         {
-            if (Application.isPlaying && enabled)
-            {
-                LayoutGrid();
-            }
+            // if (Application.isPlaying && enabled)
+            // {
+            //     LayoutGrid();
+            // }
         }
 
         [EditorButton]

@@ -52,7 +52,9 @@ namespace BattlefieldSimulator
         }
         private void SetSelectedUnit(UnitTest unit)
         {
+            if(selectedUnit)selectedUnit.ifselected=false;
             selectedUnit = unit;
+            selectedUnit.ifselected=true;
             OnSelectedUnitChange?.Invoke(this, EventArgs.Empty);
         }
 
