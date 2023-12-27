@@ -6,6 +6,7 @@ namespace BattlefieldSimulator
     {
         private HexTile currentHexTile;
         private MoveAction moveAction;
+        public int movedistance = 4;
         private void Awake()
         {
             moveAction = GetComponent<MoveAction>();
@@ -49,7 +50,7 @@ namespace BattlefieldSimulator
 
         public void SetCurrentHexTile(HexTile tile)
         {
-            currentHexTile=tile;
+            currentHexTile = tile;
         }
     }
 }

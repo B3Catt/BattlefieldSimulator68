@@ -58,7 +58,7 @@ namespace BattlefieldSimulator
             {
                 Node node = new Node(tile, origin, destination, currentNode.Getcost());
 
-                if (tile.tileType != HexTileGenerationSetting.TileType.Standard)
+                if (tile.tileType == HexTileGenerationSetting.TileType.Water)
                 {
                     // should change it to height distance
                     node.baseCost = 9999999;

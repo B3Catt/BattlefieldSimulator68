@@ -28,8 +28,9 @@ namespace BattlefieldSimulator
         {
             if (Input.GetMouseButtonDown(0))
             {
+                if (selectedUnit != null && selectedUnit.GetMoveAction().IfMoving == true) return;
                 if (TryHandleUnitSelection()) return;
-                if (selectedUnit != null) 
+                if (selectedUnit != null)
                 {
                     selectedUnit.GetMoveAction().Move(MouseWorld.GetHexTile());
                 }
