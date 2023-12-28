@@ -118,10 +118,10 @@ namespace BattlefieldSimulator
         {
             tileManager.OnHighlightTile(this);
         }
-        public void OnSelcetTile()
-        {
-            tileManager.OnSelectTile(this);
-        }
+        // public void OnSelcetTile()
+        // {
+        //     tileManager.OnSelectTile(this);
+        // }
         public Vector3 GetWorldPostion()
         {
             HexTile hexTile;

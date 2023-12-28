@@ -10,6 +10,8 @@ namespace BattlefieldSimulator
         private BaseAction[] baseActionArray;
 
 
+        public int x;
+        public int z;
         public HexGrid hexGrid;
         public int movedistance = 4;
         public bool ifselected = false;
@@ -31,7 +33,7 @@ namespace BattlefieldSimulator
             //         currentHexTile = hexTileTransform.GetComponent<HexTile>();
             //     }
             // }
-            SetStartTile(0, 0);
+            SetStartTile(x, z);
         }
         private void Update()
         {
@@ -64,6 +66,20 @@ namespace BattlefieldSimulator
                 }
             }
         }
+
+        public T GetAction<T>() where T : BaseAction
+        {
+            foreach (BaseAction baseAction in baseActionArray)
+            {
+                if (baseAction is T)
+                {
+                    return (T)baseAction;
+                }
+            }
+            return null;
+        }
+
+
         public MoveAction GetMoveAction()
         {
             return moveAction;

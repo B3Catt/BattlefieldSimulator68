@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using BattlefieldSimulator;
@@ -7,6 +8,7 @@ using UnityEngine;
 public class GridSystemVisual : MonoBehaviour
 {
     [SerializeField] private Transform gridSystemVisualSinglePrefab;
+    [SerializeField] private Transform gridSystemVisual;
     private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
     public HexGrid hexGrid;
     private void Start()
@@ -20,10 +22,11 @@ public class GridSystemVisual : MonoBehaviour
             Vector2Int key = pair.Key;
             HexTile value = pair.Value;
             Transform gridSystemVisualSingleTransform =
-                Instantiate(gridSystemVisualSinglePrefab, value.GetWorldPostion() + new Vector3(0, 1.5f, 0), Quaternion.identity);
+                Instantiate(gridSystemVisualSinglePrefab, value.GetWorldPostion() + new Vector3(0, 1.5f, 0), Quaternion.identity,gridSystemVisual);
             gridSystemVisualSingleArray[key.x, key.y] = gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
         }
         HideAllSingle();
+        UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
     }
 
     public void HideAllSingle()
@@ -32,13 +35,17 @@ public class GridSystemVisual : MonoBehaviour
         {
             for (int z = 0; z < hexGrid.z; z++)
             {
-                gridSystemVisualSingleArray[x,z].hide();
+                gridSystemVisualSingleArray[x, z].hide();
             }
         }
     }
 
-    public void ShowTile(int x,int z)
+    public void ShowTile(int x, int z)
     {
-        gridSystemVisualSingleArray[x,z].show();
+        gridSystemVisualSingleArray[x, z].show();
+    }
+    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+    {
+        HideAllSingle();
     }
 }

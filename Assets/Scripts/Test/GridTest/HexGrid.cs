@@ -34,7 +34,7 @@ namespace BattlefieldSimulator
         }
         private void OnEnable()
         {
-            LayoutGrid();
+            //LayoutGrid();
         }
 
         private void OnValidate()

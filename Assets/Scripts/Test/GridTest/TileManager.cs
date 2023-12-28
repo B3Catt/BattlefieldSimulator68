@@ -9,14 +9,14 @@ namespace BattlefieldSimulator
         public GameObject gameObject;
         public GameObject highlight;
         public GameObject selector;
-        public PlayerCharacter player;
-        public PlayerCharacter player2;
+        // public PlayerCharacter player;
+        // public PlayerCharacter player2;
 
         public TileManager instance;
         public Dictionary<Vector2Int, HexTile> tiles;
         public List<HexTile> path;
-        public bool ifselected;
-        public HexTile Selected;
+        // public bool ifselected;
+        // public HexTile Selected;
         public void Awake()
         {
             InitTiles();
@@ -24,7 +24,7 @@ namespace BattlefieldSimulator
 
         private void InitTiles()
         {
-            ifselected = false;
+            //ifselected = false;
             instance = this;
             tiles = new Dictionary<Vector2Int, HexTile>();
 
@@ -63,41 +63,43 @@ namespace BattlefieldSimulator
         {
             highlight.transform.position = tile.transform.position + new Vector3(0f, 1.5f, 0f);
         }
-        public void OnSelectTile(HexTile tile)
-        {
-            Debug.Log($"select  {tile.offsetCoordinate}");
-            if (!ifselected)
-            {
-                selector.transform.position = tile.transform.position + new Vector3(0f, 1.5f, 0f);
-                Selected = tile;
-                ifselected = true;
-            }
-            else
-            {
-                path = Pathfinder.FindPath(Selected, tile);
-                if (path == null)
-                {
-                    Debug.Log("unable");
-                    selector.transform.position = new Vector3(-200f, 0f, 5f);
-                }
-                else
-                {
-                    selector.transform.position = new Vector3(-200f, 0f, 5f);
-                    OnDrawPath();
-                }
-                ifselected = false;
-            }
-        }
-        public void OnDrawPath()
-        {
-            if (path != null)
-            {
-                Debug.Log("drawing Path");
-                foreach (HexTile tile in path)
-                {
-                    Debug.Log($"{tile.offsetCoordinate}");
-                }
-            }
-        }
+        //un
+        // public void OnSelectTile(HexTile tile)
+        // {
+        //     Debug.Log($"select  {tile.offsetCoordinate}");
+        //     if (!ifselected)
+        //     {
+        //         selector.transform.position = tile.transform.position + new Vector3(0f, 1.5f, 0f);
+        //         Selected = tile;
+        //         ifselected = true;
+        //     }
+        //     else
+        //     {
+        //         path = Pathfinder.FindPath(Selected, tile);
+        //         if (path == null)
+        //         {
+        //             Debug.Log("unable");
+        //             selector.transform.position = new Vector3(-200f, 0f, 5f);
+        //         }
+        //         else
+        //         {
+        //             selector.transform.position = new Vector3(-200f, 0f, 5f);
+        //             OnDrawPath();
+        //         }
+        //         ifselected = false;
+        //     }
+        // }
+        // //un
+        // public void OnDrawPath()
+        // {
+        //     if (path != null)
+        //     {
+        //         Debug.Log("drawing Path");
+        //         foreach (HexTile tile in path)
+        //         {
+        //             Debug.Log($"{tile.offsetCoordinate}");
+        //         }
+        //     }
+        // }
     }
 }

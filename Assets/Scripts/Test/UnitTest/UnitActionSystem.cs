@@ -9,10 +9,11 @@ namespace BattlefieldSimulator
 
         public event EventHandler OnSelectedUnitChange;
 
-
+        public event EventHandler OnSelectedActionChanged;
         [SerializeField] private UnitTest selectedUnit;
         [SerializeField] private LayerMask unitsLayerMask;
 
+        private BaseAction selectedAction;
         private void Awake()
         {
             if (Instance != null)
@@ -55,12 +56,49 @@ namespace BattlefieldSimulator
             }
             return false;
         }
+
+
+        private void HandleSelectedAction()
+        {
+            
+            // if (InputManager.Instance.IsMouseButtonDownThisFrame())
+            // {
+            //     GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
+            //     if (!selectedAction.IsValidActionGridPosition(mouseGridPosition))
+            //     {
+            //         return;
+            //     }
+
+            //     if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
+            //     {
+            //         return;
+            //     }
+
+            //     SetBusy();
+            //     selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+
+            //     OnActionStarted?.Invoke(this, EventArgs.Empty);
+            // }
+        }
         private void SetSelectedUnit(UnitTest unit)
         {
-            if(selectedUnit)selectedUnit.ifselected=false;
+            if (selectedUnit) selectedUnit.ifselected = false;
+
             selectedUnit = unit;
-            selectedUnit.ifselected=true;
+
+            selectedUnit.ifselected = true;
+
+            SetSelectedAction(unit.GetAction<MoveAction>());
+
             OnSelectedUnitChange?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void SetSelectedAction(BaseAction baseAction)
+        {
+            selectedAction = baseAction;
+
+            OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public UnitTest GetSelectedUnit()
