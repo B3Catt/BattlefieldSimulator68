@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace BattlefieldSimulator
 {
@@ -8,8 +9,8 @@ namespace BattlefieldSimulator
         public static UnitActionSystem Instance { get; private set; }
 
         public event EventHandler OnSelectedUnitChange;
-
         public event EventHandler OnSelectedActionChanged;
+        public event EventHandler OnActionStarted;
         [SerializeField] private UnitTest selectedUnit;
         [SerializeField] private LayerMask unitsLayerMask;
         private bool isBusy;
@@ -35,6 +36,8 @@ namespace BattlefieldSimulator
         {
             if (isBusy) return;
 
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
             if (TryHandleUnitSelection()) return;
 
             HandleSelectedAction();
@@ -49,6 +52,7 @@ namespace BattlefieldSimulator
                 {
                     if (raycastHit.transform.TryGetComponent<UnitTest>(out UnitTest unit))
                     {
+                        if (unit == selectedUnit) return false;
                         SetSelectedUnit(unit);
                         return true;
                     }
@@ -62,29 +66,26 @@ namespace BattlefieldSimulator
         {
             if (Input.GetMouseButtonDown(0))
             {
+                HexTile hexTile = MouseWorld.GetHexTile();
+                if (hexTile == null)
+                {
+                    Debug.Log("no hextile");
+                    return;
+                }
+                if (!selectedAction.IsValidActionGridPosition(hexTile))
+                {
+                    Debug.Log("move unable");
+                    return;
+                }
+                if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
+                {
+                    return;
+                }
                 SetBusy();
-                selectedAction.TakeAction(MouseWorld.GetHexTile(), ClearBusy);
-                //selectedUnit.GetMoveAction().TakeAction(MouseWorld.GetHexTile(), ClearBusy);
+                selectedAction.TakeAction(hexTile, ClearBusy);
+
+                OnActionStarted?.Invoke(this, EventArgs.Empty);
             }
-            // if (InputManager.Instance.IsMouseButtonDownThisFrame())
-            // {
-            //     GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-
-            //     if (!selectedAction.IsValidActionGridPosition(mouseGridPosition))
-            //     {
-            //         return;
-            //     }
-
-            //     if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
-            //     {
-            //         return;
-            //     }
-
-            //     SetBusy();
-            //     selectedAction.TakeAction(mouseGridPosition, ClearBusy);
-
-            //     OnActionStarted?.Invoke(this, EventArgs.Empty);
-            // }
         }
         private void SetSelectedUnit(UnitTest unit)
         {

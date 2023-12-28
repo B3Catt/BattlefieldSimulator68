@@ -28,10 +28,7 @@ public class MouseWorld : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-
             HexTile hexTile = hit.collider.GetComponent<HexTile>();
-
-
             if (hexTile != null)
             {
                 return hexTile;

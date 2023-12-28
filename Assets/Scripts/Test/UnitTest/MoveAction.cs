@@ -11,7 +11,7 @@ public class MoveAction : BaseAction
     private float stoppingDistance = .1f;
     // Start is called before the first frame update
     [SerializeField] private Animator unitAnimator;
-    public bool OnDev = false;
+
     protected override void Awake()
     {
         targetPosition = transform.position;
@@ -43,11 +43,10 @@ public class MoveAction : BaseAction
         }
         else
         {
-            if (!OnDev)
-            {
-                //unitAnimator.SetBool("IsMoving", false);
-                ActionComplete();
-            }
+
+            //unitAnimator.SetBool("IsMoving", false);
+            ActionComplete();
+
         }
 
     }
@@ -71,21 +70,9 @@ public class MoveAction : BaseAction
     }
     public override void TakeAction(HexTile targetTile, Action onActionComplete)
     {
-        bool ifvalidmove = true;
         List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
-        if(!GetValidActionGridPositionList().Contains(targetTile)) ifvalidmove = false;
-        if (ifvalidmove)
-        {
-            OnDev = true;
-            ActionStart(onActionComplete);
-            StartCoroutine(MoveThroughPath(Path));
-        }
-        else
-        {
-            Debug.Log("move unable");
-            ActionStart(onActionComplete);
-            ActionComplete();
-        }
+        ActionStart(onActionComplete);
+        StartCoroutine(MoveThroughPath(Path));
     }
 
     IEnumerator MoveThroughPath(List<HexTile> path)
@@ -99,7 +86,6 @@ public class MoveAction : BaseAction
             if (i == 0)
             {
                 unitTest.SetCurrentHexTile(tile);
-                OnDev = false;
             }
         }
     }

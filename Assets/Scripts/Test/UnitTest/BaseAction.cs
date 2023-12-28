@@ -9,7 +9,7 @@ namespace BattlefieldSimulator
         public static event EventHandler OnAnyActionCompleted;
 
         protected UnitTest unitTest;
-        protected bool isActive=false;
+        protected bool isActive = false;
         protected Action onActionComplete;
         protected virtual void Awake()
         {
@@ -18,7 +18,11 @@ namespace BattlefieldSimulator
         public abstract string GetActionName();
 
         public abstract void TakeAction(HexTile hexTile, Action onActionComplete);
-
+        public virtual bool IsValidActionGridPosition(HexTile gridPosition)
+        {
+            List<HexTile> validGridPositionList = GetValidActionGridPositionList();
+            return validGridPositionList.Contains(gridPosition);
+        }
         public abstract List<HexTile> GetValidActionGridPositionList();
         protected void ActionStart(Action onActionComplete)
         {
@@ -34,6 +38,11 @@ namespace BattlefieldSimulator
             onActionComplete();
 
             OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
+        }
+
+        public virtual int GetActionPointsCost()
+        {
+            return 1;
         }
     }
 }
