@@ -45,20 +45,20 @@ public class MoveAction : MonoBehaviour
 
     }
 
-    public void Move(HexTileTest targetTile)
+    public void Move(HexTile targetTile)
     {
-        List<HexTileTest> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
-        if (Path != null)
-        {
-            StartCoroutine(MoveThroughPath(Path));
-        }
+        //List<HexTile> Path = test.FindPath(unitTest.GetCurrentHexTile(), targetTile);
+        //if (Path != null)
+        //{
+            //StartCoroutine(MoveThroughPath(Path));
+        //}
     }
 
-    IEnumerator MoveThroughPath(List<HexTileTest> path)
+    IEnumerator MoveThroughPath(List<HexTile> path)
     {
         for (int i = path.Count - 1; i >= 0; i--)
         {
-            HexTileTest tile = path[i];
+            HexTile tile = path[i];
             yield return StartCoroutine(MoveToTile(tile));
             //移动结束，设置先现在的tile
             if (i == 0)
@@ -66,9 +66,9 @@ public class MoveAction : MonoBehaviour
         }
     }
 
-    IEnumerator MoveToTile(HexTileTest hexTile)
+    IEnumerator MoveToTile(HexTile hexTile)
     {
-        targetPosition = hexTile.GetWorldPostion() + new Vector3(0f, 1f, 0f);
+        targetPosition = /*hexTile.GetWorldPostion() +*/ new Vector3(0f, 1f, 0f);
 
         while (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {

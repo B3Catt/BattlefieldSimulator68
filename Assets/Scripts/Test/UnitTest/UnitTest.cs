@@ -4,7 +4,7 @@ namespace BattlefieldSimulator
 {
     public class UnitTest : MonoBehaviour
     {
-        private HexTileTest currentHexTile;
+        private HexTile currentHexTile;
         private MoveAction moveAction;
         private void Awake()
         {
@@ -22,7 +22,7 @@ namespace BattlefieldSimulator
                 if (hexTileTransform != null)
                 {
                     // 获取 HexTile 组件
-                    currentHexTile = hexTileTransform.GetComponent<HexTileTest>();
+                    currentHexTile = hexTileTransform.GetComponent<HexTile>();
                 }
                 else
                 {
@@ -42,12 +42,12 @@ namespace BattlefieldSimulator
         {
             return moveAction;
         }
-        public HexTileTest GetCurrentHexTile()
+        public HexTile GetCurrentHexTile()
         {
             return currentHexTile;
         }
 
-        public void SetCurrentHexTile(HexTileTest tile)
+        public void SetCurrentHexTile(HexTile tile)
         {
             currentHexTile=tile;
         }

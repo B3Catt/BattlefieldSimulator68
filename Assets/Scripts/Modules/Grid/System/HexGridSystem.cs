@@ -5,20 +5,24 @@ namespace BattlefieldSimulator
 {
     public class HexGridSystem
     {
-        private HexGridMapSetting mapSettings;
+        private Transform terrainObj;
 
-        private HexGridMapGenerator generator;
+        private GeneratorData generatorData;
+        public GeneratorData GeneratorData { get => generatorData; }
+
         private HexGridMapData data;
-        private bool dirtyFlag;
-        public HexGridSystem(HexGridMapSetting mapSettings, HexTileGenerationSetting tileSettings)
+
+        public int seed {  get; private set; }
+        public HexGridSystem(GeneratorData generatorData, Transform terrainObj)
         {
-            this.mapSettings = mapSettings;
-            generator = new HexGridMapGenerator(mapSettings, tileSettings, this);
-            dirtyFlag = false;
+            this.generatorData = generatorData;
+            this.terrainObj = terrainObj;
+            data = new HexGridMapData(this);
         }
 
-        public void Generate() => generator.Generate(data);
-
+        /// <summary>
+        /// 
+        /// </summary>
         public void InitTiles()
         {
             if (data == null)
@@ -26,20 +30,54 @@ namespace BattlefieldSimulator
                 return;
             }
 
-            foreach (var hexTile in data.GetAllTiles())
+            foreach (HexTile hexTile in data.GetAllTiles())
             {
-                hexTile.neighbours = GetNeighbours(hexTile);
+                hexTile.RegisterNeighbours();
             }
         }
 
-        public void LoadMap(HexGridMapData data)
+        public bool FindPath(HexTile origin, HexTile destination, out List<HexTile> path)
         {
-            this.data = data;
-            mapSettings.width = data.width;
-            mapSettings.height = data.height;
+            path = Pathfinder.FindPath(origin, destination,
+                new Vector2(generatorData.topografiaSettings.seaLevel, generatorData.topografiaSettings.heightScale), true);
+            if (path == null) { return false; }
+            return true;
         }
 
-        private List<HexTile> GetNeighbours(HexTile tile)
+        /// <summary>
+        /// 
+        /// </summary>
+        public void GenerateMap()
+        {
+            HexGridMapGenerator.GenerateMap(this, generatorData, terrainObj, data);
+            TextureGenerator.UpdateColours(generatorData.graphicsSettings);
+            UpdateMaterial();
+            EditParentObject(generatorData.topografiaSettings.baseScale);
+
+            void UpdateMaterial()
+            {
+                //TODO: Add shader to visualize coordinate system option(cubic&grid)
+                //TODO: Selected tile highlighter
+                //TODO: Coordinate axis highlighter
+                generatorData.graphicsSettings.terrainMaterial.SetVector("_heightBounds", new Vector2(generatorData.topografiaSettings.seaLevel + 1, generatorData.topografiaSettings.heightScale + 1));
+                generatorData.graphicsSettings.terrainMaterial.SetFloat("_mainSeaLevel", generatorData.topografiaSettings.seaLevel);
+                generatorData.graphicsSettings.terrainMaterial.SetInt("_seaTiles", 1);
+                generatorData.graphicsSettings.terrainMaterial.SetFloat("_baseScale", generatorData.topografiaSettings.baseScale);
+            }
+
+            void EditParentObject(float scale)
+            {
+                terrainObj.transform.localScale = Vector3.one * scale;
+                terrainObj.transform.localEulerAngles = generatorData.topografiaSettings.rotation;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <returns></returns>
+        public List<HexTile> GetNeighbours(HexTile tile)
         {
             List<HexTile> neighbours = new List<HexTile>();
             Vector3Int[] neighbourCoordinary = new Vector3Int[]
@@ -55,7 +93,7 @@ namespace BattlefieldSimulator
 
             foreach (Vector3Int coord in neighbourCoordinary)
             {
-                GridPosition gridPosition = tile.gridPosition;
+                GridPosition gridPosition = tile.GridPosition;
 
                 if (data.TryGetTileByGridPosition(gridPosition + coord, out HexTile neighbour))
                 {
@@ -71,22 +109,14 @@ namespace BattlefieldSimulator
         /// </summary>
         /// <param name="gridPosition"></param>
         /// <returns></returns>
-        public Vector3 GetPositionForHexFromCoordinate(GridPosition gridPosition)
+        public Vector3 GetLocalPositionForHexFromCoordinate(GridPosition gridPosition)
         {
-            int column = gridPosition.x;
-            int row = gridPosition.z;
-            float width;
-            float height;
             float xPosition;
             float zPosition;
             float yPosition;
-            bool shouldOffset;
-            float horizontalDistance;
-            float verticalDistance;
-            float offset;
-            float size = mapSettings.radius;
+            float size = generatorData.topografiaSettings.baseScale;
 
-            if ((data?.TryGetTileByGridPosition(gridPosition, out HexTile hexTile))??false)
+            if ((data?.TryGetTileByGridPosition(gridPosition, out HexTile hexTile)) ?? false)
             {
                 yPosition = hexTile.height;
             }
@@ -95,34 +125,8 @@ namespace BattlefieldSimulator
                 yPosition = 0;
             }
 
-            if (!mapSettings.isFlatTopped)
-            {
-                shouldOffset = row % 2 == 0;
-                width = Mathf.Sqrt(3) * size;
-                height = 2f * size;
-
-                horizontalDistance = width;
-                verticalDistance = height * (3f / 4f);
-
-                offset = shouldOffset ? width / 2 : 0;
-
-                xPosition = (column * horizontalDistance) + offset;
-                zPosition = (row * verticalDistance);
-            }
-            else
-            {
-                shouldOffset = column % 2 == 0;
-                width = 2f * size;
-                height = Mathf.Sqrt(3) * size;
-
-                horizontalDistance = width * (3f / 4f);
-                verticalDistance = height;
-
-                offset = shouldOffset ? height / 2 : 0;
-
-                xPosition = (column * horizontalDistance);
-                zPosition = (row * verticalDistance) - offset;
-            }
+            xPosition = (gridPosition.q + gridPosition.r * .5f) * (HexMetrics.innerRadius * 2f) * size;
+            zPosition = gridPosition.r * (HexMetrics.outerRadius * 1.5f) * size;
 
             return new Vector3(xPosition, yPosition, -zPosition);
         }
@@ -137,7 +141,7 @@ namespace BattlefieldSimulator
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit, float.MaxValue, mapSettings.layerMask))
+            if (Physics.Raycast(ray, out hit, float.MaxValue, generatorData.tileLayer))
             {
                 Transform objectHit = hit.transform;
 
@@ -149,6 +153,16 @@ namespace BattlefieldSimulator
             }
             hexTile = null;
             return false;
+        }
+
+        public bool CheckPosition(GridPosition gridPosition)
+        {
+            return gridPosition.q >= -generatorData.topografiaSettings.numTilePerEdge &&
+                gridPosition.q <= generatorData.topografiaSettings.numTilePerEdge &&
+                gridPosition.r >= -generatorData.topografiaSettings.numTilePerEdge &&
+                gridPosition.r <= generatorData.topografiaSettings.numTilePerEdge &&
+                gridPosition.s >= -generatorData.topografiaSettings.numTilePerEdge &&
+                gridPosition.s <= generatorData.topografiaSettings.numTilePerEdge;
         }
     }
 }

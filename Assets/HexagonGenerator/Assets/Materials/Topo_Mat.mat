@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7488937079353752228
+--- !u!114 &-8075271404801360480
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -37,8 +37,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Texture2DAsset_67fc59c4113c44cbb1ad3b79f1ea0d9d_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 77291c9680964e94088f20e26eac401f, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_f5365c6396004c67a0cb1f0a9828ae27_Out_0_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 77291c9680964e94088f20e26eac401f, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopoTexture:
+        m_Texture: {fileID: 2800000, guid: 77291c9680964e94088f20e26eac401f, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _topoTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 77291c9680964e94088f20e26eac401f, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -55,13 +67,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ObjectSpace: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _baseScale: 1
     - _mainSeaLevel: 0.5
-    - _objectSpace: 1
+    - _objectSpace: 0
     - _seaTiles: 1
     m_Colors:
+    - _BaseScale: {r: 1, g: 1, b: 1, a: 0}
+    - _HeightBounds: {r: 1, g: 10, b: 0, a: 0}
     - _heightBounds: {r: 0.5, g: 5.7042694, b: 0, a: 0}
     - _underwaterColour: {r: 1, g: 0.9999874, b: 0.4292453, a: 0}
   m_BuildTextureStacks: []

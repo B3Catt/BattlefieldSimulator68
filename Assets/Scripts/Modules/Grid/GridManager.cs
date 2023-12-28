@@ -8,18 +8,16 @@ namespace BattlefieldSimulator
 {
     public class GridManager
     {
-        private HexGridSystem gridSystem;
-        private HexTileGenerationSetting gridSettings;
-        private HexGridMapSetting mapSettings;
+        private GeneratorData data;
+        private Transform terrainObj;
+        public HexGridSystem gridSystem { get; private set; }
 
-        public GridManager(HexTileGenerationSetting gridSettings, HexGridMapSetting mapSettings)
+        public GridManager(GeneratorData data, Transform terrainObj)
         {
-            this.gridSettings = gridSettings;
-            this.mapSettings = mapSettings;
-            gridSystem = new HexGridSystem(mapSettings, gridSettings);
+            this.data = data;
+            this.terrainObj = terrainObj;
+            gridSystem = new HexGridSystem(data, terrainObj);
         }
-
-
 
     }
 }

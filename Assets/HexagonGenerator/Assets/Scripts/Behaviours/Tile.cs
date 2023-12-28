@@ -35,6 +35,9 @@ namespace Polygen.HexagonGenerator
             get => coordinatesCubic;
         }
 
+        bool disable;
+        public bool Disable { get => disable; }
+
         public void Initialize(BiomeData biomeData, Vector2Int coordinatesGrid, HexVectorCubic coordinatesCubic, float height, Color color)
         {
             this.biomeData = biomeData;

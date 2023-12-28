@@ -387,12 +387,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1221749819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4aafa2d6a2478a489a6649d28dd52c0, type: 3}
+  m_Script: {fileID: 11500000, guid: d9949c45195accb488ece67c47dc53d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinemachineVirtualCamera: {fileID: 0}
+  cinemachineVirtualCamera: {fileID: 1737693920}
   useEdgeScrolling: 0
   useDragPan: 0
+  fieldOfViewMax: 50
+  fieldOfViewMin: 10
+  followOffsetMin: 5
+  followOffsetMax: 50
+  followOffsetMinY: 10
+  followOffsetMaxY: 50
 --- !u!1 &1331007561
 GameObject:
   m_ObjectHideFlags: 3
@@ -552,7 +558,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1737693919}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2879013, y: 0.000000025861405, z: -0.000000007774714, w: 0.9576601}
+  m_LocalRotation: {x: 0.2879013, y: -0.000000025861404, z: 0.000000007774713, w: 0.9576601}
   m_LocalPosition: {x: 0, y: 6.61, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -647,7 +653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1874288588}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2879013, y: 0.000000025861405, z: -0.000000007774714, w: 0.9576601}
+  m_LocalRotation: {x: 0.2879013, y: -0.000000025861404, z: 0.000000007774713, w: 0.9576601}
   m_LocalPosition: {x: 0, y: 6.61, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

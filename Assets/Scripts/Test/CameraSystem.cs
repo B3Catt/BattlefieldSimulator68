@@ -51,8 +51,8 @@ namespace BattlefieldSimulator
             {
                 Transform objectHit = hit.transform;
 
-                HexTileTest target;
-                if (objectHit.TryGetComponent<HexTileTest>(out target))
+                HexTile target;
+                if (objectHit.TryGetComponent<HexTile>(out target))
                 {
                     target.OnHighlightTile();
                 }
@@ -64,7 +64,7 @@ namespace BattlefieldSimulator
                 if (Physics.Raycast(ray, out hit))
                 {
                     // 获取点击到的物体的 HexTile 组件
-                    HexTileTest hexTile = hit.collider.GetComponent<HexTileTest>();
+                    HexTile hexTile = hit.collider.GetComponent<HexTile>();
 
                     // 检查是否成功获取到 HexTile 组件
                     if (hexTile != null)

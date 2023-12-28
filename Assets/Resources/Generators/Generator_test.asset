@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe4b10c1ce922e84cbe975197434b530, type: 3}
+  m_Name: Generator_test
+  m_EditorClassIdentifier: 
+  generatorName: test
+  topografiaSettings: {fileID: 11400000, guid: 97ccdf98a9614b645a04e5b5cd97a35b, type: 2}
+  noiseSettings: {fileID: 11400000, guid: 61a70589a7d3db343b4009e960130a37, type: 2}
+  graphicsSettings: {fileID: 11400000, guid: 50256aab5bf772e4eb7368c2e84fc0d0, type: 2}
+  seed: 0
+  generateScripts: 0
+  staticTiles: 1
+  staticDetails: 1
+  tileLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  detailLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  generatorFolderPath: 
