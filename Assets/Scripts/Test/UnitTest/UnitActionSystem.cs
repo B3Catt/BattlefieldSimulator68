@@ -12,6 +12,7 @@ namespace BattlefieldSimulator
         public event EventHandler OnSelectedActionChanged;
         [SerializeField] private UnitTest selectedUnit;
         [SerializeField] private LayerMask unitsLayerMask;
+        private bool isBusy;
 
         private BaseAction selectedAction;
         private void Awake()
@@ -32,13 +33,15 @@ namespace BattlefieldSimulator
 
         private void Update()
         {
+            if (isBusy) return;
             if (Input.GetMouseButtonDown(0))
             {
-                if (selectedUnit != null && selectedUnit.GetMoveAction().IfMoving == true) return;
+                //if (selectedUnit != null && selectedUnit.GetMoveAction().IfMoving == true) return;
                 if (TryHandleUnitSelection()) return;
                 if (selectedUnit != null)
                 {
-                    selectedUnit.GetMoveAction().Move(MouseWorld.GetHexTile());
+                    SetBusy();
+                    selectedUnit.GetMoveAction().Move(MouseWorld.GetHexTile(),ClearBusy);
                 }
             }
         }
@@ -60,7 +63,7 @@ namespace BattlefieldSimulator
 
         private void HandleSelectedAction()
         {
-            
+
             // if (InputManager.Instance.IsMouseButtonDownThisFrame())
             // {
             //     GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
@@ -104,6 +107,19 @@ namespace BattlefieldSimulator
         public UnitTest GetSelectedUnit()
         {
             return selectedUnit;
+        }
+        private void SetBusy()
+        {
+            isBusy = true;
+
+            //OnBusyChanged?.Invoke(this, isBusy);
+        }
+
+        private void ClearBusy()
+        {
+            isBusy = false;
+
+            //OnBusyChanged?.Invoke(this, isBusy);
         }
     }
 }

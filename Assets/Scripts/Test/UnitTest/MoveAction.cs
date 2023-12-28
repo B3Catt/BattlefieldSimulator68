@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using BattlefieldSimulator;
@@ -10,7 +11,7 @@ public class MoveAction : BaseAction
     private float stoppingDistance = .1f;
     // Start is called before the first frame update
     [SerializeField] private Animator unitAnimator;
-    public bool IfMoving;
+    public bool OnDev = false;
     protected override void Awake()
     {
         targetPosition = transform.position;
@@ -23,10 +24,11 @@ public class MoveAction : BaseAction
     // Update is called once per frame
     void Update()
     {
+        if (!isActive) return;
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            unitAnimator.SetBool("IsMoving", true);
-            IfMoving = true;
+            //unitAnimator.SetBool("IsMoving", true);
+
             Vector3 moveDirection = (targetPosition - transform.position).normalized;
             if (Vector3.Distance(transform.forward, moveDirection) > stoppingDistance)
             {
@@ -41,13 +43,16 @@ public class MoveAction : BaseAction
         }
         else
         {
-            unitAnimator.SetBool("IsMoving", false);
-            IfMoving = false;
+            if (!OnDev)
+            {
+                //unitAnimator.SetBool("IsMoving", false);
+                ActionComplete();
+            }
         }
 
     }
 
-    public void Move(HexTile targetTile)
+    public void Move(HexTile targetTile, Action onActionComplete)
     {
         bool ifvalidmove = true;
         List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
@@ -55,6 +60,8 @@ public class MoveAction : BaseAction
         if (Path.Count > unitTest.movedistance + 1 || Path == null) ifvalidmove = false;//超出距离（忽略自身的一格）
         if (ifvalidmove)
         {
+            OnDev = true;
+            ActionStart(onActionComplete);
             StartCoroutine(MoveThroughPath(Path));
         }
         else
@@ -67,11 +74,15 @@ public class MoveAction : BaseAction
     {
         for (int i = path.Count - 1; i >= 0; i--)
         {
+            isActive = true;
             HexTile tile = path[i];
             yield return StartCoroutine(MoveToTile(tile));
             //移动结束，设置先现在的tile
             if (i == 0)
+            {
                 unitTest.SetCurrentHexTile(tile);
+                OnDev = false;
+            }
         }
     }
 
@@ -88,7 +99,7 @@ public class MoveAction : BaseAction
 
     public override string GetActionName()
     {
-        
+
         return "Move";
     }
 }
