@@ -52,12 +52,28 @@ public class MoveAction : BaseAction
 
     }
 
-    public void Move(HexTile targetTile, Action onActionComplete)
+    public override List<HexTile> GetValidActionGridPositionList()
+    {
+        List<HexTile> list = new List<HexTile>();
+        foreach (KeyValuePair<Vector2Int, HexTile> pair in unitTest.hexGrid.tiles)
+        {
+            Vector2Int key = pair.Key;
+            HexTile tile = pair.Value;
+            if (unitTest.GetCurrentHexTile() == tile || Vector2Int.Distance(tile.offsetCoordinate, unitTest.GetCurrentHexTile().offsetCoordinate) > unitTest.movedistance) continue;
+            List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), tile);
+            if (Path != null && Path.Count <= unitTest.movedistance + 1)
+            {
+                list.Add(tile);
+                //gridSystemVisual.ShowTile(key.x, key.y);
+            }
+        }
+        return list;
+    }
+    public override void TakeAction(HexTile targetTile, Action onActionComplete)
     {
         bool ifvalidmove = true;
         List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
-        if (targetTile == unitTest.GetCurrentHexTile()) ifvalidmove = false;//重叠
-        if (Path.Count > unitTest.movedistance + 1 || Path == null) ifvalidmove = false;//超出距离（忽略自身的一格）
+        if(!GetValidActionGridPositionList().Contains(targetTile)) ifvalidmove = false;
         if (ifvalidmove)
         {
             OnDev = true;
@@ -67,6 +83,8 @@ public class MoveAction : BaseAction
         else
         {
             Debug.Log("move unable");
+            ActionStart(onActionComplete);
+            ActionComplete();
         }
     }
 

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 namespace BattlefieldSimulator
 {
@@ -16,6 +17,9 @@ namespace BattlefieldSimulator
         }
         public abstract string GetActionName();
 
+        public abstract void TakeAction(HexTile hexTile, Action onActionComplete);
+
+        public abstract List<HexTile> GetValidActionGridPositionList();
         protected void ActionStart(Action onActionComplete)
         {
             isActive = true;

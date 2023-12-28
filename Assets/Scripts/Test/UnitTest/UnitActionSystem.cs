@@ -34,27 +34,24 @@ namespace BattlefieldSimulator
         private void Update()
         {
             if (isBusy) return;
-            if (Input.GetMouseButtonDown(0))
-            {
-                //if (selectedUnit != null && selectedUnit.GetMoveAction().IfMoving == true) return;
-                if (TryHandleUnitSelection()) return;
-                if (selectedUnit != null)
-                {
-                    SetBusy();
-                    selectedUnit.GetMoveAction().Move(MouseWorld.GetHexTile(),ClearBusy);
-                }
-            }
+
+            if (TryHandleUnitSelection()) return;
+
+            HandleSelectedAction();
         }
 
         private bool TryHandleUnitSelection()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitsLayerMask))
+            if (Input.GetMouseButtonDown(0))
             {
-                if (raycastHit.transform.TryGetComponent<UnitTest>(out UnitTest unit))
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, unitsLayerMask))
                 {
-                    SetSelectedUnit(unit);
-                    return true;
+                    if (raycastHit.transform.TryGetComponent<UnitTest>(out UnitTest unit))
+                    {
+                        SetSelectedUnit(unit);
+                        return true;
+                    }
                 }
             }
             return false;
@@ -63,7 +60,12 @@ namespace BattlefieldSimulator
 
         private void HandleSelectedAction()
         {
-
+            if (Input.GetMouseButtonDown(0))
+            {
+                SetBusy();
+                selectedAction.TakeAction(MouseWorld.GetHexTile(), ClearBusy);
+                //selectedUnit.GetMoveAction().TakeAction(MouseWorld.GetHexTile(), ClearBusy);
+            }
             // if (InputManager.Instance.IsMouseButtonDownThisFrame())
             // {
             //     GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
@@ -107,6 +109,11 @@ namespace BattlefieldSimulator
         public UnitTest GetSelectedUnit()
         {
             return selectedUnit;
+        }
+
+        public BaseAction GetSelectedAction()
+        {
+            return selectedAction;
         }
         private void SetBusy()
         {

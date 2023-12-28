@@ -11,6 +11,15 @@ public class GridSystemVisual : MonoBehaviour
     [SerializeField] private Transform gridSystemVisual;
     private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
     public HexGrid hexGrid;
+
+    public enum GridVisualType
+    {
+        White,
+        Blue,
+        Red,
+        RedSoft,
+        Yellow,
+    }
     private void Start()
     {
         gridSystemVisualSingleArray = new GridSystemVisualSingle[
@@ -22,11 +31,12 @@ public class GridSystemVisual : MonoBehaviour
             Vector2Int key = pair.Key;
             HexTile value = pair.Value;
             Transform gridSystemVisualSingleTransform =
-                Instantiate(gridSystemVisualSinglePrefab, value.GetWorldPostion() + new Vector3(0, 1.5f, 0), Quaternion.identity,gridSystemVisual);
+                Instantiate(gridSystemVisualSinglePrefab, value.GetWorldPostion() + new Vector3(0, 1.5f, 0), Quaternion.identity, gridSystemVisual);
             gridSystemVisualSingleArray[key.x, key.y] = gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
         }
-        HideAllSingle();
+
         UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
+        UpdateGridVisual();
     }
 
     public void HideAllSingle()
@@ -47,5 +57,22 @@ public class GridSystemVisual : MonoBehaviour
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
     {
         HideAllSingle();
+    }
+
+    private void UpdateGridVisual()
+    {
+        HideAllSingle();
+
+        UnitTest selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+        BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+        GridVisualType gridVisualType=GridVisualType.White;
+        ShowGridPositionList(selectedAction.GetValidActionGridPositionList(), gridVisualType);
+    }
+    public void ShowGridPositionList(List<HexTile> gridPositionList, GridVisualType gridVisualType)
+    {
+        foreach (HexTile gridPosition in gridPositionList)
+        {
+            gridSystemVisualSingleArray[gridPosition.offsetCoordinate.x, gridPosition.offsetCoordinate.y].show();
+        }
     }
 }
