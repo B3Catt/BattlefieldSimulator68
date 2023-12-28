@@ -43,7 +43,7 @@ namespace BattlefieldSimulator
 
             ///TODO:
             ///     move below part into a new class like GridActionSystem
-            //ÅÐ¶Ïµã»÷Ñ¡ÔñºÍ¸ßÁÁ
+            //ï¿½Ð¶Ïµï¿½ï¿½Ñ¡ï¿½ï¿½Í¸ï¿½ï¿½ï¿½
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -57,23 +57,23 @@ namespace BattlefieldSimulator
                     target.OnHighlightTile();
                 }
             }
-            // ¼ì²âÊó±ê×ó¼üµã»÷
-            if (Input.GetMouseButtonDown(0))
-            {
-                // ¼ì²âÊÇ·ñµã»÷µ½ÁËÎïÌå
-                if (Physics.Raycast(ray, out hit))
-                {
-                    // »ñÈ¡µã»÷µ½µÄÎïÌåµÄ HexTile ×é¼þ
-                    HexTile hexTile = hit.collider.GetComponent<HexTile>();
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // if (Input.GetMouseButtonDown(0))
+            // {
+            //     // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            //     if (Physics.Raycast(ray, out hit))
+            //     {
+            //         // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ HexTile ï¿½ï¿½ï¿½
+            //         HexTile hexTile = hit.collider.GetComponent<HexTile>();
 
-                    // ¼ì²éÊÇ·ñ³É¹¦»ñÈ¡µ½ HexTile ×é¼þ
-                    if (hexTile != null)
-                    {
-                        // µ÷ÓÃ OnSelectTile ·½·¨
-                        hexTile.OnSelcetTile();
-                    }
-                }
-            }
+            //         // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½É¹ï¿½ï¿½ï¿½È¡ï¿½ï¿½ HexTile ï¿½ï¿½ï¿½
+            //         if (hexTile != null)
+            //         {
+            //             // ï¿½ï¿½ï¿½ï¿½ OnSelectTile ï¿½ï¿½ï¿½ï¿½
+            //             hexTile.OnSelcetTile();
+            //         }
+            //     }
+            // }
         }
 
 

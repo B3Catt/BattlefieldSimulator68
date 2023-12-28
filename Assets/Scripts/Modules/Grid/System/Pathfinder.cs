@@ -58,8 +58,17 @@ namespace BattlefieldSimulator
             foreach (HexTile tile in currentNode.target.neighbours)
             {
                 Node node = new Node(tile, origin, destination, currentNode.Getcost());
+<<<<<<< HEAD:Assets/Scripts/Modules/Grid/System/Pathfinder.cs
                 node.baseCost += (tile.Disable || (tile.IsSeaTile ^ currentNode.target.IsSeaTile)) ? MAX_COST : 0;
                 node.heightcost = isFlight ? 0 : GetHeightCost(tile.height, currentNode.target.height, heightBounds);
+=======
+
+                if (tile.tileType == HexTileGenerationSetting.TileType.Water)
+                {
+                    // should change it to height distance
+                    node.baseCost = 9999999;
+                }
+>>>>>>> 1536e457a023646bebd2334e75769c4c16c73cec:Assets/Scripts/Test/GridTest/Pathfinder.cs
                 neighbours.Add(node);
             }
             foreach (Node neighbour in neighbours)
