@@ -11,7 +11,7 @@ public class MoveAction : BaseAction
     private float stoppingDistance = .1f;
     // Start is called before the first frame update
     [SerializeField] private Animator unitAnimator;
-
+    private bool onDev = false;
     protected override void Awake()
     {
         targetPosition = transform.position;
@@ -43,9 +43,11 @@ public class MoveAction : BaseAction
         }
         else
         {
-
-            //unitAnimator.SetBool("IsMoving", false);
-            ActionComplete();
+            if (onDev)
+            {
+                ActionComplete();
+                onDev=false;
+            }
 
         }
 
@@ -86,6 +88,7 @@ public class MoveAction : BaseAction
             if (i == 0)
             {
                 unitTest.SetCurrentHexTile(tile);
+                onDev=true;
             }
         }
     }

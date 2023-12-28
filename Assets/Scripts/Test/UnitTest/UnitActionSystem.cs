@@ -82,7 +82,8 @@ namespace BattlefieldSimulator
                     return;
                 }
                 SetBusy();
-                selectedAction.TakeAction(hexTile, ClearBusy);
+                selectedAction.TakeAction(hexTile, ClearBusy);//第一个元素是HexTile的，不是单纯只有几个坐标，把整个传过来的
+                
 
                 OnActionStarted?.Invoke(this, EventArgs.Empty);
             }
