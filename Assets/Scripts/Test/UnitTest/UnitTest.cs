@@ -12,10 +12,10 @@ namespace BattlefieldSimulator
 
         public int x;
         public int z;
-        public HexGrid hexGrid;
+        //public HexGrid hexGrid;
         public int movedistance = 4;
         public bool ifselected = false;
-        public GridSystemVisual gridSystemVisual;
+        //public GridSystemVisual gridSystemVisual;
         private void Awake()
         {
             moveAction = GetComponent<MoveAction>();
@@ -39,17 +39,17 @@ namespace BattlefieldSimulator
         {
             if (ifselected)
             {
-                foreach (KeyValuePair<Vector2Int, HexTile> pair in hexGrid.tiles)
-                {
-                    Vector2Int key = pair.Key;
-                    HexTile tile = pair.Value;
-                    if (currentHexTile == tile || Vector2Int.Distance(tile.offsetCoordinate, currentHexTile.offsetCoordinate) > movedistance) continue;
-                    List<HexTile> Path = Pathfinder.FindPath(currentHexTile, tile);
-                    if (Path != null && Path.Count <= movedistance + 1)
-                    {
-                        gridSystemVisual.ShowTile(key.x, key.y);
-                    }
-                }
+                //foreach (KeyValuePair<Vector2Int, HexTile> pair in hexGrid.tiles)
+                //{
+                   // Vector2Int key = pair.Key;
+                   // HexTile tile = pair.Value;
+                    //if (currentHexTile == tile || Vector2Int.Distance(tile.offsetCoordinate, currentHexTile.offsetCoordinate) > movedistance) continue;
+                    //List<HexTile> Path = Pathfinder.FindPath(currentHexTile, tile);
+                    //if (Path != null && Path.Count <= movedistance + 1)
+                    //{
+                    //    gridSystemVisual.ShowTile(key.x, key.y);
+                    //}
+                //}
             }
         }
 
@@ -91,7 +91,7 @@ namespace BattlefieldSimulator
         public void SetCurrentHexTile(HexTile tile)
         {
             currentHexTile = tile;
-            gridSystemVisual.HideAllSingle();
+            //gridSystemVisual.HideAllSingle();
         }
         public BaseAction[] GetBaseActionArray()
         {
