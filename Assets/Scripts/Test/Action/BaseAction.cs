@@ -26,6 +26,8 @@ namespace BattlefieldSimulator
         public abstract List<HexTile> GetValidActionGridPositionList();
         protected void ActionStart(Action onActionComplete)
         {
+            unitTest.GetCurrentHexTile().ifEmpty = true;
+            unitTest.GetCurrentHexTile().unitOnIt = null;
             isActive = true;
             this.onActionComplete = onActionComplete;
 
@@ -34,9 +36,12 @@ namespace BattlefieldSimulator
 
         protected void ActionComplete()
         {
+            unitTest.GetCurrentHexTile().ifEmpty = false;
+            unitTest.GetCurrentHexTile().unitOnIt = unitTest;
             isActive = false;
             onActionComplete();
             unitTest.gridSystemVisual.UpdateGridVisual();
+
             OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
         }
 

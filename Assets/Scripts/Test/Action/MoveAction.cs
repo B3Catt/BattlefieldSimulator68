@@ -46,7 +46,7 @@ public class MoveAction : BaseAction
             if (onDev)
             {
                 ActionComplete();
-                onDev=false;
+                onDev = false;
             }
 
         }
@@ -60,7 +60,7 @@ public class MoveAction : BaseAction
         {
             Vector2Int key = pair.Key;
             HexTile tile = pair.Value;
-            if (unitTest.GetCurrentHexTile() == tile || Vector2Int.Distance(tile.offsetCoordinate, unitTest.GetCurrentHexTile().offsetCoordinate) > unitTest.movedistance) continue;
+            if (unitTest.GetCurrentHexTile() == tile || Vector2Int.Distance(tile.offsetCoordinate, unitTest.GetCurrentHexTile().offsetCoordinate) > unitTest.movedistance + 1||tile.ifEmpty==false) continue;
             List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), tile);
             if (Path != null && Path.Count <= unitTest.movedistance + 1)
             {
@@ -72,8 +72,8 @@ public class MoveAction : BaseAction
     }
     public override void TakeAction(HexTile targetTile, Action onActionComplete)
     {
-        List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
         ActionStart(onActionComplete);
+        List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
         StartCoroutine(MoveThroughPath(Path));
     }
 
@@ -88,7 +88,7 @@ public class MoveAction : BaseAction
             if (i == 0)
             {
                 unitTest.SetCurrentHexTile(tile);
-                onDev=true;
+                onDev = true;
             }
         }
     }

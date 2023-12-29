@@ -36,6 +36,7 @@ public class GridSystemVisual : MonoBehaviour
         }
 
         UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
+        UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         UpdateGridVisual();
     }
 
@@ -56,7 +57,13 @@ public class GridSystemVisual : MonoBehaviour
     }
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
     {
-        //HideAllSingle();
+
+        UpdateGridVisual();
+    }
+    private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
+    {
+
+        UpdateGridVisual();
     }
 
     public void UpdateGridVisual()
@@ -65,7 +72,7 @@ public class GridSystemVisual : MonoBehaviour
 
         UnitTest selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
         BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
-        GridVisualType gridVisualType=GridVisualType.White;
+        GridVisualType gridVisualType = GridVisualType.White;
         ShowGridPositionList(selectedAction.GetValidActionGridPositionList(), gridVisualType);
     }
     public void ShowGridPositionList(List<HexTile> gridPositionList, GridVisualType gridVisualType)

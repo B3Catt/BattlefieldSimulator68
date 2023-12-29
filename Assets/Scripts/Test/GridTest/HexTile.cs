@@ -25,12 +25,11 @@ namespace BattlefieldSimulator
         public GridPosition gridPosition;
 
         public List<HexTile> neighbours;
-
         public float radius;
-
         public float height;
-
         private bool isDirty = false;
+        public bool ifEmpty = true;
+        public UnitTest unitOnIt =null;
 
         private void OnValidate()
         {
@@ -133,7 +132,7 @@ namespace BattlefieldSimulator
             }
             else
             {
-                return new Vector3(0,0,0);
+                return new Vector3(0, 0, 0);
             }
 
         }

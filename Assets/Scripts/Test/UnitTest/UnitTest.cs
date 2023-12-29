@@ -17,6 +17,7 @@ namespace BattlefieldSimulator
         public int x;
         public int z;
         public int movedistance = 4;
+        public int attackdistance = 5;
         public bool ifselected = false;
         public HexGrid hexGrid;
         public GridSystemVisual gridSystemVisual;
@@ -32,17 +33,20 @@ namespace BattlefieldSimulator
         private void Start()
         {
             SetStartTile(x, z);
+            currentHexTile.ifEmpty = false;
+            currentHexTile.unitOnIt = this;
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-            UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
+            //UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
+
         }
         private void Update()
         {
         }
 
-        private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
-        {
-            gridSystemVisual.UpdateGridVisual();
-        }
+        // private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        // {
+        //     gridSystemVisual.UpdateGridVisual();
+        // }
         private void SetStartTile(int x, int z)
         {
             GameObject gridObject = GameObject.Find("grid");
@@ -134,6 +138,11 @@ namespace BattlefieldSimulator
         public bool IsEnemy()
         {
             return isEnemy;
+        }
+
+        public Vector3 GetWorldPosition()
+        {
+            return currentHexTile.transform.position;
         }
     }
 }
