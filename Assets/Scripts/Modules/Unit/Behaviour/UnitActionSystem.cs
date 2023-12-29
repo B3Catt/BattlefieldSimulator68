@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace BattlefieldSimulator
 {
@@ -8,9 +9,13 @@ namespace BattlefieldSimulator
         public static UnitActionSystem Instance { get; private set; }
 
         public event EventHandler OnSelectedUnitChange;
-
         public event EventHandler OnSelectedActionChanged;
+<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Behaviour/UnitActionSystem.cs
         [SerializeField] private Unit selectedUnit;
+=======
+        public event EventHandler OnActionStarted;
+        [SerializeField] private UnitTest selectedUnit;
+>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/UnitTest/UnitActionSystem.cs
         [SerializeField] private LayerMask unitsLayerMask;
         private bool isBusy;
 
@@ -35,6 +40,8 @@ namespace BattlefieldSimulator
         {
             if (isBusy) return;
 
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
             if (TryHandleUnitSelection()) return;
 
             HandleSelectedAction();
@@ -49,6 +56,7 @@ namespace BattlefieldSimulator
                 {
                     if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                     {
+                        if (unit == selectedUnit) return false;
                         SetSelectedUnit(unit);
                         return true;
                     }
@@ -62,8 +70,30 @@ namespace BattlefieldSimulator
         {
             if (Input.GetMouseButtonDown(0))
             {
+                HexTile hexTile = MouseWorld.GetHexTile();
+                if (hexTile == null)
+                {
+                    Debug.Log("no hextile");
+                    return;
+                }
+                if (!selectedAction.IsValidActionGridPosition(hexTile))
+                {
+                    Debug.Log("move unable");
+                    return;
+                }
+                if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction))
+                {
+                    return;
+                }
                 SetBusy();
+<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Behaviour/UnitActionSystem.cs
                 selectedAction.TakeAction(MouseWorld.GetHexTile(), ClearBusy);
+=======
+                selectedAction.TakeAction(hexTile, ClearBusy);//第一个元素是HexTile的，不是单纯只有几个坐标，把整个传过来的
+                
+
+                OnActionStarted?.Invoke(this, EventArgs.Empty);
+>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/UnitTest/UnitActionSystem.cs
             }
         }
         private void SetSelectedUnit(Unit unit)
