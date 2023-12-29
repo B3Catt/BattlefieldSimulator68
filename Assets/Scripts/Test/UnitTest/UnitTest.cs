@@ -8,9 +8,12 @@ namespace BattlefieldSimulator
     {
         private const int ACTION_POINTS_MAX = 3;
         public static event EventHandler OnAnyActionPointsChanged;
-
+        public static event EventHandler OnAnyUnitDead;
         private HexTile currentHexTile;
+        private HealthSystem healthSystem;
         private BaseAction[] baseActionArray;
+        public HexGrid hexGrid;
+        public GridSystemVisual gridSystemVisual;
 
         [SerializeField] private bool isEnemy;
 
@@ -19,8 +22,7 @@ namespace BattlefieldSimulator
         public int movedistance = 4;
         public int attackdistance = 5;
         public bool ifselected = false;
-        public HexGrid hexGrid;
-        public GridSystemVisual gridSystemVisual;
+
 
 
         private int actionPoints = ACTION_POINTS_MAX;
@@ -29,6 +31,7 @@ namespace BattlefieldSimulator
             hexGrid = FindObjectOfType<HexGrid>();
             gridSystemVisual = FindObjectOfType<GridSystemVisual>();
             baseActionArray = GetComponents<BaseAction>();
+            healthSystem = GetComponent<HealthSystem>();
         }
         private void Start()
         {
@@ -36,17 +39,12 @@ namespace BattlefieldSimulator
             currentHexTile.ifEmpty = false;
             currentHexTile.unitOnIt = this;
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
-            //UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
-
+            healthSystem.OnDead += HealthSystem_OnDead;
         }
         private void Update()
         {
         }
 
-        // private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
-        // {
-        //     gridSystemVisual.UpdateGridVisual();
-        // }
         private void SetStartTile(int x, int z)
         {
             GameObject gridObject = GameObject.Find("grid");
@@ -148,7 +146,16 @@ namespace BattlefieldSimulator
         public void Damage(int damage)
         {
             Debug.Log("damage: " + damage);
+            healthSystem.Damage(damage);
+        }
+        private void HealthSystem_OnDead(object sender, EventArgs e)
+        {
+            currentHexTile.ifEmpty = true;
+            currentHexTile.unitOnIt = null;
+            Destroy(gameObject);
+
+            OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
         }
     }
-}
 
+}
