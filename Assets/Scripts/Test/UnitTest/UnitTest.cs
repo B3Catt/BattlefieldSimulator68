@@ -10,22 +10,22 @@ namespace BattlefieldSimulator
         public static event EventHandler OnAnyActionPointsChanged;
 
         private HexTile currentHexTile;
-        private MoveAction moveAction;
         private BaseAction[] baseActionArray;
 
 
         public int x;
         public int z;
-        public HexGrid hexGrid;
         public int movedistance = 4;
         public bool ifselected = false;
+        public HexGrid hexGrid;
         public GridSystemVisual gridSystemVisual;
 
 
         private int actionPoints = ACTION_POINTS_MAX;
         private void Awake()
         {
-            moveAction = GetComponent<MoveAction>();
+            hexGrid = FindObjectOfType<HexGrid>();
+            gridSystemVisual = FindObjectOfType<GridSystemVisual>();
             baseActionArray = GetComponents<BaseAction>();
         }
         private void Start()
