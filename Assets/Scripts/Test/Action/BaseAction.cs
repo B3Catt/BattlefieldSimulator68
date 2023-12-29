@@ -36,7 +36,7 @@ namespace BattlefieldSimulator
         {
             isActive = false;
             onActionComplete();
-
+            unitTest.gridSystemVisual.UpdateGridVisual();
             OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
         }
 

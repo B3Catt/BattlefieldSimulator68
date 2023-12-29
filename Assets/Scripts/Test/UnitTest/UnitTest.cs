@@ -32,25 +32,16 @@ namespace BattlefieldSimulator
         {
             SetStartTile(x, z);
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+            UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
         }
         private void Update()
         {
-            if (ifselected)
-            {
-                foreach (KeyValuePair<Vector2Int, HexTile> pair in hexGrid.tiles)
-                {
-                    Vector2Int key = pair.Key;
-                    HexTile tile = pair.Value;
-                    if (currentHexTile == tile || Vector2Int.Distance(tile.offsetCoordinate, currentHexTile.offsetCoordinate) > movedistance) continue;
-                    List<HexTile> Path = Pathfinder.FindPath(currentHexTile, tile);
-                    if (Path != null && Path.Count <= movedistance + 1)
-                    {
-                        gridSystemVisual.ShowTile(key.x, key.y);
-                    }
-                }
-            }
         }
 
+        private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        {
+            gridSystemVisual.UpdateGridVisual();
+        }
         private void SetStartTile(int x, int z)
         {
             GameObject gridObject = GameObject.Find("grid");

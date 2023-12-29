@@ -14,11 +14,11 @@ public class MoveAction : BaseAction
     private bool onDev = false;
     protected override void Awake()
     {
-        targetPosition = transform.position;
         unitTest = GetComponent<UnitTest>();
     }
     void Start()
     {
+        targetPosition = transform.position;
     }
 
     // Update is called once per frame

@@ -57,9 +57,10 @@ public class GridSystemVisual : MonoBehaviour
     private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
     {
         HideAllSingle();
+        
     }
 
-    private void UpdateGridVisual()
+    public void UpdateGridVisual()
     {
         HideAllSingle();
 
