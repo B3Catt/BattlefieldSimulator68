@@ -144,6 +144,11 @@ namespace BattlefieldSimulator
         {
             return currentHexTile.transform.position;
         }
+
+        public void Damage(int damage)
+        {
+            Debug.Log("damage: " + damage);
+        }
     }
 }
 

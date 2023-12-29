@@ -7,10 +7,11 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
     private Vector3 targetPosition;
     private float stoppingDistance = .1f;
     // Start is called before the first frame update
-    [SerializeField] private Animator unitAnimator;
     private bool onDev = false;
     protected override void Awake()
     {
@@ -45,6 +46,7 @@ public class MoveAction : BaseAction
         {
             if (onDev)
             {
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
                 ActionComplete();
                 onDev = false;
             }
@@ -60,7 +62,7 @@ public class MoveAction : BaseAction
         {
             Vector2Int key = pair.Key;
             HexTile tile = pair.Value;
-            if (unitTest.GetCurrentHexTile() == tile || Vector2Int.Distance(tile.offsetCoordinate, unitTest.GetCurrentHexTile().offsetCoordinate) > unitTest.movedistance + 1||tile.ifEmpty==false) continue;
+            if (unitTest.GetCurrentHexTile() == tile || Vector2Int.Distance(tile.offsetCoordinate, unitTest.GetCurrentHexTile().offsetCoordinate) > unitTest.movedistance + 1 || tile.ifEmpty == false) continue;
             List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), tile);
             if (Path != null && Path.Count <= unitTest.movedistance + 1)
             {
@@ -72,6 +74,7 @@ public class MoveAction : BaseAction
     }
     public override void TakeAction(HexTile targetTile, Action onActionComplete)
     {
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
         ActionStart(onActionComplete);
         List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
         StartCoroutine(MoveThroughPath(Path));

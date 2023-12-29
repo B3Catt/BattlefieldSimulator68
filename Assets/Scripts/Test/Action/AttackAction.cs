@@ -98,7 +98,9 @@ namespace BattlefieldSimulator
                 shootingUnit = unitTest
             });
 
-            //TODO targetUnit.Damage(40);
+            //TODO 
+            targetUnit.Damage(40);
+
         }
 
 
