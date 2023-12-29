@@ -36,9 +36,12 @@ namespace BattlefieldSimulator
         {
             if (isBusy) return;
 
+            if (!TurnSystem.Instance.IsPlayerTurn()) return;
+
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
             if (TryHandleUnitSelection()) return;
+
 
             HandleSelectedAction();
         }
@@ -53,6 +56,12 @@ namespace BattlefieldSimulator
                     if (raycastHit.transform.TryGetComponent<UnitTest>(out UnitTest unit))
                     {
                         if (unit == selectedUnit) return false;
+                        if (unit.IsEnemy())
+                        {
+                            Debug.Log("isenemy");
+                            return false;
+                        }
+
                         SetSelectedUnit(unit);
                         return true;
                     }
@@ -83,7 +92,7 @@ namespace BattlefieldSimulator
                 }
                 SetBusy();
                 selectedAction.TakeAction(hexTile, ClearBusy);//第一个元素是HexTile的，不是单纯只有几个坐标，把整个传过来的
-                
+
 
                 OnActionStarted?.Invoke(this, EventArgs.Empty);
             }

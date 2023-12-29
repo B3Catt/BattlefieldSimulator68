@@ -41,9 +41,6 @@ namespace BattlefieldSimulator
             //HandleCameraZoom_MoveForward();
             HandleCameraZoom_LowerY();
 
-            ///TODO:
-            ///     move below part into a new class like GridActionSystem
-            //�жϵ��ѡ��͸���
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -57,23 +54,7 @@ namespace BattlefieldSimulator
                     target.OnHighlightTile();
                 }
             }
-            // ������������
-            // if (Input.GetMouseButtonDown(0))
-            // {
-            //     // ����Ƿ�����������
-            //     if (Physics.Raycast(ray, out hit))
-            //     {
-            //         // ��ȡ������������ HexTile ���
-            //         HexTile hexTile = hit.collider.GetComponent<HexTile>();
 
-            //         // ����Ƿ�ɹ���ȡ�� HexTile ���
-            //         if (hexTile != null)
-            //         {
-            //             // ���� OnSelectTile ����
-            //             hexTile.OnSelcetTile();
-            //         }
-            //     }
-            // }
         }
 
 

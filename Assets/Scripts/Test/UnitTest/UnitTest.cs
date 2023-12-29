@@ -12,6 +12,7 @@ namespace BattlefieldSimulator
         private HexTile currentHexTile;
         private BaseAction[] baseActionArray;
 
+        [SerializeField] private bool isEnemy;
 
         public int x;
         public int z;
@@ -58,10 +59,13 @@ namespace BattlefieldSimulator
 
         private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
         {
+            if ((IsEnemy() && !TurnSystem.Instance.IsPlayerTurn()) ||
+                (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn()))
+            {
+                actionPoints = ACTION_POINTS_MAX;
 
-            actionPoints = ACTION_POINTS_MAX;
-            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
-
+                OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public T GetAction<T>() where T : BaseAction
@@ -125,7 +129,11 @@ namespace BattlefieldSimulator
         public int GetActionPoints()
         {
             return actionPoints;
+        }
 
+        public bool IsEnemy()
+        {
+            return isEnemy;
         }
     }
 }
