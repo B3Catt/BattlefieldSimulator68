@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1e2e79b023d6e48ba19887d4d98208, type: 3}
+  m_Name: test2
+  m_EditorClassIdentifier: 
+  biomeName: 
+  biomeBaseColor: {r: 0.3919869, g: 0.6226415, b: 0, a: 0}
+  detailDensity: 0.5
+  biomeDetailScale: 1
+  biomeDetailNoiseScale: 1
+  details:
+  - randomizeRotation: 1
+    density: 0.719
+    detailScale: 0.35
+    variantOffset: 1.741
+    verticalOffset: 0
+    maxVariantCount: 10
+    detailPrefab: {fileID: 2544841569070045968, guid: b72c468b28f6a724fa4f6cfd497587ee,
+      type: 3}

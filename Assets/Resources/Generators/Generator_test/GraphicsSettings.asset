@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa5b2f74ad78224385441b8caf1ab20, type: 3}
+  m_Name: GraphicsSettings
+  m_EditorClassIdentifier: 
+  space: 1
+  texture2D: {fileID: 2800000, guid: 7d7b8fb653163ce47a2d6cc8bdc78639, type: 2}
+  terrainMaterial: {fileID: 2100000, guid: 3bcc56f221737414581cc9229b760375, type: 2}
+  waterMaterial: {fileID: 2100000, guid: cbe63fe60240e2f449298461d764712a, type: 2}
+  debugMaterial: {fileID: 0}
+  baseDetailSeed: 0
+  fixedDetails: 0
+  baseDetailDensity: 0.805
+  baseDetailScale: 1
+  baseDetailNoiseScale: 50
+  detailOffset: {x: 0, y: 0}
+  gradient: {fileID: 11400000, guid: 729a22ce0f6142643ac17bd05f299121, type: 2}
+  waterBaseColor: {r: 0, g: 0, b: 1, a: 1}
+  seaBiomeData: {fileID: 11400000, guid: ee84b2ca16100014b8149c976583ee95, type: 2}

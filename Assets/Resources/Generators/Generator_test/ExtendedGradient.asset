@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 628fcf49a69e4f64497c8da94dc21bf1, type: 3}
+  m_Name: ExtendedGradient
+  m_EditorClassIdentifier: 
+  blendMode: 0
+  randomizeColor: 1
+  biomeBlendWeight: 1
+  keys:
+  - biomeData: {fileID: 11400000, guid: 6a6a3ddf6755d3a439c47a02be2cdfc0, type: 2}
+    color: {r: 1, g: 0.46165788, b: 0, a: 0}
+    time: 0
+  - biomeData: {fileID: 11400000, guid: c3e6fbf8ae44bb44987f7d4702a3253d, type: 2}
+    color: {r: 0.04493868, g: 0.5943396, b: 0, a: 0}
+    time: 0.5
+  - biomeData: {fileID: 11400000, guid: d9f247c945e10354fb1f864b764fea92, type: 2}
+    color: {r: 0.8490566, g: 0.7561826, b: 0, a: 0}
+    time: 1

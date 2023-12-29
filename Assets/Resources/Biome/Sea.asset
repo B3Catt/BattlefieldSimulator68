@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1e2e79b023d6e48ba19887d4d98208, type: 3}
+  m_Name: Sea
+  m_EditorClassIdentifier: 
+  biomeName: Sea
+  biomeBaseColor: {r: 0, g: 1, b: 0.7997432, a: 0}
+  detailDensity: 0.5
+  biomeDetailScale: 1
+  biomeDetailNoiseScale: 16.9
+  details:
+  - randomizeRotation: 1
+    density: 0.243
+    detailScale: 0.2
+    variantOffset: 0.39
+    verticalOffset: 0
+    maxVariantCount: 1
+    detailPrefab: {fileID: 1568675060193968570, guid: c6738929515e6804f8cc6324df2a7fcb,
+      type: 3}
+  - randomizeRotation: 1
+    density: 0.233
+    detailScale: 0.1
+    variantOffset: 0.49
+    verticalOffset: 0
+    maxVariantCount: 1
+    detailPrefab: {fileID: 7753452232857657899, guid: b3249a1a114a967489a6af53e7c7151f,
+      type: 3}
+  - randomizeRotation: 1
+    density: 0.124
+    detailScale: 0.08
+    variantOffset: 0.33
+    verticalOffset: 0.48
+    maxVariantCount: 1
+    detailPrefab: {fileID: 2404219639552082955, guid: b3fab9fff83ffa943a307b978514445a,
+      type: 3}
