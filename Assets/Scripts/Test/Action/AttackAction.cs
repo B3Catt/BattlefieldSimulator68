@@ -98,13 +98,17 @@ namespace BattlefieldSimulator
                 shootingUnit = unitTest
             });
 
-            //TODO 
+
             targetUnit.Damage(40);
 
         }
-
-
         public override List<HexTile> GetValidActionGridPositionList()
+        {
+            HexTile unitGridPosition = unitTest.GetCurrentHexTile();
+            return GetValidActionGridPositionList(unitGridPosition);
+        }
+
+        public List<HexTile> GetValidActionGridPositionList(HexTile hexTile)
         {
             List<HexTile> list = new List<HexTile>();
             foreach (KeyValuePair<Vector2Int, HexTile> pair in unitTest.hexGrid.tiles)
@@ -112,8 +116,8 @@ namespace BattlefieldSimulator
                 Vector2Int key = pair.Key;
                 HexTile tile = pair.Value;
                 if (tile.ifEmpty == true) continue;
-                if (unitTest.GetCurrentHexTile() == tile ||//自身
-                Vector2Int.Distance(tile.offsetCoordinate, unitTest.GetCurrentHexTile().offsetCoordinate) > unitTest.attackdistance) //超范围
+                if (hexTile == tile ||//自身
+                Vector2Int.Distance(tile.offsetCoordinate, hexTile.offsetCoordinate) > unitTest.attackdistance) //超范围
                     continue;
                 UnitTest targetUnit = tile.unitOnIt;
 
@@ -139,6 +143,22 @@ namespace BattlefieldSimulator
             canShootBullet = true;
 
             ActionStart(onActionComplete);
+        }
+
+        public override EnemyAIAction GetEnemyAIAction(HexTile gridPosition)//可以attack时优先attack，设置value为最大
+        {
+            UnitTest targetUnit = gridPosition.unitOnIt;
+
+            return new EnemyAIAction
+            {
+                gridPosition = gridPosition,
+                actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormalized()) * 100f),
+            };
+        }
+
+        public int GetTargetCountAtPosition(HexTile gridPosition)//返回移动到此单元格所能攻击到的目标数
+        {
+            return GetValidActionGridPositionList(gridPosition).Count;
         }
     }
 }

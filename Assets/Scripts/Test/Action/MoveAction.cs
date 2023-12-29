@@ -112,4 +112,15 @@ public class MoveAction : BaseAction
 
         return "Move";
     }
+
+    public override EnemyAIAction GetEnemyAIAction(HexTile gridPosition)//不能attack时才move，优先移动到能攻击到的目标最多的单元格
+    {
+        int targetCountAtGridPosition = unitTest.GetAction<AttackAction>().GetTargetCountAtPosition(gridPosition);
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = targetCountAtGridPosition * 10,
+        };
+    }
 }

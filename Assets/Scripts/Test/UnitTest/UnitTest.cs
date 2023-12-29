@@ -8,6 +8,7 @@ namespace BattlefieldSimulator
     {
         private const int ACTION_POINTS_MAX = 3;
         public static event EventHandler OnAnyActionPointsChanged;
+        public static event EventHandler OnAnyUnitSpawned;
         public static event EventHandler OnAnyUnitDead;
         private HexTile currentHexTile;
         private HealthSystem healthSystem;
@@ -40,6 +41,8 @@ namespace BattlefieldSimulator
             currentHexTile.unitOnIt = this;
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
             healthSystem.OnDead += HealthSystem_OnDead;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
         }
         private void Update()
         {
@@ -155,6 +158,10 @@ namespace BattlefieldSimulator
             Destroy(gameObject);
 
             OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+        }
+        public float GetHealthNormalized()
+        {
+            return healthSystem.GetHealthNormalized();
         }
     }
 

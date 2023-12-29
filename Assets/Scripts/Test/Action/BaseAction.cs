@@ -49,5 +49,32 @@ namespace BattlefieldSimulator
         {
             return 1;
         }
+        public EnemyAIAction GetBestEnemyAIAction()
+        {
+            List<EnemyAIAction> enemyAIActionList = new List<EnemyAIAction>();
+
+            List<HexTile> validActionGridPositionList = GetValidActionGridPositionList();
+
+            foreach (HexTile gridPosition in validActionGridPositionList)
+            {
+                EnemyAIAction enemyAIAction = GetEnemyAIAction(gridPosition);//对每一个enemy这个操作有效的hextile处理，来计算其value点数，并且加入到list
+                enemyAIActionList.Add(enemyAIAction);
+            }
+
+            if (enemyAIActionList.Count > 0)//选择其中value点数最高的作为此baseAction的bestEnemyAIAction来返回（同时返回此操作选择的Hextile和此操作BaseAction）
+            {
+                enemyAIActionList.Sort((EnemyAIAction a, EnemyAIAction b) => b.actionValue - a.actionValue);
+                return enemyAIActionList[0];
+            }
+            else
+            {
+                // No possible Enemy AI Actions
+                return null;
+            }
+
+        }
+        public abstract EnemyAIAction GetEnemyAIAction(HexTile gridPosition);
+
+
     }
 }

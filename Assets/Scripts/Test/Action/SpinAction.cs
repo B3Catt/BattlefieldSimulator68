@@ -55,5 +55,9 @@ namespace BattlefieldSimulator
             return 1;
         }
 
+        public override EnemyAIAction GetEnemyAIAction(HexTile gridPosition)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
