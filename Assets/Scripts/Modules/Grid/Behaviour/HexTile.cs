@@ -6,6 +6,8 @@ namespace BattlefieldSimulator
     [ExecuteInEditMode]
     public class HexTile : Tile
     {
+        public bool ifEmpty = true;
+        public Unit unitOnIt = null;
         public void RegisterNeighbours()
         {
             neighbours = gridSystem.GetNeighbours(this);

@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using BattlefieldSimulator;
-using UnityEditor.Build;
 using UnityEngine;
 
 public class MoveAction : BaseAction
 {
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
+
     private Vector3 targetPosition;
     private float stoppingDistance = .1f;
     // Start is called before the first frame update
@@ -15,11 +17,8 @@ public class MoveAction : BaseAction
 
     public Action onMoveOneTile;
 
-    private HexGridSystem GridSystem { get => InstanceManager.GridManager.HexGridSystem; }
-    private HexGridVisualSystem GridVisualSystem { get => InstanceManager.GridManager.HexGridVisualSystem; }
     protected override void Awake()
     {
-        targetPosition = transform.position;
         unit = GetComponent<Unit>();
     }
     void Start()
@@ -52,6 +51,7 @@ public class MoveAction : BaseAction
         {
             if (OnDev)
             {
+                OnStopMoving?.Invoke(this, EventArgs.Empty);
                 ActionComplete();
                 OnDev = false;
             }
@@ -88,6 +88,7 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(HexTile targetTile, Action onActionComplete)
     {
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
         bool ifvalidmove = true;
         if(!GetValidActionGridPositionList().Contains(targetTile)) ifvalidmove = false;
         if (ifvalidmove)
@@ -137,5 +138,16 @@ public class MoveAction : BaseAction
     {
 
         return "Move";
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(HexTile gridPosition)
+    {
+        int targetCountAtGridPosition = unit.GetAction<AttackAction>().GetTargetCountAtPosition(gridPosition);
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = targetCountAtGridPosition * 10,
+        };
     }
 }

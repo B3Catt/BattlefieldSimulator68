@@ -12,15 +12,20 @@ namespace BattlefieldSimulator
     {
         private const int ACTION_POINTS_MAX = 3;
         public static event EventHandler OnAnyActionPointsChanged;
+        public static event EventHandler OnAnyUnitSpawned;
+        public static event EventHandler OnAnyUnitDead;
 
         private HexTile currentHexTile;
         private BaseAction[] baseActionArray;
+
+        private HealthSystem healthSystem;
 
         [SerializeField] private bool isEnemy;
 
         public int q;
         public int r;
         public int movedistance = 4;
+        public int attackdistance = 5;
         public bool ifselected = false;
 
         public bool isFlight = false;
@@ -32,6 +37,7 @@ namespace BattlefieldSimulator
         private void Awake()
         {
             baseActionArray = GetComponents<BaseAction>();
+            healthSystem = GetComponent<HealthSystem>();
         }
         private void Start()
         {
@@ -39,6 +45,9 @@ namespace BattlefieldSimulator
             //SetStartTile(q, r);
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
             UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
+            healthSystem.OnDead += HealthSystem_OnDead;
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);
         }
         private void Update()
         {
@@ -59,6 +68,8 @@ namespace BattlefieldSimulator
                 {
                     currentHexTile = hexTileTransform.GetComponent<HexTile>();
                     transform.position = currentHexTile.transform.position + new Vector3(0f, 1f, 0f);
+                    currentHexTile.ifEmpty = false;
+                    currentHexTile.unitOnIt = this;
                 }
             }
         }
@@ -94,8 +105,18 @@ namespace BattlefieldSimulator
 
         public void SetCurrentHexTile(HexTile tile)
         {
+            currentHexTile.ifEmpty = true;
+            currentHexTile.unitOnIt = null;
+
             currentHexTile = tile;
             GridVisualSystem.HideAllSingle();
+            
+            currentHexTile.ifEmpty = false;
+            currentHexTile.unitOnIt = this;
+        }
+        public BaseAction[] GetBaseActionArray()
+        {
+            return baseActionArray;
         }
 
         public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
@@ -134,14 +155,31 @@ namespace BattlefieldSimulator
             return actionPoints;
         }
 
-        public BaseAction[] GetBaseActionArray()
-        {
-            return baseActionArray;
-        }
-
         public bool IsEnemy()
         {
             return isEnemy;
+        }
+        public Vector3 GetWorldPosition()
+        {
+            return currentHexTile.transform.position;
+        }
+
+        public void Damage(int damage)
+        {
+            Debug.Log("damage: " + damage);
+            healthSystem.Damage(damage);
+        }
+        private void HealthSystem_OnDead(object sender, EventArgs e)
+        {
+            currentHexTile.ifEmpty = true;
+            currentHexTile.unitOnIt = null;
+            Destroy(gameObject);
+
+            OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+        }
+        public float GetHealthNormalized()
+        {
+            return healthSystem.GetHealthNormalized();
         }
     }
 }

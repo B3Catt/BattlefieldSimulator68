@@ -36,9 +36,12 @@ namespace BattlefieldSimulator
         {
             if (isBusy) return;
 
+            if (!TurnSystem.Instance.IsPlayerTurn()) return;
+
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
             if (TryHandleUnitSelection()) return;
+
 
             HandleSelectedAction();
         }
@@ -53,6 +56,12 @@ namespace BattlefieldSimulator
                     if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                     {
                         if (unit == selectedUnit) return false;
+                        if (unit.IsEnemy())
+                        {
+                            Debug.Log("isenemy");
+                            return false;
+                        }
+
                         SetSelectedUnit(unit);
                         return true;
                     }
@@ -66,8 +75,7 @@ namespace BattlefieldSimulator
         {
             if (Input.GetMouseButtonDown(0))
             {
-                HexTile hexTile = MouseWorld.GetHexTile();
-                if (hexTile == null)
+                if (!InstanceManager.GridManager.HexGridSystem.TryGetHexTileByMousePosition(out HexTile hexTile))
                 {
                     Debug.Log("no hextile");
                     return;

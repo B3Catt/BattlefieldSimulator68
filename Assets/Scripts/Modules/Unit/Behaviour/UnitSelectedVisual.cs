@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 namespace BattlefieldSimulator
-{    
+{
     public class UnitSelectedVisual : MonoBehaviour
     {
         [SerializeField] private Unit unit;
@@ -37,6 +37,10 @@ namespace BattlefieldSimulator
             {
                 meshRenderer.enabled = false;
             }
+        }
+        private void OnDestroy()
+        {
+            UnitActionSystem.Instance.OnSelectedUnitChange -= UnitActionSystem_OnSelectedUnitChanged;
         }
     }
 }

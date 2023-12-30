@@ -8,6 +8,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1703903588684160913, guid: 98d87f735e2bdf64b8b1e7b1f63a2b7c,
+        type: 3}
+      propertyPath: ragdollPrefab
+      value: 
+      objectReference: {fileID: 2623203508597244534, guid: a3092e758ee497341a17e5d1a86bda73,
+        type: 3}
     - target: {fileID: 5130614096195602310, guid: 98d87f735e2bdf64b8b1e7b1f63a2b7c,
         type: 3}
       propertyPath: m_Avatar
@@ -23,6 +29,16 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300008, guid: 0fd1598056c314eb78a26393214164cb, type: 3}
+    - target: {fileID: 5590142788599044758, guid: 98d87f735e2bdf64b8b1e7b1f63a2b7c,
+        type: 3}
+      propertyPath: isEnemy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464138721263104278, guid: 98d87f735e2bdf64b8b1e7b1f63a2b7c,
+        type: 3}
+      propertyPath: isEnemy
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7768532914105420034, guid: 98d87f735e2bdf64b8b1e7b1f63a2b7c,
         type: 3}
       propertyPath: m_Name

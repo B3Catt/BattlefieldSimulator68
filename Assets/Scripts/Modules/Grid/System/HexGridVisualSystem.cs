@@ -47,6 +47,7 @@ namespace BattlefieldSimulator
             }
 
             UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
+            UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         }
 
         public void HideAllSingle()
@@ -67,6 +68,12 @@ namespace BattlefieldSimulator
         private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             HideAllSingle();
+        }
+
+        private void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
+        {
+
+            UpdateGridVisual();
         }
 
         public void UpdateGridVisual()
