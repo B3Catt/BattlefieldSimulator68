@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/Examples/RW_HG_Build_House.002.prefab.meta
 guid: ed229cc9cf84f9e409506941232173ec
+========
+guid: 7edcc180ba30fde4c8a55de6d09d8eae
+>>>>>>>> 067219a2b9938c6f12ec717d278a7370a11a7df4:Assets/Resources/Prefabs/Examples/RW_HG_Build_House.001.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

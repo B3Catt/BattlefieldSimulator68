@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Modules/Grid/Behaviour/GridVisualSingle.cs.meta
 guid: dc3adabbf142a2348b18d2e399cf9668
+========
+guid: cbd2188a7d2ca1e47b92b5cbe428c26c
+>>>>>>>> 067219a2b9938c6f12ec717d278a7370a11a7df4:Assets/Scripts/Modules/Grid/Behaviour/HexTile.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
