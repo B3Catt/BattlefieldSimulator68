@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using BattlefieldSimulator;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MoveAction : BaseAction
@@ -113,13 +114,12 @@ public class MoveAction : BaseAction
             isActive = true;
             HexTile tile = path[i];
             yield return StartCoroutine(MoveToTile(tile));
+            //移动结束，设置先现在的tile
             if (i == 0)
             {
+                unit.SetCurrentHexTile(tile);
                 OnDev = true;
             }
-            unit.SetCurrentHexTile(tile);
-
-            onMoveOneTile?.Invoke();
         }
     }
 
