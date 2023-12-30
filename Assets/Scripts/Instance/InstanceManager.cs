@@ -59,6 +59,9 @@ namespace BattlefieldSimulator
         public static string Nickname;
         public static int uid;
 
+        private static bool isInit = false;
+        public static bool IsInit { get { return isInit; } }
+
         /// <summary>
         /// 
         /// </summary>
@@ -75,6 +78,7 @@ namespace BattlefieldSimulator
             Username = "";
             Nickname = "";
             uid = 0;
+            isInit = true;
         }
 
         public override void Update(float dt)

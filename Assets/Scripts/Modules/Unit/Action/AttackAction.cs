@@ -99,7 +99,7 @@ namespace BattlefieldSimulator
             });
 
 
-            targetUnit.Damage(40);
+            targetUnit.Damage(5);
 
         }
         public override List<HexTile> GetValidActionGridPositionList()

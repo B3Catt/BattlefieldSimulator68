@@ -11,8 +11,9 @@ namespace BattlefieldSimulator
         public bool _isable { get; set; }
         public TimeSpan _createtime { get; set; }
         public TimeSpan _updatetime { get; set; }
-        public float _speed { get; set; }
-        public float _value { get; set; }
+        public int _speed { get; set; }
+        public int _attack_power { get; set; }
         public int _attack_distance { get; set; }
+        public int _defense { get; set; }
     }
 }

@@ -66,7 +66,7 @@ namespace BattlefieldSimulator
                 return;
             }
             LoadingModel loadingModel = new LoadingModel();
-            loadingModel.SceneName = "Map";
+            loadingModel.SceneName = "Implement_Test";
             loadingModel.callback = delegate ()
             {
 

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
 namespace BattlefieldSimulator
@@ -10,6 +13,13 @@ namespace BattlefieldSimulator
     /// </summary>
     public class Unit : MonoBehaviour
     {
+        [SerializeField] public string unitname;
+        [SerializeField] public string unitarmtype;
+        [SerializeField] public int movedistance = 4;
+        [SerializeField] public int attackdistance = 5;
+        [SerializeField] public int attackpower = 40;
+        [SerializeField] public string UnitDetails;
+
         private const int ACTION_POINTS_MAX = 3;
         public static event EventHandler OnAnyActionPointsChanged;
         public static event EventHandler OnAnyUnitSpawned;
@@ -24,8 +34,6 @@ namespace BattlefieldSimulator
 
         public int q;
         public int r;
-        public int movedistance = 4;
-        public int attackdistance = 5;
         public bool ifselected = false;
 
         public bool isFlight = false;
@@ -56,9 +64,12 @@ namespace BattlefieldSimulator
         private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
         {
             InstanceManager.GridManager.HexGridVisualSystem.UpdateGridVisual();
+
+            if ((sender as UnitActionSystem).IsSelectedUnit(this))
+                StartCoroutine(UnitGetDetails(unitname));
         }
 
-        public void SetStartTile(int q, int r)
+        public void Initialize(int q, int r)
         {
             GameObject gridObject = GameObject.Find("Terrain");
             if (gridObject != null)
@@ -72,6 +83,55 @@ namespace BattlefieldSimulator
                     currentHexTile.unitOnIt = this;
                 }
             }
+            foreach (Equip pair in InstanceManager.ModelManager.GetData<Equip>().Values)
+            {
+                if (pair._name == unitname)
+                {
+                    unitarmtype = pair._information;
+                }
+            }
+            foreach (ArmType pair in InstanceManager.ModelManager.GetData<ArmType>().Values)
+            {
+                if (unitarmtype == pair._name)
+                {
+                    movedistance = pair._speed;
+                    attackdistance = pair._attack_distance;
+                    attackpower = pair._attack_power;
+                }
+            }
+        }
+
+        private IEnumerator UnitGetDetails(string unitname)
+        {
+            string url = $"http://127.0.0.1:5100/get_nodes?k={unitname}";
+            Debug.Log(url);
+            string responseText = "1";
+            using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+            {
+                // 发送请求
+                var asyncOperation = webRequest.SendWebRequest();
+
+                // 等待异步操作完成
+                while (!asyncOperation.isDone)
+                {
+                    yield return null; // 等待下一帧
+                }
+
+                // 检查是否有错误
+                if (webRequest.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("WebError: " + webRequest.error);
+                }
+                else
+                {
+                    responseText = webRequest.downloadHandler.text;
+                    Debug.Log("WebResponse: " + responseText);
+
+                }
+            }
+            UnitDetails = responseText;
+            UnitDetailsUI.Instance.UpdateDetailsUI();
+
         }
 
         private void TurnSystem_OnTurnChanged(object sender, EventArgs e)

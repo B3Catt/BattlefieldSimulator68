@@ -98,6 +98,7 @@ namespace BattlefieldSimulator
         }
         private void SetSelectedUnit(Unit unit)
         {
+            if (selectedUnit == null) return;
             if (selectedUnit) selectedUnit.ifselected = false;
 
             selectedUnit = unit;
@@ -137,6 +138,11 @@ namespace BattlefieldSimulator
             isBusy = false;
 
             //OnBusyChanged?.Invoke(this, isBusy);
+        }
+
+        public bool IsSelectedUnit(Unit unit)
+        {
+            return unit == selectedUnit;
         }
     }
 }

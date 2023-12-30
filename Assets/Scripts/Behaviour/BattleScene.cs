@@ -14,6 +14,8 @@ namespace BattlefieldSimulator
 
         private void Awake()
         {
+            if (!InstanceManager.IsInit) InstanceManager.ModelManager = new DataModelManager();
+
             InstanceManager.UnitManager = new UnitManager(units);
             InstanceManager.GridManager = new GridManager(data, terrainObj, visualObj, visualSinglePrefab);
             // 1. generate the map tiles and details, initialize tiles

@@ -32,7 +32,7 @@ namespace BattlefieldSimulator
         {
             foreach(Unit unit in unitList)
             {
-                unit.SetStartTile(unit.q, unit.r);
+                unit.Initialize(unit.q, unit.r);
             }
         }
 

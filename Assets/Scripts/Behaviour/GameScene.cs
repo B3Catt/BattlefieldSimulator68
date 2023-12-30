@@ -31,7 +31,7 @@ namespace BattlefieldSimulator
             else
             {
                 InstanceManager.Instance.Init();
-                DontDestroyOnLoad(gameObject);
+                //DontDestroyOnLoad(gameObject);
                 isLoaded = true;
             }
         }
