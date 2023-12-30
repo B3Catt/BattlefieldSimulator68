@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Networking;
+using System.Threading.Tasks;
+using System.Collections;
 
 namespace BattlefieldSimulator
 {
@@ -18,10 +21,15 @@ namespace BattlefieldSimulator
 
         [SerializeField] private bool isEnemy;
 
+        [SerializeField] public string unitname;
+        [SerializeField] public string unitarmtype;
+        [SerializeField] public int movedistance = 4;
+        [SerializeField] public int attackdistance = 5;
+        [SerializeField] public int attackpower = 40;
+        [SerializeField] public string UnitDetails;
+
         public int x;
         public int z;
-        public int movedistance = 4;
-        public int attackdistance = 5;
         public bool ifselected = false;
 
 
@@ -60,6 +68,61 @@ namespace BattlefieldSimulator
                     transform.position = currentHexTile.transform.position + new Vector3(0f, 1f, 0f);
                 }
             }
+
+            DataBaseHelper.OpenConnection();
+            List<Equip> EquipList = DataBaseHelper.Traverse<Equip>();
+            List<ArmType> ArmTypeList = DataBaseHelper.Traverse<ArmType>();
+            DataBaseHelper.CloseConnection();
+            foreach (Equip pair in EquipList)
+            {
+                if (pair._name == unitname)
+                {
+                    unitarmtype = pair._information;
+                }
+            }
+            foreach (ArmType pair in ArmTypeList)
+            {
+                if (unitarmtype == pair._name)
+                {
+                    movedistance = pair._speed;
+                    attackdistance = pair._attack_distance;
+                    attackpower = pair._attack_power;
+                    StartCoroutine(UnitGetDetails("unitname"));
+                }
+            }
+        }
+
+        private IEnumerator UnitGetDetails(string unitname)
+        {
+            string url = $"http://127.0.0.1:7687/get_nodes?k={unitname}";
+
+            string responseText = "1";
+            using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
+            {
+                // 发送请求
+                var asyncOperation = webRequest.SendWebRequest();
+
+                // 等待异步操作完成
+                while (!asyncOperation.isDone)
+                {
+                    yield return null; // 等待下一帧
+                }
+
+                // 检查是否有错误
+                if (webRequest.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError("WebError: " + webRequest.error);
+                }
+                else
+                {
+                    responseText = webRequest.downloadHandler.text;
+                    Debug.Log("WebResponse: " + responseText);
+
+                }
+            }
+            UnitDetails = responseText;
+            UnitDetailsUI.Instance.UpdateDetailsUI();
+
         }
 
         private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
@@ -148,8 +211,9 @@ namespace BattlefieldSimulator
 
         public void Damage(int damage)
         {
-            Debug.Log("damage: " + damage);
-            healthSystem.Damage(damage);
+            int Damage = damage + attackpower;
+            Debug.Log("damage: " + Damage);
+            healthSystem.Damage(Damage);
         }
         private void HealthSystem_OnDead(object sender, EventArgs e)
         {

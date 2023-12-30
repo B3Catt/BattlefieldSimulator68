@@ -7,6 +7,7 @@ public class TestMysql : MonoBehaviour
 {
     void Start()
     {
+        /*
         DataBaseHelper.OpenConnection();
         //测试ADD
         ArmType test1 = new ArmType();
@@ -43,5 +44,6 @@ public class TestMysql : MonoBehaviour
         }
 
         DataBaseHelper.CloseConnection();
+        */
     }
 }
