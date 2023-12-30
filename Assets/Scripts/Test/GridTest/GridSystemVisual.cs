@@ -50,7 +50,7 @@
 //        }
 //    }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 //    public void ShowTile(int x, int z)
 //    {
 //        gridSystemVisualSingleArray[x, z].show();
@@ -63,20 +63,20 @@
 //    private void UpdateGridVisual()
 //    {
 //        HideAllSingle();
-=======
-    public void ShowTile(int x, int z)
-    {
-        gridSystemVisualSingleArray[x, z].show();
-    }
-    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
-    {
-        //HideAllSingle();
-    }
+//=======
+//    public void ShowTile(int x, int z)
+//    {
+//        gridSystemVisualSingleArray[x, z].show();
+//    }
+//    private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+//    {
+//        //HideAllSingle();
+//    }
 
-    public void UpdateGridVisual()
-    {
-        HideAllSingle();
->>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2
+//    public void UpdateGridVisual()
+//    {
+//        HideAllSingle();
+//>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2
 
 //        UnitTest selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
 //        BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();

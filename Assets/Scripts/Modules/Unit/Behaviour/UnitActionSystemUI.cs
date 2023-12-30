@@ -1,9 +1,6 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
-using BattlefieldSimulator;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 namespace BattlefieldSimulator
 {
@@ -27,7 +24,7 @@ namespace BattlefieldSimulator
             UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
             UnitActionSystem.Instance.OnActionStarted += UnitActionSystem_OnActionStarted;
             TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;//when next turn updata actionpoints
-            UnitTest.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;//when actionpoints changed updata actionpoints
+            Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;//when actionpoints changed updata actionpoints
 
             CreateUnitActionButtons();
             UpdateSelectedVisual();
@@ -39,12 +36,8 @@ namespace BattlefieldSimulator
             {
                 Destroy(buttonTransform.gameObject);
             }
-<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Behaviour/UnitActionSystemUI.cs
-            Unit selectunit = unitActionSystem.GetSelectedUnit();
-=======
             actionButtonUIList.Clear();
-            UnitTest selectunit = unitActionSystem.GetSelectedUnit();
->>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/UnitTest/UnitActionSystemUI.cs
+            Unit selectunit = unitActionSystem.GetSelectedUnit();
             foreach (BaseAction baseAction in selectunit.GetBaseActionArray())
             {
                 Transform actionButtonTransform = Instantiate(actionButtonPrefab, actionButtonContainerTransform);
@@ -88,7 +81,7 @@ namespace BattlefieldSimulator
         }
         private void UpdateActionPoints()
         {
-            UnitTest selectedUnit = unitActionSystem.GetSelectedUnit();
+            Unit selectedUnit = unitActionSystem.GetSelectedUnit();
 
             actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
         }

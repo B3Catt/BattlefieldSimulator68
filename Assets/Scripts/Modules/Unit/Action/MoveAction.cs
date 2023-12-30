@@ -11,25 +11,21 @@ public class MoveAction : BaseAction
     private float stoppingDistance = .1f;
     // Start is called before the first frame update
     [SerializeField] private Animator unitAnimator;
-<<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Action/MoveAction.cs
     public bool OnDev = false;
 
     public Action onMoveOneTile;
 
+    private HexGridSystem GridSystem { get => InstanceManager.GridManager.HexGridSystem; }
+    private HexGridVisualSystem GridVisualSystem { get => InstanceManager.GridManager.HexGridVisualSystem; }
     protected override void Awake()
     {
         targetPosition = transform.position;
         unit = GetComponent<Unit>();
-========
-    private bool onDev = false;
-    protected override void Awake()
-    {
-        unitTest = GetComponent<UnitTest>();
->>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/Action/MoveAction.cs
     }
     void Start()
     {
         targetPosition = transform.position;
+        onMoveOneTile += GridVisualSystem.UpdateGridVisual;
     }
 
     // Update is called once per frame
@@ -54,18 +50,10 @@ public class MoveAction : BaseAction
         }
         else
         {
-<<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Action/MoveAction.cs
             if (OnDev)
-========
-            if (onDev)
->>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/Action/MoveAction.cs
             {
                 ActionComplete();
-<<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Action/MoveAction.cs
                 OnDev = false;
-========
-                onDev=false;
->>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/Action/MoveAction.cs
             }
 
         }
@@ -84,12 +72,12 @@ public class MoveAction : BaseAction
                 }
 
                 GridPosition position = unit.GetCurrentHexTile().GridPosition + new Vector3Int(q, r, -q - r);
-                if (!unit.GridManager.gridSystem.Data.TryGetTileByGridPosition(position, out HexTile tile))
+                if (!GridSystem.Data.TryGetTileByGridPosition(position, out HexTile tile))
                 {
                     continue;
                 }
 
-                if(unit.GridManager.gridSystem.FindPath(unit.GetCurrentHexTile(), tile, out List<HexTile> Path, unit.isFlight) && Path.Count <= unit.movedistance + 1)
+                if(GridSystem.FindPath(unit.GetCurrentHexTile(), tile, out List<HexTile> Path, unit.isFlight) && Path.Count <= unit.movedistance + 1)
                 {
                     list.Add(tile);
                 }
@@ -100,12 +88,11 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(HexTile targetTile, Action onActionComplete)
     {
-<<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Action/MoveAction.cs
         bool ifvalidmove = true;
         if(!GetValidActionGridPositionList().Contains(targetTile)) ifvalidmove = false;
         if (ifvalidmove)
         {
-            unit.GridManager.gridSystem.FindPath(unit.GetCurrentHexTile(), targetTile, out List<HexTile> Path, unit.isFlight);
+            GridSystem.FindPath(unit.GetCurrentHexTile(), targetTile, out List<HexTile> Path, unit.isFlight);
             OnDev = true;
             ActionStart(onActionComplete);
             StartCoroutine(MoveThroughPath(Path));
@@ -116,11 +103,6 @@ public class MoveAction : BaseAction
             ActionStart(onActionComplete);
             ActionComplete();
         }
-========
-        List<HexTile> Path = Pathfinder.FindPath(unitTest.GetCurrentHexTile(), targetTile);
-        ActionStart(onActionComplete);
-        StartCoroutine(MoveThroughPath(Path));
->>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/Action/MoveAction.cs
     }
 
     IEnumerator MoveThroughPath(List<HexTile> path)
@@ -132,13 +114,7 @@ public class MoveAction : BaseAction
             yield return StartCoroutine(MoveToTile(tile));
             if (i == 0)
             {
-<<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Action/MoveAction.cs
-                //移动结束，设置先现在的tile
                 OnDev = true;
-========
-                unitTest.SetCurrentHexTile(tile);
-                onDev=true;
->>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/Action/MoveAction.cs
             }
             unit.SetCurrentHexTile(tile);
 
@@ -148,7 +124,7 @@ public class MoveAction : BaseAction
 
     IEnumerator MoveToTile(HexTile hexTile)
     {
-        targetPosition = unit.GridManager.gridSystem.GetLocalPositionForHexFromCoordinate(hexTile.GridPosition);
+        targetPosition = GridSystem.GetLocalPositionForHexFromCoordinate(hexTile.GridPosition);
 
         while (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {

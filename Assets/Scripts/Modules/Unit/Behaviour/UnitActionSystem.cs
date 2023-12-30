@@ -10,12 +10,8 @@ namespace BattlefieldSimulator
 
         public event EventHandler OnSelectedUnitChange;
         public event EventHandler OnSelectedActionChanged;
-<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Behaviour/UnitActionSystem.cs
-        [SerializeField] private Unit selectedUnit;
-=======
         public event EventHandler OnActionStarted;
-        [SerializeField] private UnitTest selectedUnit;
->>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/UnitTest/UnitActionSystem.cs
+        [SerializeField] private Unit selectedUnit;
         [SerializeField] private LayerMask unitsLayerMask;
         private bool isBusy;
 
@@ -86,14 +82,10 @@ namespace BattlefieldSimulator
                     return;
                 }
                 SetBusy();
-<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Behaviour/UnitActionSystem.cs
-                selectedAction.TakeAction(MouseWorld.GetHexTile(), ClearBusy);
-=======
                 selectedAction.TakeAction(hexTile, ClearBusy);//第一个元素是HexTile的，不是单纯只有几个坐标，把整个传过来的
-                
+
 
                 OnActionStarted?.Invoke(this, EventArgs.Empty);
->>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/UnitTest/UnitActionSystem.cs
             }
         }
         private void SetSelectedUnit(Unit unit)

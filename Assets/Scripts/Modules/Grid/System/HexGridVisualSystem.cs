@@ -47,12 +47,11 @@ namespace BattlefieldSimulator
             }
 
             UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
-            UpdateGridVisual();
         }
 
         public void HideAllSingle()
         {
-            foreach (var single in  gridVisualDictionary.Values)
+            foreach (var single in gridVisualDictionary.Values)
             {
                 single.hide();
             }

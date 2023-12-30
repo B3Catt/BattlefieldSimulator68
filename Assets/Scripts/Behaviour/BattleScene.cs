@@ -4,29 +4,29 @@ namespace BattlefieldSimulator
 {
     public class BattleScene : MonoBehaviour
     {
-        [Header("Grid Setting")]
-        public Vector2Int gridSize;
 
-        [Header("Tile Settings")]
-        public float outerSize = 15f;
-        public float innerSize = 0f;
-        public float height = 1f;
-        public bool isFlatTopped;
-        public Material material;
+        [SerializeField] private GeneratorData data;
+        [SerializeField] private Transform terrainObj;
+        [SerializeField] private Transform visualObj;
+        [SerializeField] private Transform visualSinglePrefab;
 
-        private GridManager gridController;
+        [SerializeField] private Unit[] units;
 
-        private void OnEnable()
+        private void Awake()
         {
-            InstanceManager.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
+            InstanceManager.UnitManager = new UnitManager(units);
+            InstanceManager.GridManager = new GridManager(data, terrainObj, visualObj, visualSinglePrefab);
+            // 1. generate the map tiles and details, initialize tiles
+            // 2. Initialize the grid visual system
+            // 3. Initialize the unit, set the tiles they at
+            // 4. Initialize the Unit systems, set the unit
+            InstanceManager.GridManager.Intialize();
+            InstanceManager.UnitManager.Initialize();
         }
 
-        private void OnValidate()
+        // Start is called before the first frame update
+        void Start()
         {
-            if (Application.isPlaying)
-            {
-                InstanceManager.ControllerManager.ApplyFunc(ControllerType.Grid, Defines.LayoutMapGrid, gridSize, outerSize, isFlatTopped, transform);
-            }
         }
     }
 }

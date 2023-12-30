@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 namespace BattlefieldSimulator
@@ -9,44 +10,43 @@ namespace BattlefieldSimulator
     /// </summary>
     public class Unit : MonoBehaviour
     {
+        private const int ACTION_POINTS_MAX = 3;
+        public static event EventHandler OnAnyActionPointsChanged;
+
         private HexTile currentHexTile;
-        private MoveAction moveAction;
         private BaseAction[] baseActionArray;
 
+        [SerializeField] private bool isEnemy;
 
         public int q;
         public int r;
-        //public HexGrid hexGrid;
         public int movedistance = 4;
         public bool ifselected = false;
-        //public GridSystemVisual gridSystemVisual;
 
         public bool isFlight = false;
 
-        /// <summary>
-        /// below just test
-        /// </summary>
-        private GridManager gridManager;
-        public GridManager GridManager { get { return gridManager; } }
+        private int actionPoints = ACTION_POINTS_MAX;
 
-        public void Register(GridManager gridManager) => this.gridManager = gridManager;
+        private HexGridVisualSystem GridVisualSystem { get => InstanceManager.GridManager.HexGridVisualSystem; }
 
         private void Awake()
         {
-            moveAction = GetComponent<MoveAction>();
             baseActionArray = GetComponents<BaseAction>();
         }
         private void Start()
         {
             //设置初始位置
             //SetStartTile(q, r);
-            moveAction.onMoveOneTile += gridManager.visualSystem.UpdateGridVisual;
+            TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+            UnitActionSystem.Instance.OnSelectedUnitChange += UnitActionSystem_OnSelectedUnitChanged;
         }
         private void Update()
         {
-            if (ifselected)
-            {
-            }
+        }
+
+        private void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
+        {
+            InstanceManager.GridManager.HexGridVisualSystem.UpdateGridVisual();
         }
 
         public void SetStartTile(int q, int r)
@@ -63,6 +63,18 @@ namespace BattlefieldSimulator
             }
         }
 
+        private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+        {
+            if ((IsEnemy() && !TurnSystem.Instance.IsPlayerTurn()) ||
+                (!IsEnemy() && TurnSystem.Instance.IsPlayerTurn()))
+            {
+                actionPoints = ACTION_POINTS_MAX;
+
+                OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
         public T GetAction<T>() where T : BaseAction
         {
             foreach (BaseAction baseAction in baseActionArray)
@@ -75,23 +87,61 @@ namespace BattlefieldSimulator
             return null;
         }
 
-
-        public MoveAction GetMoveAction()
-        {
-            return moveAction;
-        }
         public HexTile GetCurrentHexTile()
         {
             return currentHexTile;
         }
+
         public void SetCurrentHexTile(HexTile tile)
         {
             currentHexTile = tile;
-            gridManager.visualSystem.HideAllSingle();
+            GridVisualSystem.HideAllSingle();
         }
+
+        public bool TrySpendActionPointsToTakeAction(BaseAction baseAction)
+        {
+            if (CanSpendActionPointsToTakeAction(baseAction))
+            {
+                SpendActionPoints(baseAction.GetActionPointsCost());
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool CanSpendActionPointsToTakeAction(BaseAction baseAction)
+        {
+            if (actionPoints >= baseAction.GetActionPointsCost())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void SpendActionPoints(int amount)
+        {
+            actionPoints -= amount;
+
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public int GetActionPoints()
+        {
+            return actionPoints;
+        }
+
         public BaseAction[] GetBaseActionArray()
         {
             return baseActionArray;
+        }
+
+        public bool IsEnemy()
+        {
+            return isEnemy;
         }
     }
 }

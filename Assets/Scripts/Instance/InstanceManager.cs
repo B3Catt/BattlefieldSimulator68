@@ -44,6 +44,16 @@ namespace BattlefieldSimulator
         /// <summary>
         /// 
         /// </summary>
+        public static GridManager GridManager;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static UnitManager UnitManager;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static bool isLogin;
         public static string Username;
         public static string Nickname;

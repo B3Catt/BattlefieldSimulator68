@@ -7,14 +7,8 @@ namespace BattlefieldSimulator
     {
         public static event EventHandler OnAnyActionStarted;
         public static event EventHandler OnAnyActionCompleted;
-
-<<<<<<<< HEAD:Assets/Scripts/Modules/Unit/Action/BaseAction.cs
         protected Unit unit;
-        protected bool isActive=false;
-========
-        protected UnitTest unitTest;
         protected bool isActive = false;
->>>>>>>> 35081e962ba6197b0b5ceefb6518836f14ef65f2:Assets/Scripts/Test/Action/BaseAction.cs
         protected Action onActionComplete;
         protected virtual void Awake()
         {
@@ -41,7 +35,6 @@ namespace BattlefieldSimulator
         {
             isActive = false;
             onActionComplete();
-            unitTest.gridSystemVisual.UpdateGridVisual();
             OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
         }
 

@@ -6,7 +6,7 @@ namespace BattlefieldSimulator
 {    
     public class UnitSelectedVisual : MonoBehaviour
     {
-        [SerializeField] private UnitTest unit;
+        [SerializeField] private Unit unit;
 
         private MeshRenderer meshRenderer;
 
